@@ -6,8 +6,8 @@ import org.springframework.stereotype.Component;
 
 import ru.xpoft.vaadin.DiscoveryNavigator;
 
-import com.aniedzwiedz.dokarchee.controller.ApplicationController;
-import com.aniedzwiedz.dokarchee.view.users.UsersListViewImpl;
+import com.aniedzwiedz.dokarchee.gui.view.users.UsersListViewImpl;
+import com.aniedzwiedz.dokarchee.logic.controller.ApplicationController;
 import com.vaadin.navigator.View;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
