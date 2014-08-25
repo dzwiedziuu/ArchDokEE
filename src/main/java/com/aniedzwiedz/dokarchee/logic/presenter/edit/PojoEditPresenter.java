@@ -1,8 +1,7 @@
 package com.aniedzwiedz.dokarchee.logic.presenter.edit;
 
-import com.aniedzwiedz.dokarchee.logic.presenter.AbstractPresenter;
+import com.aniedzwiedz.dokarchee.logic.presenter.PojoPresenter;
 
-public abstract class PojoEditPresenter<T> extends AbstractPresenter
+public abstract class PojoEditPresenter<T> extends PojoPresenter<T>
 {
-	public abstract void setViewData();
 }

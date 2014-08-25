@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -23,16 +25,17 @@ public class SessionControllerImpl implements SessionController
 
 	public void processAction(Action action)
 	{
-		List<AbstractPresenter> presenterList = presenters.get(action.getSender());
+		List<AbstractPresenter> presenterList = presenters.get(action.getSenderViewName());
 		if (presenterList != null)
 			for (AbstractPresenter presenter : presenterList)
 			{
-				action.setAbstractPresenter(presenter);
+				action.setCurrentPresenter(presenter);
 				presenter.takeAction(action);
 			}
 	}
 
-	public SessionControllerImpl()
+	@PostConstruct
+	public void initSessionControllerImpl()
 	{
 		// add AbstractPresenters to ApplicationController
 		ApplicationContext ac = SpringApplicationContext.getApplicationContext();
@@ -50,7 +53,7 @@ public class SessionControllerImpl implements SessionController
 
 	private void registerPresenter(AbstractPresenter abstractPresenter)
 	{
-		String viewName = abstractPresenter.getNamedView().getViewName();
+		String viewName = abstractPresenter.getAbstractView().getViewName();
 		List<AbstractPresenter> list = presenters.get(viewName);
 		if (list == null)
 		{

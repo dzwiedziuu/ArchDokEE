@@ -10,10 +10,9 @@ import ru.xpoft.vaadin.VaadinView;
 import com.aniedzwiedz.dokarchee.data.model.User;
 import com.aniedzwiedz.dokarchee.gui.table.CRUDTable;
 import com.aniedzwiedz.dokarchee.gui.view.AbstractView;
-import com.aniedzwiedz.dokarchee.logic.action.AddNew;
-import com.aniedzwiedz.dokarchee.logic.action.Edit;
-import com.aniedzwiedz.dokarchee.logic.action.InitPojoSetView;
+import com.aniedzwiedz.dokarchee.logic.action.Init;
 import com.aniedzwiedz.dokarchee.logic.action.Remove;
+import com.aniedzwiedz.dokarchee.logic.action.ShowEditView;
 import com.aniedzwiedz.dokarchee.logic.presenter.list.UserListPresenter.UserListView;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.VerticalLayout;
@@ -33,7 +32,6 @@ public class UsersListViewImpl extends AbstractView implements UserListView
 
 	public UsersListViewImpl()
 	{
-		System.out.println("create");
 		setSizeFull();
 		verticalLayout = new VerticalLayout();
 		setContent(verticalLayout);
@@ -43,15 +41,15 @@ public class UsersListViewImpl extends AbstractView implements UserListView
 	{
 		crudTable = new CRUDTable<>(User.class);
 
-		crudTable.addContextMenuItem("Add", new AddNew<User>(this));
-		crudTable.addContextMenuItem("Edit", new Edit<User>(this));
+		crudTable.addContextMenuItem("Add", new ShowEditView<User>(this));
+		crudTable.addContextMenuItem("Edit", new ShowEditView<User>(this));
 		crudTable.addContextMenuItem("Remove", new Remove<User>(this));
 
-		crudTable.addButton("Dodaj", new AddNew<User>(this));
-		crudTable.addButton("Edytuj", new Edit<User>(this));
+		crudTable.addButton("Dodaj", new ShowEditView<User>(this));
+		crudTable.addButton("Edytuj", new ShowEditView<User>(this));
 		crudTable.addButton("Usun", new Remove<User>(this));
 
-		crudTable.setDoubleClickAction(new Edit<User>(this));
+		crudTable.setDoubleClickAction(new ShowEditView<User>(this));
 
 		crudTable.setActionTaker(this);
 		crudTable.setData(userList);
@@ -68,7 +66,7 @@ public class UsersListViewImpl extends AbstractView implements UserListView
 	@Override
 	public void enter(ViewChangeEvent event)
 	{
-		takeAction(new InitPojoSetView<User>(this));
+		takeAction(new Init(this));
 	}
 
 	public String getViewName()

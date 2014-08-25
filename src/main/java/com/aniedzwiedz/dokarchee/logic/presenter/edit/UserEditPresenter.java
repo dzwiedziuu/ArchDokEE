@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import com.aniedzwiedz.dokarchee.data.model.User;
 import com.aniedzwiedz.dokarchee.gui.view.AbstractView;
 import com.aniedzwiedz.dokarchee.gui.view.NamedView;
-import com.aniedzwiedz.dokarchee.logic.presenter.list.UserListPresenter;
+import com.aniedzwiedz.dokarchee.logic.action.Action;
 
 @Component
 @Scope("session")
@@ -23,11 +23,8 @@ public class UserEditPresenter extends PojoEditPresenter<User>
 
 	private User user;
 
-	@Autowired
-	private UserListPresenter userListPresenter;
-
 	@Override
-	public NamedView getNamedView()
+	public NamedView getAbstractView()
 	{
 		return userEditView;
 	}
@@ -38,14 +35,21 @@ public class UserEditPresenter extends PojoEditPresenter<User>
 		userEditView = (UserEditView) namedView;
 	}
 
-	public void setUser(User user)
+	@Override
+	public void setData(String property, Object data)
 	{
-		this.user = user;
+		// setData in showEditView
+		if (data != null)
+			this.user = (User) data;
+		// setData in init
+		else
+			userEditView.setUser(user);
 	}
 
 	@Override
-	public void setViewData()
+	public void setParams(Action action)
 	{
-		userEditView.setUser(user);
+		// TODO Auto-generated method stub
+
 	}
 }

@@ -33,7 +33,7 @@ public class ApplicationController implements Runnable
 
 	public void processAction(Action action)
 	{
-		if (action.getSender() == null)
+		if (action.getSenderViewName() == null)
 			throw new RuntimeException("Action sender not set");
 		sessionController.processAction(action);
 	}

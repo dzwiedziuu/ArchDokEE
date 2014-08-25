@@ -12,6 +12,7 @@ public class Init extends Action
 	@Override
 	public void performAction()
 	{
-		getAbstractPresenter().setView(getAbstractView());
+		getCurrentPresenter().setView(getSenderView());
+		getCurrentPresenter().setData(null, null);
 	}
 }

@@ -21,38 +21,18 @@ import com.vaadin.ui.VerticalLayout;
 public class DefaultForm<T> extends Panel
 {
 	private static final long serialVersionUID = -823980725960033248L;
+	private FieldGroup fieldGroup;
+	private VerticalLayout vl;
 
 	public DefaultForm(T pojoObject)
 	{
-		Class<T> classObj = (Class<T>) pojoObject.getClass();
 		setSizeFull();
-		VerticalLayout vl = new VerticalLayout();
-		final FieldGroup fieldGroup = new FieldGroup();
+		vl = new VerticalLayout();
+		fieldGroup = new FieldGroup();
 		BeanItem<T> beanItem = new BeanItem<>(pojoObject);
 		fieldGroup.setItemDataSource(beanItem);
 		fieldGroup.setFieldFactory(new DokarcheeFieldFactory(fieldGroup.getFieldFactory()));
-
-		TreeMap<Integer, AnnotatedField> map = new TreeMap<>();
-		for (java.lang.reflect.Field reflectField : classObj.getDeclaredFields())
-			if (reflectField.isAnnotationPresent(EditField.class))
-			{
-				EditField editField = reflectField.getAnnotation(EditField.class);
-				map.put(editField.order(), new AnnotatedField(reflectField, editField));
-			}
-
-		for (AnnotatedField af : map.values())
-		{
-			Field<?> f = fieldGroup.buildAndBind(af.getEditField().label(), af.getField().getName());
-			if (f instanceof TextField)
-			{
-				TextField textField = (TextField) f;
-				if (textField.getPropertyDataSource().getValue() == null)
-					textField.setValue("");
-			}
-			f.addValidator(new BeanValidator(classObj, af.getField().getName()));
-			vl.addComponent(f);
-		}
-
+		setObject(pojoObject);
 		fieldGroup.addCommitHandler(new CommitHandler()
 		{
 			@Override
@@ -86,5 +66,30 @@ public class DefaultForm<T> extends Panel
 			}
 		}));
 		setContent(vl);
+	}
+
+	public void setObject(T pojoObject)
+	{
+		Class<T> classObj = (Class<T>) pojoObject.getClass();
+		TreeMap<Integer, AnnotatedField> map = new TreeMap<>();
+		for (java.lang.reflect.Field reflectField : classObj.getDeclaredFields())
+			if (reflectField.isAnnotationPresent(EditField.class))
+			{
+				EditField editField = reflectField.getAnnotation(EditField.class);
+				map.put(editField.order(), new AnnotatedField(reflectField, editField));
+			}
+
+		for (AnnotatedField af : map.values())
+		{
+			Field<?> f = fieldGroup.buildAndBind(af.getEditField().label(), af.getField().getName());
+			if (f instanceof TextField)
+			{
+				TextField textField = (TextField) f;
+				if (textField.getPropertyDataSource().getValue() == null)
+					textField.setValue("");
+			}
+			f.addValidator(new BeanValidator(classObj, af.getField().getName()));
+			vl.addComponent(f);
+		}
 	}
 }

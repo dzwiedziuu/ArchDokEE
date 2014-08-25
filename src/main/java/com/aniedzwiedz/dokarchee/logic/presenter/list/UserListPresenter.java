@@ -11,9 +11,9 @@ import com.aniedzwiedz.dokarchee.data.model.User;
 import com.aniedzwiedz.dokarchee.data.service.UserService;
 import com.aniedzwiedz.dokarchee.gui.view.AbstractView;
 import com.aniedzwiedz.dokarchee.gui.view.NamedView;
-import com.aniedzwiedz.dokarchee.gui.view.users.UserEditViewImpl;
+import com.aniedzwiedz.dokarchee.logic.action.Action;
+import com.aniedzwiedz.dokarchee.logic.action.ShowEditView;
 import com.aniedzwiedz.dokarchee.logic.presenter.edit.UserEditPresenter;
-import com.vaadin.ui.UI;
 
 @Component
 @Scope("session")
@@ -40,25 +40,24 @@ public class UserListPresenter extends PojoListPresenter<User>
 	}
 
 	@Override
-	public NamedView getNamedView()
+	public NamedView getAbstractView()
 	{
 		return userListView;
-	}
-
-	@Override
-	public void setViewData()
-	{
-		userListView.setUserList(userService.getAllUsers());
 	}
 
 	@Autowired
 	private ApplicationContext applicationContext;
 
 	@Override
-	public void openEditWindow(User user)
+	public void setData(String property, Object data)
 	{
-		// VaadinSession.getCurrent().setAttribute(User.class, user);
-		userEditPresenter.setUser(user);
-		UI.getCurrent().getNavigator().navigateTo(UserEditViewImpl.VIEW_NAME);
+		userListView.setUserList(userService.getAllUsers());
+	}
+
+	@Override
+	public void setParams(Action action)
+	{
+		if (action instanceof ShowEditView)
+			((ShowEditView<User>) action).setNextPresenter(userEditPresenter);
 	}
 }

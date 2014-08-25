@@ -2,36 +2,62 @@ package com.aniedzwiedz.dokarchee.logic.action;
 
 import com.aniedzwiedz.dokarchee.gui.view.AbstractView;
 import com.aniedzwiedz.dokarchee.logic.presenter.AbstractPresenter;
+import com.aniedzwiedz.dokarchee.logic.queue.AbstractApplicationQueue;
 
 public abstract class Action
 {
-	private AbstractView abstractView;
-	private AbstractPresenter abstractPresenter;
+	private AbstractView currentView;
+	private String senderViewName;
+	private AbstractPresenter currentPresenter;
+
+	private AbstractApplicationQueue<Action> abstractApplicationQueue;
+
+	public Action(String senderViewName)
+	{
+		this.senderViewName = senderViewName;
+	}
 
 	public Action(AbstractView abstractView)
 	{
-		this.abstractView = abstractView;
+		this(abstractView.getViewName());
+		this.currentView = abstractView;
 	}
 
-	protected AbstractView getAbstractView()
+	protected AbstractView getSenderView()
 	{
-		return abstractView;
+		return currentView;
 	}
 
-	public String getSender()
+	public String getSenderViewName()
 	{
-		return abstractView.getViewName();
+		return senderViewName;
 	}
 
-	public AbstractPresenter getAbstractPresenter()
+	protected AbstractPresenter getCurrentPresenter()
 	{
-		return abstractPresenter;
+		return currentPresenter;
 	}
 
-	public void setAbstractPresenter(AbstractPresenter abstractPresenter)
+	public void setCurrentPresenter(AbstractPresenter currentPresenter)
 	{
-		this.abstractPresenter = abstractPresenter;
+		this.currentPresenter = currentPresenter;
 	}
 
 	public abstract void performAction();
+
+	protected AbstractApplicationQueue<Action> getAbstractApplicationQueue()
+	{
+		return abstractApplicationQueue;
+	}
+
+	public void setAbstractApplicationQueue(AbstractApplicationQueue<Action> abstractApplicationQueue)
+	{
+		this.abstractApplicationQueue = abstractApplicationQueue;
+	}
+
+	public void doPerform()
+	{
+		currentPresenter.setParams(this);
+		performAction();
+	}
 }
