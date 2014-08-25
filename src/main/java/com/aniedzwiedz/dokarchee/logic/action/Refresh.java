@@ -13,6 +13,6 @@ public class Refresh extends Action
 	public void performAction()
 	{
 		getCurrentPresenter().setView(getSenderView());
-		getCurrentPresenter().setData(null, null);
+		getCurrentPresenter().refreshView();
 	}
 }

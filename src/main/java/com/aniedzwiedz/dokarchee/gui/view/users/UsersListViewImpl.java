@@ -15,7 +15,7 @@ import com.aniedzwiedz.dokarchee.logic.action.Refresh;
 import com.aniedzwiedz.dokarchee.logic.action.RemoveRecord;
 import com.aniedzwiedz.dokarchee.logic.action.ShowEditView;
 import com.aniedzwiedz.dokarchee.logic.action.ShowNewObjectView;
-import com.aniedzwiedz.dokarchee.logic.presenter.list.UserListPresenter.UserListView;
+import com.aniedzwiedz.dokarchee.logic.presenter.users.UserListPresenter.UserListView;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.VerticalLayout;
 

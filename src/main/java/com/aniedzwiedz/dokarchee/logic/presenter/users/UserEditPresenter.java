@@ -1,13 +1,16 @@
-package com.aniedzwiedz.dokarchee.logic.presenter.edit;
+package com.aniedzwiedz.dokarchee.logic.presenter.users;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.aniedzwiedz.dokarchee.data.model.User;
+import com.aniedzwiedz.dokarchee.data.service.PojoService;
 import com.aniedzwiedz.dokarchee.gui.view.AbstractView;
 import com.aniedzwiedz.dokarchee.gui.view.NamedView;
 import com.aniedzwiedz.dokarchee.logic.action.Action;
+import com.aniedzwiedz.dokarchee.logic.presenter.AbstractPresenter;
+import com.aniedzwiedz.dokarchee.logic.presenter.PojoEditPresenter;
 
 @Component
 @Scope("session")
@@ -17,6 +20,9 @@ public class UserEditPresenter extends PojoEditPresenter<User>
 	{
 		void setUser(User user);
 	}
+	
+	@Autowired
+	private PojoService<User> userService;
 
 	@Autowired
 	private UserEditView userEditView;
@@ -36,20 +42,26 @@ public class UserEditPresenter extends PojoEditPresenter<User>
 	}
 
 	@Override
-	public void setData(String property, Object data)
+	public void refreshView()
 	{
-		// setData in showEditView
-		if (data != null)
-			this.user = (User) data;
-		// setData in init
-		else
 			userEditView.setUser(user);
 	}
 
 	@Override
-	public void setParams(Action action)
+	public PojoService<User> getPojoService()
 	{
-		// TODO Auto-generated method stub
+		return userService;
+	}
 
+	@Override
+	public AbstractPresenter getNextPresenter(Action action)
+	{
+		return null;
+	}
+
+	@Override
+	public void setPojoObject(User object)
+	{
+		this.user = object;
 	}
 }

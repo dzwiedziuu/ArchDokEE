@@ -12,12 +12,8 @@ public abstract class AbstractPresenter implements ActionTaker
 	@Override
 	public void takeAction(Action action)
 	{
-		action.doPerform();
+		action.performAction();
 	}
-
-	public abstract NamedView getAbstractView();
-
-	public abstract void setView(AbstractView namedView);
 
 	public AbstractPresenter getParentPresenter()
 	{
@@ -28,8 +24,12 @@ public abstract class AbstractPresenter implements ActionTaker
 	{
 		this.parentPresenter = parentPresenter;
 	}
+	
+	public abstract NamedView getAbstractView();
 
-	public abstract void setData(String property, Object data);
+	public abstract void setView(AbstractView namedView);
 
-	public abstract void setParams(Action action);
+	public abstract void refreshView();
+
+	public abstract AbstractPresenter getNextPresenter(Action action);
 }

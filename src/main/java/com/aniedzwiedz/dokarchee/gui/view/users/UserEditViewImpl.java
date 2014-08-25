@@ -11,7 +11,7 @@ import com.aniedzwiedz.dokarchee.gui.view.AbstractView;
 import com.aniedzwiedz.dokarchee.logic.action.Refresh;
 import com.aniedzwiedz.dokarchee.logic.action.SaveObject;
 import com.aniedzwiedz.dokarchee.logic.action.ShowPrevView;
-import com.aniedzwiedz.dokarchee.logic.presenter.edit.UserEditPresenter.UserEditView;
+import com.aniedzwiedz.dokarchee.logic.presenter.users.UserEditPresenter.UserEditView;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.VerticalLayout;
 

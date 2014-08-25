@@ -1,4 +1,4 @@
-package com.aniedzwiedz.dokarchee.logic.presenter.list;
+package com.aniedzwiedz.dokarchee.logic.presenter.users;
 
 import java.util.List;
 
@@ -16,7 +16,8 @@ import com.aniedzwiedz.dokarchee.logic.action.Action;
 import com.aniedzwiedz.dokarchee.logic.action.RemoveRecord;
 import com.aniedzwiedz.dokarchee.logic.action.SaveObject;
 import com.aniedzwiedz.dokarchee.logic.action.ShowEditView;
-import com.aniedzwiedz.dokarchee.logic.presenter.edit.UserEditPresenter;
+import com.aniedzwiedz.dokarchee.logic.presenter.AbstractPresenter;
+import com.aniedzwiedz.dokarchee.logic.presenter.PojoListPresenter;
 
 @Component
 @Scope("session")
@@ -52,19 +53,20 @@ public class UserListPresenter extends PojoListPresenter<User>
 	private ApplicationContext applicationContext;
 
 	@Override
-	public void setData(String property, Object data)
+	public void refreshView()
 	{
 		userListView.setUserList(userService.getAll());
 	}
 
 	@Override
-	public void setParams(Action action)
+	public PojoService<User> getPojoService()
 	{
-		if (action instanceof ShowEditView)
-			((ShowEditView<User>) action).setNextPresenter(userEditPresenter);
-		if(action instanceof RemoveRecord)
-			((RemoveRecord<User>) action).setPojoService(userService);
-		if(action instanceof SaveObject)
-			((SaveObject<User>) action).setPojoService(userService);
+		return userService;
+	}
+	
+	@Override
+	public AbstractPresenter getNextPresenter(Action action)
+	{
+		return userEditPresenter;
 	}
 }

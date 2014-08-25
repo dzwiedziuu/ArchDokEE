@@ -4,11 +4,11 @@ import com.aniedzwiedz.dokarchee.data.model.User;
 import com.aniedzwiedz.dokarchee.data.service.PojoService;
 import com.aniedzwiedz.dokarchee.gui.view.AbstractView;
 import com.aniedzwiedz.dokarchee.logic.presenter.AbstractPresenter;
+import com.aniedzwiedz.dokarchee.logic.presenter.PojoPresenter;
 
 public class SaveObject<T> extends PojoAction<T>
 {
 	private ShowPrevView showPrevView;
-	private PojoService<T> pojoService;
 	
 	public SaveObject(AbstractView abstractView)
 	{
@@ -26,8 +26,7 @@ public class SaveObject<T> extends PojoAction<T>
 	@Override
 	public void performAction()
 	{
-		// need to set pojoService obj
-		getCurrentPresenter().getParentPresenter().setParams(this);
+		PojoService<T> pojoService = ((PojoPresenter<T>) getCurrentPresenter()).getPojoService();
 		T pojoObject = getPojoObject();
 		T obj = pojoService.find(pojoObject);
 		if(obj == null)
@@ -41,10 +40,5 @@ public class SaveObject<T> extends PojoAction<T>
 	public boolean isObjectNecessary()
 	{
 		return true;
-	}
-
-	public void setPojoService(PojoService<T> pojoService)
-	{
-		this.pojoService = pojoService;
 	}
 }

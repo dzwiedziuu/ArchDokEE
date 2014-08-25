@@ -40,12 +40,6 @@ public abstract class Action
 
 	public abstract void performAction();
 
-	public void doPerform()
-	{
-		currentPresenter.setParams(this);
-		performAction();
-	}
-
 	public PreAction getPreAction()
 	{
 		return immidiateAction;
