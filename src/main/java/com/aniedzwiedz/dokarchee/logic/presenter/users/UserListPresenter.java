@@ -1,21 +1,13 @@
 package com.aniedzwiedz.dokarchee.logic.presenter.users;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.aniedzwiedz.dokarchee.data.model.User;
 import com.aniedzwiedz.dokarchee.data.service.PojoService;
 import com.aniedzwiedz.dokarchee.data.service.UserService;
-import com.aniedzwiedz.dokarchee.gui.view.AbstractView;
-import com.aniedzwiedz.dokarchee.gui.view.NamedView;
 import com.aniedzwiedz.dokarchee.logic.action.Action;
-import com.aniedzwiedz.dokarchee.logic.action.RemoveRecord;
-import com.aniedzwiedz.dokarchee.logic.action.SaveObject;
-import com.aniedzwiedz.dokarchee.logic.action.ShowEditView;
 import com.aniedzwiedz.dokarchee.logic.presenter.AbstractPresenter;
 import com.aniedzwiedz.dokarchee.logic.presenter.PojoListPresenter;
 
@@ -23,50 +15,40 @@ import com.aniedzwiedz.dokarchee.logic.presenter.PojoListPresenter;
 @Scope("session")
 public class UserListPresenter extends PojoListPresenter<User>
 {
-	public interface UserListView extends NamedView
+	public interface UserListView extends PojoListView<User>
 	{
-		public void setUserList(List<User> userList);
 	}
 
 	@Autowired
-	private PojoService<User> userService;
+	private UserService pojoService;
 
 	@Autowired
-	private UserListView userListView;
+	private UserListView pojoListView;
 
 	@Autowired
-	private UserEditPresenter userEditPresenter;
+	private UserEditPresenter pojoEditPresenter;
 
 	@Override
-	public void setView(AbstractView asbtactView)
+	protected void setPojoListView(PojoListView<User> pojoListView)
 	{
-		this.userListView = (UserListView) asbtactView;
+		this.pojoListView = (UserListView) pojoListView;
 	}
 
 	@Override
-	public NamedView getAbstractView()
+	protected PojoListView<User> getPojoListView()
 	{
-		return userListView;
-	}
-
-	@Autowired
-	private ApplicationContext applicationContext;
-
-	@Override
-	public void refreshView()
-	{
-		userListView.setUserList(userService.getAll());
+		return pojoListView;
 	}
 
 	@Override
 	public PojoService<User> getPojoService()
 	{
-		return userService;
+		return pojoService;
 	}
-	
+
 	@Override
 	public AbstractPresenter getNextPresenter(Action action)
 	{
-		return userEditPresenter;
+		return pojoEditPresenter;
 	}
 }

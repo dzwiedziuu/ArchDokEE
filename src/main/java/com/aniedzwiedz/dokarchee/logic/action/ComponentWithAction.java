@@ -1,6 +1,5 @@
 package com.aniedzwiedz.dokarchee.logic.action;
 
-
 public class ComponentWithAction<T>
 {
 	private T component;

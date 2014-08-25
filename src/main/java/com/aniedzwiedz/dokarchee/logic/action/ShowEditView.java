@@ -13,7 +13,7 @@ public class ShowEditView<T> extends PojoAction<T>
 		super(abstractView);
 		showNextView = new ShowNextView(abstractView);
 	}
-	
+
 	@Override
 	public void setCurrentPresenter(AbstractPresenter currentPresenter)
 	{

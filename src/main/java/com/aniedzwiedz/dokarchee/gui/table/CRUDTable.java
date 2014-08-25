@@ -62,7 +62,7 @@ public class CRUDTable<T> extends VerticalLayout
 	private Map<Object, T> contentMap;
 
 	private Class<T> classObj;
-	
+
 	public CRUDTable(Class<T> classObj)
 	{
 		this.classObj = classObj;
@@ -165,7 +165,7 @@ public class CRUDTable<T> extends VerticalLayout
 		if (action instanceof PojoAction)
 		{
 			T t = contentMap.get(itemId);
-			if (t == null && ((PojoAction<T>)action).isObjectNecessary() == true)
+			if (t == null && ((PojoAction<T>) action).isObjectNecessary() == true)
 			{
 				Notification.show("UWAGA", "Zaden rekord nie zostal wybrany", Type.HUMANIZED_MESSAGE);
 				return;

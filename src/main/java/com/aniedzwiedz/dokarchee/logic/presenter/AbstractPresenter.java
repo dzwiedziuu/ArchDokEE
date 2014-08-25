@@ -24,7 +24,7 @@ public abstract class AbstractPresenter implements ActionTaker
 	{
 		this.parentPresenter = parentPresenter;
 	}
-	
+
 	public abstract NamedView getAbstractView();
 
 	public abstract void setView(AbstractView namedView);

@@ -9,13 +9,13 @@ import com.aniedzwiedz.dokarchee.logic.presenter.PojoPresenter;
 public class SaveObject<T> extends PojoAction<T>
 {
 	private ShowPrevView showPrevView;
-	
+
 	public SaveObject(AbstractView abstractView)
 	{
 		super(abstractView);
 		showPrevView = new ShowPrevView(abstractView);
 	}
-	
+
 	@Override
 	public void setCurrentPresenter(AbstractPresenter currentPresenter)
 	{
@@ -29,13 +29,13 @@ public class SaveObject<T> extends PojoAction<T>
 		PojoService<T> pojoService = ((PojoPresenter<T>) getCurrentPresenter()).getPojoService();
 		T pojoObject = getPojoObject();
 		T obj = pojoService.find(pojoObject);
-		if(obj == null)
+		if (obj == null)
 			pojoService.add(pojoObject);
 		else
 			pojoService.update(pojoObject);
 		showPrevView.performAction();
 	}
-	
+
 	@Override
 	public boolean isObjectNecessary()
 	{

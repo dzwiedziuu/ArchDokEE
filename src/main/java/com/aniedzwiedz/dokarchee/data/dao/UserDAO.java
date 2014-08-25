@@ -19,15 +19,14 @@ public class UserDAO
 		sessionFactory.getCurrentSession().save(user);
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<User> getAllUsers()
 	{
 		return sessionFactory.getCurrentSession().createQuery("from User").list();
 	}
-	
+
 	public User findUser(User user)
 	{
-		if(user.getId() == null)
+		if (user.getId() == null)
 			return null;
 		return (User) sessionFactory.getCurrentSession().get(User.class, user.getId());
 	}
@@ -37,7 +36,7 @@ public class UserDAO
 		sessionFactory.getCurrentSession().delete(findUser(user));
 	}
 
-	public void update(User user)
+	public void updateUser(User user)
 	{
 		sessionFactory.getCurrentSession().update(user);
 	}

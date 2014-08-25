@@ -29,7 +29,7 @@ public class DefaultForm<T> extends Panel implements CommitHandler, ClickListene
 	private VerticalLayout vertiralLayout;
 	private Button saveButton;
 	private Button discardButton;
-	
+
 	private Action saveAction;
 	private Action discardAction;
 
@@ -52,12 +52,12 @@ public class DefaultForm<T> extends Panel implements CommitHandler, ClickListene
 		vertiralLayout.addComponent(buttonLayout);
 		setContent(vertiralLayout);
 	}
-	
+
 	public void setSaveAction(Action action)
 	{
 		this.saveAction = action;
 	}
-	
+
 	public void setDiscardAction(Action action)
 	{
 		this.discardAction = action;
@@ -100,7 +100,7 @@ public class DefaultForm<T> extends Panel implements CommitHandler, ClickListene
 		FieldGroup fieldGroup = commitEvent.getFieldBinder();
 		BeanItem<T> bi = (BeanItem<T>) fieldGroup.getItemDataSource();
 		T t = bi.getBean();
-		if(saveAction instanceof PojoAction)
+		if (saveAction instanceof PojoAction)
 			((PojoAction<T>) saveAction).setPojoObject(t);
 		saveAction.getPreAction().doPreAction(saveAction);
 	}
@@ -112,8 +112,7 @@ public class DefaultForm<T> extends Panel implements CommitHandler, ClickListene
 		{
 			fieldGroup.discard();
 			discardAction.getPreAction().doPreAction(discardAction);
-		}
-		else if (event.getButton() == saveButton)
+		} else if (event.getButton() == saveButton)
 		{
 			try
 			{

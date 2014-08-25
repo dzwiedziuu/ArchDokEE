@@ -45,7 +45,7 @@ public class UserService implements PojoService<User>
 	@Override
 	public void update(User user)
 	{
-		userDAO.update(user);
+		userDAO.updateUser(user);
 	}
 
 	@Transactional
