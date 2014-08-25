@@ -1,26 +1,21 @@
 package com.aniedzwiedz.dokarchee.logic.action;
 
 import com.aniedzwiedz.dokarchee.gui.view.AbstractView;
+import com.aniedzwiedz.dokarchee.logic.action.preAction.BlankPreAction;
+import com.aniedzwiedz.dokarchee.logic.action.preAction.PreAction;
 import com.aniedzwiedz.dokarchee.logic.presenter.AbstractPresenter;
 import com.aniedzwiedz.dokarchee.logic.queue.AbstractApplicationQueue;
 
 public abstract class Action
 {
 	private AbstractView currentView;
-	private String senderViewName;
 	private AbstractPresenter currentPresenter;
-
-	private AbstractApplicationQueue<Action> abstractApplicationQueue;
-
-	public Action(String senderViewName)
-	{
-		this.senderViewName = senderViewName;
-	}
+	private PreAction immidiateAction;
 
 	public Action(AbstractView abstractView)
 	{
-		this(abstractView.getViewName());
 		this.currentView = abstractView;
+		this.immidiateAction = new BlankPreAction(abstractView);
 	}
 
 	protected AbstractView getSenderView()
@@ -30,7 +25,7 @@ public abstract class Action
 
 	public String getSenderViewName()
 	{
-		return senderViewName;
+		return currentView.getViewName();
 	}
 
 	protected AbstractPresenter getCurrentPresenter()
@@ -45,19 +40,19 @@ public abstract class Action
 
 	public abstract void performAction();
 
-	protected AbstractApplicationQueue<Action> getAbstractApplicationQueue()
-	{
-		return abstractApplicationQueue;
-	}
-
-	public void setAbstractApplicationQueue(AbstractApplicationQueue<Action> abstractApplicationQueue)
-	{
-		this.abstractApplicationQueue = abstractApplicationQueue;
-	}
-
 	public void doPerform()
 	{
 		currentPresenter.setParams(this);
 		performAction();
+	}
+
+	public PreAction getPreAction()
+	{
+		return immidiateAction;
+	}
+
+	public void setPreAction(PreAction immidiateAction)
+	{
+		this.immidiateAction = immidiateAction;
 	}
 }

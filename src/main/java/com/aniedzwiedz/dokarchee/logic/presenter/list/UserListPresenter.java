@@ -8,10 +8,13 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.aniedzwiedz.dokarchee.data.model.User;
+import com.aniedzwiedz.dokarchee.data.service.PojoService;
 import com.aniedzwiedz.dokarchee.data.service.UserService;
 import com.aniedzwiedz.dokarchee.gui.view.AbstractView;
 import com.aniedzwiedz.dokarchee.gui.view.NamedView;
 import com.aniedzwiedz.dokarchee.logic.action.Action;
+import com.aniedzwiedz.dokarchee.logic.action.RemoveRecord;
+import com.aniedzwiedz.dokarchee.logic.action.SaveObject;
 import com.aniedzwiedz.dokarchee.logic.action.ShowEditView;
 import com.aniedzwiedz.dokarchee.logic.presenter.edit.UserEditPresenter;
 
@@ -25,7 +28,7 @@ public class UserListPresenter extends PojoListPresenter<User>
 	}
 
 	@Autowired
-	private UserService userService;
+	private PojoService<User> userService;
 
 	@Autowired
 	private UserListView userListView;
@@ -51,7 +54,7 @@ public class UserListPresenter extends PojoListPresenter<User>
 	@Override
 	public void setData(String property, Object data)
 	{
-		userListView.setUserList(userService.getAllUsers());
+		userListView.setUserList(userService.getAll());
 	}
 
 	@Override
@@ -59,5 +62,9 @@ public class UserListPresenter extends PojoListPresenter<User>
 	{
 		if (action instanceof ShowEditView)
 			((ShowEditView<User>) action).setNextPresenter(userEditPresenter);
+		if(action instanceof RemoveRecord)
+			((RemoveRecord<User>) action).setPojoService(userService);
+		if(action instanceof SaveObject)
+			((SaveObject<User>) action).setPojoService(userService);
 	}
 }

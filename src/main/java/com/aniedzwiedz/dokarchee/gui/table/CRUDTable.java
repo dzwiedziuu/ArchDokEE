@@ -10,6 +10,8 @@ import java.util.TreeMap;
 import javax.persistence.Id;
 
 import org.tepi.filtertable.FilterTable;
+import org.vaadin.dialogs.ConfirmDialog;
+import org.vaadin.dialogs.ConfirmDialog.Listener;
 import org.vaadin.peter.contextmenu.ContextMenu.ContextMenuItem;
 import org.vaadin.peter.contextmenu.ContextMenu.ContextMenuItemClickEvent;
 import org.vaadin.peter.contextmenu.ContextMenu.ContextMenuItemClickListener;
@@ -21,19 +23,24 @@ import com.aniedzwiedz.dokarchee.gui.table.contextMenu.MyContextMenu.MyContextMe
 import com.aniedzwiedz.dokarchee.gui.table.contextMenu.MyContextMenu.MyContextMenuOpenedOnTableRowEvent;
 import com.aniedzwiedz.dokarchee.gui.table.contextMenu.MyContextMenu.MyTableListener;
 import com.aniedzwiedz.dokarchee.gui.table.exception.NoIDFieldException;
+import com.aniedzwiedz.dokarchee.gui.view.AbstractView;
 import com.aniedzwiedz.dokarchee.gui.view.ActionTaker;
 import com.aniedzwiedz.dokarchee.logic.action.Action;
 import com.aniedzwiedz.dokarchee.logic.action.ComponentWithAction;
+import com.aniedzwiedz.dokarchee.logic.action.PojoAction;
 import com.aniedzwiedz.dokarchee.logic.action.PojoHandler;
+import com.aniedzwiedz.dokarchee.logic.action.preAction.BlankPreAction;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.event.ItemClickEvent.ItemClickListener;
+import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.shared.MouseEventDetails.MouseButton;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.VerticalLayout;
 
@@ -55,9 +62,7 @@ public class CRUDTable<T> extends VerticalLayout
 	private Map<Object, T> contentMap;
 
 	private Class<T> classObj;
-
-	private ActionTaker actionTaker;
-
+	
 	public CRUDTable(Class<T> classObj)
 	{
 		this.classObj = classObj;
@@ -80,11 +85,6 @@ public class CRUDTable<T> extends VerticalLayout
 
 		buttonPanel = new HorizontalLayout();
 		buttons = new ArrayList<>();
-	}
-
-	public void setActionTaker(ActionTaker actionTaker)
-	{
-		this.actionTaker = actionTaker;
 	}
 
 	public void addContextMenuItem(String caption, Action action)
@@ -162,18 +162,17 @@ public class CRUDTable<T> extends VerticalLayout
 
 	private void performActionOrReturn(Action action, Object itemId)
 	{
-		if (action instanceof PojoHandler)
+		if (action instanceof PojoAction)
 		{
 			T t = contentMap.get(itemId);
-			if (t == null)
+			if (t == null && ((PojoAction<T>)action).isObjectNecessary() == true)
 			{
 				Notification.show("UWAGA", "Zaden rekord nie zostal wybrany", Type.HUMANIZED_MESSAGE);
 				return;
 			}
-			((PojoHandler<T>) action).setPojoObject(t);
+			((PojoAction<T>) action).setPojoObject(t);
 		}
-		if (actionTaker != null)
-			actionTaker.takeAction(action);
+		action.getPreAction().doPreAction(action);
 	}
 
 	public void setData(List<T> list)

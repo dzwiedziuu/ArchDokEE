@@ -8,7 +8,9 @@ import ru.xpoft.vaadin.VaadinView;
 import com.aniedzwiedz.dokarchee.data.model.User;
 import com.aniedzwiedz.dokarchee.gui.form.DefaultForm;
 import com.aniedzwiedz.dokarchee.gui.view.AbstractView;
-import com.aniedzwiedz.dokarchee.logic.action.Init;
+import com.aniedzwiedz.dokarchee.logic.action.Refresh;
+import com.aniedzwiedz.dokarchee.logic.action.SaveObject;
+import com.aniedzwiedz.dokarchee.logic.action.ShowPrevView;
 import com.aniedzwiedz.dokarchee.logic.presenter.edit.UserEditPresenter.UserEditView;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.VerticalLayout;
@@ -43,8 +45,10 @@ public class UserEditViewImpl extends AbstractView implements UserEditView
 	public void enter(ViewChangeEvent event)
 	{
 		verticalLayout.removeAllComponents();
-		takeAction(new Init(this)); // sets user to real Object
+		takeAction(new Refresh(this)); // sets user to real Object
 		DefaultForm<User> defaultForm = new DefaultForm<User>(user);
+		defaultForm.setSaveAction(new SaveObject<>(this));
+		defaultForm.setDiscardAction(new ShowPrevView(this));
 		verticalLayout.addComponent(defaultForm);
 	}
 

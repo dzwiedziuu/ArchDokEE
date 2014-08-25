@@ -20,4 +20,6 @@ public abstract class PojoAction<T> extends Action implements PojoHandler<T>
 	{
 		return pojoObject;
 	}
+	
+	public abstract boolean isObjectNecessary();
 }

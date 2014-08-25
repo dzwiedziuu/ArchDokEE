@@ -8,11 +8,6 @@ public class ShowNextView extends Action
 {
 	private AbstractPresenter nextPresenter;
 
-	public ShowNextView(String viewName)
-	{
-		super(viewName);
-	}
-
 	public ShowNextView(AbstractView abstractView)
 	{
 		super(abstractView);

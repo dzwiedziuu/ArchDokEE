@@ -17,6 +17,7 @@ public class User
 {
 	@Id
 	@Column(name = "IDUSERS")
+	@ColumnHeader(value = "ID", order = 0)
 	@GeneratedValue
 	private Long id;
 
