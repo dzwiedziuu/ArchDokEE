@@ -1,3 +1,4 @@
 -serialization problem ?
 -null pointer exception while refreshing editView
--initial ForeignField value
+-initial ForeignField value, dictionary ForeignField
+-many to many relationship

@@ -66,7 +66,7 @@ public class ModelEntityLabelUtils
 		for (ItemCaptionPart itemCaptionPart : captionParts)
 		{
 			if (itemCaptionPart.isProperty())
-				sb.append(item.getItemProperty(itemCaptionPart.getValue()));
+				sb.append(item.getItemProperty(itemCaptionPart.getValue()).getValue());
 			else
 				sb.append(itemCaptionPart.getValue());
 		}

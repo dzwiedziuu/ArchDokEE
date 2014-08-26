@@ -2,12 +2,11 @@ package com.aniedzwiedz.dokarchee.gui.table;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
-
-import javax.persistence.Id;
 
 import org.tepi.filtertable.FilterTable;
 import org.vaadin.peter.contextmenu.ContextMenu.ContextMenuItem;
@@ -15,17 +14,18 @@ import org.vaadin.peter.contextmenu.ContextMenu.ContextMenuItemClickEvent;
 import org.vaadin.peter.contextmenu.ContextMenu.ContextMenuItemClickListener;
 
 import com.aniedzwiedz.dokarchee.gui.annotations.ColumnHeader;
+import com.aniedzwiedz.dokarchee.gui.annotations.ForeignFieldLabel;
+import com.aniedzwiedz.dokarchee.gui.form.fields.ForeignFieldColumnGenerator;
 import com.aniedzwiedz.dokarchee.gui.table.contextMenu.MyContextMenu;
 import com.aniedzwiedz.dokarchee.gui.table.contextMenu.MyContextMenu.MyContextMenuOpenedOnTableFooterEvent;
 import com.aniedzwiedz.dokarchee.gui.table.contextMenu.MyContextMenu.MyContextMenuOpenedOnTableHeaderEvent;
 import com.aniedzwiedz.dokarchee.gui.table.contextMenu.MyContextMenu.MyContextMenuOpenedOnTableRowEvent;
 import com.aniedzwiedz.dokarchee.gui.table.contextMenu.MyContextMenu.MyTableListener;
-import com.aniedzwiedz.dokarchee.gui.table.exception.NoIDFieldException;
 import com.aniedzwiedz.dokarchee.logic.action.Action;
 import com.aniedzwiedz.dokarchee.logic.action.ComponentWithAction;
 import com.aniedzwiedz.dokarchee.logic.action.PojoAction;
 import com.vaadin.data.Container;
-import com.vaadin.data.util.IndexedContainer;
+import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.shared.MouseEventDetails.MouseButton;
@@ -156,13 +156,12 @@ public class CRUDTable<T> extends VerticalLayout
 	{
 		if (action instanceof PojoAction)
 		{
-			T t = contentMap.get(itemId);
-			if (t == null && ((PojoAction<T>) action).isObjectNecessary())
+			if (itemId == null && ((PojoAction<T>) action).isObjectNecessary())
 			{
 				Notification.show("UWAGA", "Zaden rekord nie zostal wybrany", Type.HUMANIZED_MESSAGE);
 				return;
 			}
-			((PojoAction<T>) action).setPojoObject(t);
+			((PojoAction<T>) action).setPojoObject((T) itemId);
 		}
 		action.getPreAction().doPreAction(action);
 	}
@@ -171,6 +170,8 @@ public class CRUDTable<T> extends VerticalLayout
 	{
 		removeAllComponents();
 		filterTable.setContainerDataSource(getContainerDataSource(list));
+		setColumnHeaders();
+		addColumnGenerators();
 		if (!buttons.isEmpty())
 		{
 			addComponent(buttonPanel);
@@ -182,55 +183,31 @@ public class CRUDTable<T> extends VerticalLayout
 			myContextMenu.setAsTableContextMenu(filterTable);
 	}
 
-	private Container getContainerDataSource(List<T> list)
+	private void setColumnHeaders()
 	{
-		Map<Integer, AnnotatedColumn> fields = new TreeMap<>();
-		Field idField = null;
+		TreeMap<Integer, List<String>> map = new TreeMap<>();
 		for (Field field : classObj.getDeclaredFields())
-		{
-			if (field.isAnnotationPresent(Id.class))
-			{
-				idField = field;
-				idField.setAccessible(true);
-			}
 			if (field.isAnnotationPresent(ColumnHeader.class))
 			{
 				ColumnHeader columnHeader = field.getAnnotation(ColumnHeader.class);
-				fields.put(columnHeader.order(), new AnnotatedColumn(field, columnHeader));
+				map.put(columnHeader.order(), Arrays.asList(field.getName(), columnHeader.value()));
 			}
-		}
-		if (idField == null)
-			throw new NoIDFieldException();
-		ArrayList<AnnotatedColumn> fieldList = new ArrayList<>();
-		for (AnnotatedColumn annotatedField : fields.values())
-		{
-			Field field = annotatedField.getField();
-			field.setAccessible(true);
-			fieldList.add(annotatedField);
-		}
-		IndexedContainer result = new IndexedContainer();
-		contentMap = new HashMap<>();
-		for (AnnotatedColumn field : fieldList)
-			result.addContainerProperty(field.getColumnHeader().value(), field.getField().getType(), null);
-		try
-		{
-			for (T t : list)
-			{
-				Object id = idField.get(t);
-				contentMap.put(id, t);
-				result.addItem(id);
-				for (int i = 0; i < fieldList.size(); i++)
-				{
-					AnnotatedColumn af = fieldList.get(i);
-					Object value = af.getField().get(t);
-					String columnHeader = af.getColumnHeader().value();
-					result.getContainerProperty(id, columnHeader).setValue(value);
-				}
-			}
-		} catch (IllegalArgumentException | IllegalAccessException e)
-		{
-			e.printStackTrace();
-		}
-		return result;
+		for (Entry<Integer, List<String>> entry : map.entrySet())
+			filterTable.setColumnHeader(entry.getValue().get(0), entry.getValue().get(1));
+	}
+
+	private void addColumnGenerators()
+	{
+		for (Field field : classObj.getDeclaredFields())
+			if (field.getType().isAnnotationPresent(ForeignFieldLabel.class))
+				filterTable.addGeneratedColumn(field.getName(), new ForeignFieldColumnGenerator<>(field.getType()));
+	}
+
+	private Container getContainerDataSource(List<T> list)
+	{
+		BeanItemContainer<T> beanItemContainer = new BeanItemContainer<>(classObj);
+		for (T t : list)
+			beanItemContainer.addBean(t);
+		return beanItemContainer;
 	}
 }
