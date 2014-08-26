@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -16,8 +18,8 @@ import com.aniedzwiedz.dokarchee.gui.annotations.EditField;
 public class Photo
 {
 	@Id
-	@Column(name = "IDUSERS")
-	@ColumnHeader(value = "ID", order = 0)
+	@Column(name = "IDPHOTO")
+	@ColumnHeader(value = "ID Zdjecia", order = 0)
 	@GeneratedValue
 	private Long id;
 
@@ -28,8 +30,26 @@ public class Photo
 	@Size(min = 1, max = 5, message = "Numer zdjecia musi miec dlugosc w przedziale <1, 5>")
 	private String photoNumber;
 
+	// @Column(name = "PHOTO_SUBJECT")
+	@ColumnHeader(value = "Temat zdjecia", order = 3)
+	@EditField(label = "Temat zdjecia", order = 3)
+	@NotNull(message = "Temat zdjecia nie moze byc pusty")
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "PHOTO_SUBJECT")
+	private PhotoSubject photoSubject;
+
 	public Photo()
 	{
+	}
+
+	public PhotoSubject getPhotoSubject()
+	{
+		return photoSubject;
+	}
+
+	public void setPhotoSubject(PhotoSubject photoSubject)
+	{
+		this.photoSubject = photoSubject;
 	}
 
 	public Long getId()

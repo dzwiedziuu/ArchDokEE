@@ -3,5 +3,6 @@
 	<persistence-unit name="DokArchEE">
 		<class>com.aniedzwiedz.dokarchee.data.model.User</class>
 		<class>com.aniedzwiedz.dokarchee.data.model.Photo</class>
+		<class>com.aniedzwiedz.dokarchee.data.model.PhotoSubject</class>
 	</persistence-unit>
 </persistence>

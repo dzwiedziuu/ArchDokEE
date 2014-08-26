@@ -7,5 +7,6 @@
 	<session-factory>
 		<mapping class="com.aniedzwiedz.dokarchee.data.model.User" />
 		<mapping class="com.aniedzwiedz.dokarchee.data.model.Photo" />
+		<mapping class="com.aniedzwiedz.dokarchee.data.model.PhotoSubject" />
 	</session-factory>
 </hibernate-configuration>

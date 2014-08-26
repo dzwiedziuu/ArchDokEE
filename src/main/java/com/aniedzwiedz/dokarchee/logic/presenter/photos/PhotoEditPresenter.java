@@ -1,12 +1,16 @@
 package com.aniedzwiedz.dokarchee.logic.presenter.photos;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import com.aniedzwiedz.dokarchee.data.model.Photo;
 import com.aniedzwiedz.dokarchee.data.service.PhotoService;
 import com.aniedzwiedz.dokarchee.data.service.PojoService;
 import com.aniedzwiedz.dokarchee.logic.presenter.PojoEditPresenter;
 
+@Component
+@Scope("session")
 public class PhotoEditPresenter extends PojoEditPresenter<Photo>
 {
 	public interface PhotoEditView extends PojoEditView<Photo>

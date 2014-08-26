@@ -2,6 +2,7 @@ package com.aniedzwiedz.dokarchee.data.dao;
 
 import java.util.List;
 
+import org.hibernate.FetchMode;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -21,7 +22,9 @@ public class PhotoDao
 
 	public List<Photo> getAllPhotos()
 	{
-		return sessionFactory.getCurrentSession().createQuery("from Photo").list();
+		// return
+		// sessionFactory.getCurrentSession().createQuery("from Photo").list();
+		return sessionFactory.getCurrentSession().createCriteria(Photo.class).setFetchMode("", FetchMode.JOIN).list();
 	}
 
 	public Photo findPhoto(Photo photo)

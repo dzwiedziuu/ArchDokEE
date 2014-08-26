@@ -2,9 +2,16 @@ package com.aniedzwiedz.dokarchee.gui.form;
 
 import java.util.TreeMap;
 
-import com.aniedzwiedz.dokarchee.data.model.User;
+import javax.persistence.ManyToOne;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import com.aniedzwiedz.dokarchee.data.service.GeneralService;
 import com.aniedzwiedz.dokarchee.gui.annotations.EditField;
 import com.aniedzwiedz.dokarchee.gui.form.error.ErrorUtils;
+import com.aniedzwiedz.dokarchee.gui.form.fields.ForeignField;
 import com.aniedzwiedz.dokarchee.logic.action.Action;
 import com.aniedzwiedz.dokarchee.logic.action.PojoAction;
 import com.vaadin.data.fieldgroup.FieldGroup;
@@ -22,6 +29,8 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
+@Component
+@Scope("prototype")
 public class DefaultForm<T> extends Panel implements CommitHandler, ClickListener
 {
 	private static final long serialVersionUID = -823980725960033248L;
@@ -32,24 +41,21 @@ public class DefaultForm<T> extends Panel implements CommitHandler, ClickListene
 
 	private Action saveAction;
 	private Action discardAction;
+	private HorizontalLayout buttonLayout;
 
-	public DefaultForm(T pojoObject)
+	@Autowired
+	private GeneralService generalService;
+
+	public DefaultForm()
 	{
 		setSizeFull();
 		vertiralLayout = new VerticalLayout();
-		fieldGroup = new FieldGroup();
-		BeanItem<T> beanItem = new BeanItem<>(pojoObject);
-		fieldGroup.setItemDataSource(beanItem);
-		fieldGroup.setFieldFactory(new DokarcheeFieldFactory(fieldGroup.getFieldFactory()));
-		setObject(pojoObject);
-		fieldGroup.addCommitHandler(this);
 
-		HorizontalLayout buttonLayout = new HorizontalLayout();
+		buttonLayout = new HorizontalLayout();
 		saveButton = new Button("Zapisz", this);
-		discardButton = new Button("Wróæ", this);
+		discardButton = new Button("WrÃ³c", this);
 		buttonLayout.addComponent(saveButton);
 		buttonLayout.addComponent(discardButton);
-		vertiralLayout.addComponent(buttonLayout);
 		setContent(vertiralLayout);
 	}
 
@@ -66,6 +72,13 @@ public class DefaultForm<T> extends Panel implements CommitHandler, ClickListene
 	public void setObject(T pojoObject)
 	{
 		Class<T> classObj = (Class<T>) pojoObject.getClass();
+		vertiralLayout.removeAllComponents();
+		fieldGroup = new FieldGroup();
+		BeanItem<T> beanItem = new BeanItem<>(pojoObject);
+		fieldGroup.setItemDataSource(beanItem);
+		fieldGroup.setFieldFactory(new DokarcheeFieldFactory(fieldGroup.getFieldFactory(), generalService));
+		// setObject(pojoObject);
+		fieldGroup.addCommitHandler(this);
 		TreeMap<Integer, AnnotatedField> map = new TreeMap<>();
 		for (java.lang.reflect.Field reflectField : classObj.getDeclaredFields())
 			if (reflectField.isAnnotationPresent(EditField.class))
@@ -76,7 +89,10 @@ public class DefaultForm<T> extends Panel implements CommitHandler, ClickListene
 
 		for (AnnotatedField af : map.values())
 		{
-			Field<?> f = fieldGroup.buildAndBind(af.getEditField().label(), af.getField().getName());
+			Class<? extends Field> cl = Field.class;
+			if (af.getField().isAnnotationPresent(ManyToOne.class))
+				cl = ForeignField.class;
+			Field<?> f = fieldGroup.buildAndBind(af.getEditField().label(), af.getField().getName(), cl);
 			if (f instanceof TextField)
 			{
 				TextField textField = (TextField) f;
@@ -86,6 +102,7 @@ public class DefaultForm<T> extends Panel implements CommitHandler, ClickListene
 			f.addValidator(new BeanValidator(classObj, af.getField().getName()));
 			vertiralLayout.addComponent(f);
 		}
+		vertiralLayout.addComponent(buttonLayout);
 	}
 
 	@Override
