@@ -1,0 +1,3 @@
+-serialization problem ?
+-null pointer exception while refreshing editView
+-initial ForeignField value

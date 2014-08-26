@@ -18,7 +18,9 @@ public class ApplicationController implements Runnable
 	// @PostConstruct
 	public void postConstruct()
 	{
-		new Thread(this).start();
+		Thread thread = new Thread(this);
+		thread.setName("ApplicationControllerThread");
+		thread.start();
 	}
 
 	@Override

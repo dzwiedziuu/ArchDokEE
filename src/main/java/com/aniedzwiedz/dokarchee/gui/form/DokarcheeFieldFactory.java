@@ -2,11 +2,13 @@ package com.aniedzwiedz.dokarchee.gui.form;
 
 import java.util.List;
 
-import com.aniedzwiedz.dokarchee.data.model.utils.ModelUtils;
+import com.aniedzwiedz.dokarchee.data.model.utils.ModelEntityLabelUtils;
+import com.aniedzwiedz.dokarchee.data.model.utils.ModelEntityLabelUtils.ItemCaptionPart;
 import com.aniedzwiedz.dokarchee.data.service.GeneralService;
 import com.aniedzwiedz.dokarchee.gui.form.fields.ForeignField;
 import com.vaadin.data.Item;
 import com.vaadin.data.fieldgroup.FieldGroupFieldFactory;
+import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.Field;
 
 public class DokarcheeFieldFactory implements FieldGroupFieldFactory
@@ -30,20 +32,18 @@ public class DokarcheeFieldFactory implements FieldGroupFieldFactory
 		return defaultFieldGroupFieldFactory.createField(dataType, fieldType);
 	}
 
-	private ForeignField createForeignField(Class<?> dataType)
+	private <T> ForeignField createForeignField(Class<T> dataType)
 	{
 		ForeignField foreignField = new ForeignField();
+		foreignField.setContainerDataSource(new BeanItemContainer<T>(dataType));
+		List<ItemCaptionPart> itemCaptionPars = ModelEntityLabelUtils.getItemCaptionPartList(dataType);
 		List<?> objectList = generalService.getList(dataType);
 		for (Object t : objectList)
 		{
-			String idPropertyName = generalService.getIdentifierPropertyName(dataType);
-			Object idValue = ModelUtils.getObjectId(t, idPropertyName);
 			Item item = foreignField.addItem(t);
-			// foreignField.addItem(t.toString());
-			foreignField.setItemCaption(t, t.toString());
+			if (itemCaptionPars != null)
+				foreignField.setItemCaption(t, ModelEntityLabelUtils.getItemCaption(item, itemCaptionPars));
 		}
-		// foreignField.addValueChangeListener(this);
-		foreignField.select(objectList.get(0));
 		return foreignField;
 	}
 }

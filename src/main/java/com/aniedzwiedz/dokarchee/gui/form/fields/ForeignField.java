@@ -5,10 +5,14 @@ import com.vaadin.ui.ComboBox;
 
 public class ForeignField extends ComboBox
 {
+	public ForeignField()
+	{
+	}
+
 	@Override
 	public void setPropertyDataSource(Property newDataSource)
 	{
 		super.setPropertyDataSource(newDataSource);
-		select(newDataSource.getValue());
+		setValue(newDataSource.getValue(), false);
 	}
 }

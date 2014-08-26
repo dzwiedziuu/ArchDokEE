@@ -12,9 +12,11 @@ import javax.validation.constraints.NotNull;
 
 import com.aniedzwiedz.dokarchee.gui.annotations.ColumnHeader;
 import com.aniedzwiedz.dokarchee.gui.annotations.EditField;
+import com.aniedzwiedz.dokarchee.gui.annotations.ForeignFieldLabel;
 
 @Entity
 @Table(name = "photo_subject")
+@ForeignFieldLabel(pattern = "photoSubject")
 public class PhotoSubject
 {
 	@Id
@@ -54,11 +56,5 @@ public class PhotoSubject
 	public void setPhotoSubject(String photoSubject)
 	{
 		this.photoSubject = photoSubject;
-	}
-
-	@Override
-	public String toString()
-	{
-		return photoSubject;
 	}
 }

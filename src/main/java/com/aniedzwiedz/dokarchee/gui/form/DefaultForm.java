@@ -14,6 +14,7 @@ import com.aniedzwiedz.dokarchee.gui.form.error.ErrorUtils;
 import com.aniedzwiedz.dokarchee.gui.form.fields.ForeignField;
 import com.aniedzwiedz.dokarchee.logic.action.Action;
 import com.aniedzwiedz.dokarchee.logic.action.PojoAction;
+import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitEvent;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
@@ -34,7 +35,7 @@ import com.vaadin.ui.VerticalLayout;
 public class DefaultForm<T> extends Panel implements CommitHandler, ClickListener
 {
 	private static final long serialVersionUID = -823980725960033248L;
-	private FieldGroup fieldGroup;
+	private BeanFieldGroup<T> beanFieldGroup;
 	private VerticalLayout vertiralLayout;
 	private Button saveButton;
 	private Button discardButton;
@@ -73,12 +74,12 @@ public class DefaultForm<T> extends Panel implements CommitHandler, ClickListene
 	{
 		Class<T> classObj = (Class<T>) pojoObject.getClass();
 		vertiralLayout.removeAllComponents();
-		fieldGroup = new FieldGroup();
-		BeanItem<T> beanItem = new BeanItem<>(pojoObject);
-		fieldGroup.setItemDataSource(beanItem);
-		fieldGroup.setFieldFactory(new DokarcheeFieldFactory(fieldGroup.getFieldFactory(), generalService));
+		beanFieldGroup = new BeanFieldGroup<>(classObj);
+		// BeanItem<T> beanItem = new BeanItem<>(pojoObject);
+		beanFieldGroup.setItemDataSource(pojoObject);
+		beanFieldGroup.setFieldFactory(new DokarcheeFieldFactory(beanFieldGroup.getFieldFactory(), generalService));
 		// setObject(pojoObject);
-		fieldGroup.addCommitHandler(this);
+		beanFieldGroup.addCommitHandler(this);
 		TreeMap<Integer, AnnotatedField> map = new TreeMap<>();
 		for (java.lang.reflect.Field reflectField : classObj.getDeclaredFields())
 			if (reflectField.isAnnotationPresent(EditField.class))
@@ -92,7 +93,7 @@ public class DefaultForm<T> extends Panel implements CommitHandler, ClickListene
 			Class<? extends Field> cl = Field.class;
 			if (af.getField().isAnnotationPresent(ManyToOne.class))
 				cl = ForeignField.class;
-			Field<?> f = fieldGroup.buildAndBind(af.getEditField().label(), af.getField().getName(), cl);
+			Field<?> f = beanFieldGroup.buildAndBind(af.getEditField().label(), af.getField().getName(), cl);
 			if (f instanceof TextField)
 			{
 				TextField textField = (TextField) f;
@@ -127,16 +128,17 @@ public class DefaultForm<T> extends Panel implements CommitHandler, ClickListene
 	{
 		if (event.getButton() == discardButton)
 		{
-			fieldGroup.discard();
+			beanFieldGroup.discard();
 			discardAction.getPreAction().doPreAction(discardAction);
 		} else if (event.getButton() == saveButton)
 		{
 			try
 			{
-				fieldGroup.commit();
+				beanFieldGroup.commit();
 			} catch (CommitException e)
 			{
-				ErrorUtils.showComponentErrors(fieldGroup.getFields());
+				// TODO
+				ErrorUtils.showComponentErrors(beanFieldGroup.getFields());
 			}
 		}
 	}

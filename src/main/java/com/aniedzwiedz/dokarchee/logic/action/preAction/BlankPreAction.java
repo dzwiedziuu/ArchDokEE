@@ -1,7 +1,6 @@
 package com.aniedzwiedz.dokarchee.logic.action.preAction;
 
 import com.aniedzwiedz.dokarchee.gui.view.AbstractView;
-import com.aniedzwiedz.dokarchee.gui.view.ActionTaker;
 import com.aniedzwiedz.dokarchee.logic.action.Action;
 
 public class BlankPreAction implements PreAction

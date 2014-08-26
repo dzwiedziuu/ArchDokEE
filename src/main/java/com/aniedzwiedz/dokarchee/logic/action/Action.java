@@ -4,7 +4,6 @@ import com.aniedzwiedz.dokarchee.gui.view.AbstractView;
 import com.aniedzwiedz.dokarchee.logic.action.preAction.BlankPreAction;
 import com.aniedzwiedz.dokarchee.logic.action.preAction.PreAction;
 import com.aniedzwiedz.dokarchee.logic.presenter.AbstractPresenter;
-import com.aniedzwiedz.dokarchee.logic.queue.AbstractApplicationQueue;
 
 public abstract class Action
 {

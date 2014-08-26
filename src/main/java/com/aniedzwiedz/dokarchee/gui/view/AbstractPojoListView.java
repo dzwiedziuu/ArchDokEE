@@ -28,7 +28,8 @@ public abstract class AbstractPojoListView<T> extends AbstractView
 		public void doPreAction(Action action)
 		{
 			this.action = action;
-			ConfirmDialog confirmDialog = ConfirmDialog.getFactory().create("Uwaga", "Na pewno chcesz skasowac ten rekord?", "TAK", "NIE", null);
+			ConfirmDialog confirmDialog = ConfirmDialog.getFactory().create("Uwaga", "Na pewno chcesz skasowac ten rekord?", "TAK", "NIE",
+					null);
 			confirmDialog.setWidth(400.0f, Unit.PIXELS);
 			confirmDialog.show(UI.getCurrent(), Confirm.this, true);
 		}
@@ -36,7 +37,7 @@ public abstract class AbstractPojoListView<T> extends AbstractView
 		@Override
 		public void onClose(ConfirmDialog dialog)
 		{
-			if (dialog.isConfirmed() == true)
+			if (dialog.isConfirmed())
 				super.doPreAction(action);
 		}
 	}

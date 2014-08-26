@@ -1,6 +1,5 @@
 package com.aniedzwiedz.dokarchee.logic.action;
 
-import com.aniedzwiedz.dokarchee.data.model.User;
 import com.aniedzwiedz.dokarchee.data.service.PojoService;
 import com.aniedzwiedz.dokarchee.gui.view.AbstractView;
 import com.aniedzwiedz.dokarchee.logic.presenter.AbstractPresenter;
