@@ -11,10 +11,11 @@ public abstract class PojoEditPresenter<T> extends PojoPresenter<T>
 	}
 
 	private T pojoObject;
+	private PojoEditView<T> pojoEditView;
 
-	protected abstract PojoEditView<T> getPojoEditView();
+	// protected abstract PojoEditView<T> getPojoEditView();
 
-	protected abstract void setPojoEditView(PojoEditView<T> namedView);
+	// protected abstract void setPojoEditView(PojoEditView<T> namedView);
 
 	@Override
 	public AbstractView getAbstractView()
@@ -43,5 +44,15 @@ public abstract class PojoEditPresenter<T> extends PojoPresenter<T>
 	public void setPojoObject(T pojoObject)
 	{
 		this.pojoObject = pojoObject;
+	}
+
+	protected PojoEditView<T> getPojoEditView()
+	{
+		return pojoEditView;
+	}
+
+	protected void setPojoEditView(PojoEditView<T> namedView)
+	{
+		this.pojoEditView = namedView;
 	}
 }

@@ -1,9 +1,7 @@
 package com.aniedzwiedz.dokarchee.logic.action;
 
-import com.aniedzwiedz.dokarchee.gui.window.SubWindow;
+import com.aniedzwiedz.dokarchee.gui.view.AbstractView;
 import com.aniedzwiedz.dokarchee.logic.presenter.AbstractPresenter;
-import com.vaadin.server.Sizeable.Unit;
-import com.vaadin.ui.UI;
 
 public class ShowNextView extends Action
 {
@@ -23,16 +21,15 @@ public class ShowNextView extends Action
 	@Override
 	public void performAction()
 	{
-		nextPresenter.setParentPresenter(getCurrentPresenter());
+		AbstractPresenter abstractPresenter = getCurrentPresenter();
+		AbstractView currentView = abstractPresenter.getAbstractView();
+		nextPresenter.setParentPresenter(abstractPresenter);
 		if (newWindow == false)
-			UI.getCurrent().getNavigator().navigateTo(nextPresenter.getAbstractView().getViewName());
+			currentView.switchViewTo(nextPresenter.getAbstractView());
 		else
 		{
 			nextPresenter.setPresentsWindow(true);
-			SubWindow subWindow = new SubWindow(nextPresenter.getAbstractView());
-			subWindow.setHeight(300, Unit.PIXELS);
-			subWindow.setWidth(400, Unit.PIXELS);
-			UI.getCurrent().addWindow(subWindow);
+			currentView.openInNewWindow(nextPresenter.getAbstractView());
 		}
 	}
 }

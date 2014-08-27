@@ -5,9 +5,13 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.aniedzwiedz.dokarchee.data.model.Photo;
+import com.aniedzwiedz.dokarchee.data.model.PhotoSubject;
 import com.aniedzwiedz.dokarchee.data.service.PhotoService;
-import com.aniedzwiedz.dokarchee.data.service.PojoService;
+import com.aniedzwiedz.dokarchee.logic.action.Action;
+import com.aniedzwiedz.dokarchee.logic.action.pojo.ShowListObjectView;
+import com.aniedzwiedz.dokarchee.logic.presenter.AbstractPresenter;
 import com.aniedzwiedz.dokarchee.logic.presenter.PojoEditPresenter;
+import com.aniedzwiedz.dokarchee.logic.presenter.photoSubjects.PhotoSubjectListPresenter;
 
 @Component
 @Scope("session")
@@ -18,26 +22,25 @@ public class PhotoEditPresenter extends PojoEditPresenter<Photo>
 	}
 
 	@Autowired
-	private PhotoService userService;
+	public PhotoEditPresenter(PhotoEditView photoEditView, PhotoService pojoService)
+	{
+		setView(photoEditView);
+		setPojoService(pojoService);
+	}
 
 	@Autowired
-	private PhotoEditView photoEditView;
+	private PhotoSubjectListPresenter photoSubjectListPresenter;
 
 	@Override
-	protected PojoEditView<Photo> getPojoEditView()
+	public AbstractPresenter getNextPresenter(Action action)
 	{
-		return photoEditView;
-	}
-
-	@Override
-	protected void setPojoEditView(PojoEditView<Photo> namedView)
-	{
-		this.photoEditView = (PhotoEditView) namedView;
-	}
-
-	@Override
-	public PojoService<Photo> getPojoService()
-	{
-		return userService;
+		if (action instanceof ShowListObjectView)
+		{
+			ShowListObjectView<?> showListObjectView = (ShowListObjectView<?>) action;
+			Class<?> listClass = showListObjectView.getClassObj();
+			if (PhotoSubject.class.isAssignableFrom(listClass))
+				return photoSubjectListPresenter;
+		}
+		return super.getNextPresenter(action);
 	}
 }

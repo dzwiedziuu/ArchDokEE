@@ -1,10 +1,11 @@
-package com.aniedzwiedz.dokarchee.logic.action;
+package com.aniedzwiedz.dokarchee.logic.action.pojo;
 
 import com.aniedzwiedz.dokarchee.gui.view.AbstractView;
+import com.aniedzwiedz.dokarchee.logic.action.ShowNextView;
 import com.aniedzwiedz.dokarchee.logic.presenter.AbstractPresenter;
 import com.aniedzwiedz.dokarchee.logic.presenter.PojoEditPresenter;
 
-public class ShowEditView<T> extends PojoAction<T>
+public class ShowEditObjectView<T> extends PojoAction<T>
 {
 	private ShowNextView showNextView = new ShowNextView(true);
 

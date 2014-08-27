@@ -6,7 +6,7 @@ import com.aniedzwiedz.dokarchee.logic.action.Refresh;
 import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.Window;
 
-public class SubWindow extends Window
+public class SubWindow extends Window implements AbstractWindow
 {
 	private AbstractViewImpl view;
 
@@ -21,6 +21,13 @@ public class SubWindow extends Window
 	public void setParent(HasComponents parent)
 	{
 		super.setParent(parent);
+		if (parent == null) // when closing window
+			return;
 		view.takeAction(new Refresh());
+	}
+
+	public AbstractViewImpl getView()
+	{
+		return view;
 	}
 }

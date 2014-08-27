@@ -1,4 +1,6 @@
-package com.aniedzwiedz.dokarchee.logic.action;
+package com.aniedzwiedz.dokarchee.logic.action.pojo;
+
+import com.aniedzwiedz.dokarchee.logic.action.Action;
 
 
 public abstract class PojoAction<T> extends Action implements PojoHandler<T>

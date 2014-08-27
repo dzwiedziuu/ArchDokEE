@@ -21,35 +21,35 @@ public class UserServiceImpl implements UserService
 	@Override
 	public void add(User user)
 	{
-		userDAO.addUser(user);
+		userDAO.add(user);
 	}
 
 	@Transactional
 	@Override
 	public void update(User user)
 	{
-		userDAO.updateUser(user);
+		userDAO.update(user);
 	}
 
 	@Transactional
 	@Override
 	public void remove(User user)
 	{
-		userDAO.removeUser(user);
+		userDAO.remove(user);
 	}
 
 	@Transactional
 	@Override
 	public List<User> getAll()
 	{
-		return userDAO.getAllUsers();
+		return userDAO.getList(User.class);
 	}
 
 	@Transactional
 	@Override
 	public User find(User user)
 	{
-		return userDAO.findUser(user);
+		return userDAO.find(user);
 	}
 
 }

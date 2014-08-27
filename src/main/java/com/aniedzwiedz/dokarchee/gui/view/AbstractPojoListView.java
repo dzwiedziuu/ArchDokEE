@@ -6,9 +6,9 @@ import org.vaadin.dialogs.ConfirmDialog;
 
 import com.aniedzwiedz.dokarchee.gui.table.CRUDTable;
 import com.aniedzwiedz.dokarchee.logic.action.Action;
-import com.aniedzwiedz.dokarchee.logic.action.RemoveRecord;
-import com.aniedzwiedz.dokarchee.logic.action.ShowEditView;
-import com.aniedzwiedz.dokarchee.logic.action.ShowNewObjectView;
+import com.aniedzwiedz.dokarchee.logic.action.pojo.RemoveRecord;
+import com.aniedzwiedz.dokarchee.logic.action.pojo.ShowEditObjectView;
+import com.aniedzwiedz.dokarchee.logic.action.pojo.ShowNewObjectView;
 import com.aniedzwiedz.dokarchee.logic.action.preAction.BlankPreAction;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -66,14 +66,14 @@ public abstract class AbstractPojoListView<T> extends AbstractViewImpl
 		}
 
 		crudTable.addContextMenuItem("Add", new ShowNewObjectView<T>(blankObj));
-		crudTable.addContextMenuItem("Edit", new ShowEditView<T>());
+		crudTable.addContextMenuItem("Edit", new ShowEditObjectView<T>());
 		crudTable.addContextMenuItem("Remove", new RemoveRecord<T>(new AbstractPojoListView.Confirm()));
 
 		crudTable.addButton("Dodaj", new ShowNewObjectView<T>(blankObj));
-		crudTable.addButton("Edytuj", new ShowEditView<T>());
+		crudTable.addButton("Edytuj", new ShowEditObjectView<T>());
 		crudTable.addButton("Usun", new RemoveRecord<T>(new AbstractPojoListView.Confirm()));
 
-		crudTable.setDoubleClickAction(new ShowEditView<T>());
+		crudTable.setDoubleClickAction(new ShowEditObjectView<T>());
 
 		crudTable.setData(userList);
 		return crudTable;

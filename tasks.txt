@@ -1,6 +1,5 @@
 -serialization problem ?
 -null pointer exception while refreshing editView
--initial ForeignField value, dictionary ForeignField
+-dictionary ForeignField
 -many to many relationship
-
-601578
+-order of display in table

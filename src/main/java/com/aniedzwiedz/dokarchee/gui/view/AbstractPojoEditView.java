@@ -3,31 +3,44 @@ package com.aniedzwiedz.dokarchee.gui.view;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.aniedzwiedz.dokarchee.gui.form.DefaultForm;
+import com.aniedzwiedz.dokarchee.gui.form.EditFieldFactory;
+import com.aniedzwiedz.dokarchee.logic.action.ShowPrevView;
+import com.aniedzwiedz.dokarchee.logic.action.pojo.SaveObject;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.VerticalLayout;
 
 public abstract class AbstractPojoEditView<T> extends AbstractViewImpl
 {
-	@Autowired
-	private DefaultForm<T> defaultForm;
+	private EditFieldFactory fieldGroupFieldFactory;
 
 	private VerticalLayout verticalLayout;
+	private DefaultForm<Object> defaultForm;
 
 	public AbstractPojoEditView()
 	{
 		verticalLayout = new VerticalLayout();
+		defaultForm = new DefaultForm<>();
+		defaultForm.setParentActionTaker(this);
+		defaultForm.addSaveActionButton(new Button("Zapisz"), new SaveObject<T>());
+		defaultForm.addDiscardActionButton(new Button("Wroc"), new ShowPrevView());
+		verticalLayout.addComponent(defaultForm);
 		setContent(verticalLayout);
 	}
 
-	public void changePojoObj(T pojoObj)
+	@Autowired
+	public void setFieldGroupFieldFactory(EditFieldFactory fieldGroupFieldFactory)
 	{
-		verticalLayout.removeAllComponents();
-		defaultForm.setObject(pojoObj);
-		defaultForm.setParentActionTaker(this);
-		verticalLayout.addComponent(defaultForm);
+		this.fieldGroupFieldFactory = fieldGroupFieldFactory;
+		defaultForm.setFieldGroupFieldFactory(fieldGroupFieldFactory);
 	}
 
-	public void setPojoObject(T t)
+	public EditFieldFactory getFieldGroupFieldFactory()
 	{
-		changePojoObj(t);
+		return fieldGroupFieldFactory;
+	}
+
+	public void setPojoObject(T pojoObj)
+	{
+		defaultForm.setObject(pojoObj);
 	}
 }

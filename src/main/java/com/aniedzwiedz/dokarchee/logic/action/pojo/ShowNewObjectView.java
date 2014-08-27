@@ -1,7 +1,8 @@
-package com.aniedzwiedz.dokarchee.logic.action;
+package com.aniedzwiedz.dokarchee.logic.action.pojo;
 
 
-public class ShowNewObjectView<T> extends ShowEditView<T>
+
+public class ShowNewObjectView<T> extends ShowEditObjectView<T>
 {
 	private T blankObject;
 

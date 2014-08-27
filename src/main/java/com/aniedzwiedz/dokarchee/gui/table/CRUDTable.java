@@ -4,7 +4,6 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
@@ -13,6 +12,7 @@ import org.vaadin.peter.contextmenu.ContextMenu.ContextMenuItem;
 import org.vaadin.peter.contextmenu.ContextMenu.ContextMenuItemClickEvent;
 import org.vaadin.peter.contextmenu.ContextMenu.ContextMenuItemClickListener;
 
+import com.aniedzwiedz.dokarchee.gui.ComponentWithAction;
 import com.aniedzwiedz.dokarchee.gui.annotations.ColumnHeader;
 import com.aniedzwiedz.dokarchee.gui.annotations.ForeignFieldLabel;
 import com.aniedzwiedz.dokarchee.gui.form.fields.ActiveComponent;
@@ -24,8 +24,7 @@ import com.aniedzwiedz.dokarchee.gui.table.contextMenu.MyContextMenu.MyContextMe
 import com.aniedzwiedz.dokarchee.gui.table.contextMenu.MyContextMenu.MyTableListener;
 import com.aniedzwiedz.dokarchee.gui.view.ActionTaker;
 import com.aniedzwiedz.dokarchee.logic.action.Action;
-import com.aniedzwiedz.dokarchee.logic.action.ComponentWithAction;
-import com.aniedzwiedz.dokarchee.logic.action.PojoAction;
+import com.aniedzwiedz.dokarchee.logic.action.pojo.PojoAction;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.event.ItemClickEvent;
@@ -53,10 +52,7 @@ public class CRUDTable<T> extends VerticalLayout implements ActiveComponent
 	private MyContextMenu myContextMenu;
 	private HorizontalLayout buttonPanel;
 
-	private Map<Object, T> contentMap;
-
 	private Class<T> classObj;
-
 	private ActionTaker parentActionTaker;
 
 	public CRUDTable(Class<T> classObj)
@@ -196,8 +192,14 @@ public class CRUDTable<T> extends VerticalLayout implements ActiveComponent
 				ColumnHeader columnHeader = field.getAnnotation(ColumnHeader.class);
 				map.put(columnHeader.order(), Arrays.asList(field.getName(), columnHeader.value()));
 			}
+		Object[] visibleColumns = new Object[map.size()];
+		int i = 0;
 		for (Entry<Integer, List<String>> entry : map.entrySet())
+		{
 			filterTable.setColumnHeader(entry.getValue().get(0), entry.getValue().get(1));
+			visibleColumns[i++] = entry.getValue().get(0);
+		}
+		filterTable.setVisibleColumns(visibleColumns);
 	}
 
 	private void addColumnGenerators()

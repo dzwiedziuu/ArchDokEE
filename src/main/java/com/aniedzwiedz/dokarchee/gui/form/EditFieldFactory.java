@@ -2,27 +2,28 @@ package com.aniedzwiedz.dokarchee.gui.form;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.aniedzwiedz.dokarchee.data.model.utils.ModelEntityLabelUtils;
 import com.aniedzwiedz.dokarchee.data.model.utils.ModelEntityLabelUtils.ItemCaptionPart;
 import com.aniedzwiedz.dokarchee.data.service.GeneralService;
 import com.aniedzwiedz.dokarchee.gui.form.fields.ForeignField;
 import com.vaadin.data.Item;
+import com.vaadin.data.fieldgroup.DefaultFieldGroupFieldFactory;
 import com.vaadin.data.fieldgroup.FieldGroupFieldFactory;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.Field;
 
-public class DokarcheeFieldFactory implements FieldGroupFieldFactory
+@Component
+public class EditFieldFactory implements FieldGroupFieldFactory
 {
 	private static final long serialVersionUID = -2990070763186820309L;
 
-	private FieldGroupFieldFactory defaultFieldGroupFieldFactory;
+	@Autowired
 	private GeneralService generalService;
 
-	public DokarcheeFieldFactory(FieldGroupFieldFactory defaultFieldGroupFieldFactory, GeneralService generalService)
-	{
-		this.defaultFieldGroupFieldFactory = defaultFieldGroupFieldFactory;
-		this.generalService = generalService;
-	}
+	private FieldGroupFieldFactory defaultFieldGroupFieldFactory = new DefaultFieldGroupFieldFactory();
 
 	@Override
 	public <T extends Field> T createField(Class<?> dataType, Class<T> fieldType)

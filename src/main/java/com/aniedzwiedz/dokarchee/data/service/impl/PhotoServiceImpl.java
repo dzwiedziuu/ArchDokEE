@@ -21,34 +21,34 @@ public class PhotoServiceImpl implements PhotoService
 	@Override
 	public void add(Photo photo)
 	{
-		photoDao.addPhoto(photo);
+		photoDao.add(photo);
 	}
 
 	@Transactional
 	@Override
 	public void update(Photo photo)
 	{
-		photoDao.updatePhoto(photo);
+		photoDao.update(photo);
 	}
 
 	@Transactional
 	@Override
 	public void remove(Photo photo)
 	{
-		photoDao.removePhoto(photo);
+		photoDao.remove(photo);
 	}
 
 	@Transactional
 	@Override
 	public Photo find(Photo photo)
 	{
-		return photoDao.findPhoto(photo);
+		return photoDao.find(photo);
 	}
 
 	@Transactional
 	@Override
 	public List<Photo> getAll()
 	{
-		return photoDao.getAllPhotos();
+		return photoDao.getList(Photo.class);
 	}
 }

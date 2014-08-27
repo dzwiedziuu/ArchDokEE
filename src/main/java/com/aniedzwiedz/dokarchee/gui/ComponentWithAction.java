@@ -1,4 +1,6 @@
-package com.aniedzwiedz.dokarchee.logic.action;
+package com.aniedzwiedz.dokarchee.gui;
+
+import com.aniedzwiedz.dokarchee.logic.action.Action;
 
 public class ComponentWithAction<T>
 {

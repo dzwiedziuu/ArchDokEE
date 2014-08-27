@@ -1,8 +1,8 @@
 package com.aniedzwiedz.dokarchee.gui.form.fields;
 
+import com.aniedzwiedz.dokarchee.data.model.utils.ModelUtils;
 import com.aniedzwiedz.dokarchee.gui.view.ActionTaker;
-import com.aniedzwiedz.dokarchee.logic.action.ShowEditView;
-import com.aniedzwiedz.dokarchee.logic.action.ShowPrevView;
+import com.aniedzwiedz.dokarchee.logic.action.pojo.ShowListObjectView;
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
@@ -21,56 +21,19 @@ public class ForeignField<T> extends CustomField<T> implements ActiveComponent
 	private HorizontalLayout horizontalLayout;
 	private ComboBox comboBox;
 	private Button button;
-
 	private ActionTaker parentActionTaker;
+	private ForeignFieldListener foreignFieldListener = new ForeignFieldListener();
 
 	public ForeignField(Class<T> classObj)
 	{
 		this.classObj = classObj;
 		horizontalLayout = new HorizontalLayout();
 		comboBox = new ComboBox();
+		comboBox.addValueChangeListener(foreignFieldListener);
 		button = new Button("D");
 		horizontalLayout.addComponent(comboBox);
 		horizontalLayout.addComponent(button);
-		button.addClickListener(new MuButtonClickListener());
-	}
-
-	private class MuButtonClickListener implements ClickListener
-	{
-		private Button button2;
-		private Button button;
-
-		@Override
-		public void buttonClick(ClickEvent event)
-		{
-			if (event.getButton() == ForeignField.this.button || event.getButton() == button)
-			{
-				// Window window = new Window();
-				// VerticalLayout verticalLayout = new VerticalLayout();
-				// verticalLayout.addComponent(new Label("tst"));
-				// button = new Button("button");
-				// button.addClickListener(this);
-				// button2 = new Button("close");
-				// button2.addClickListener(this);
-				// horizontalLayout.addComponent(button2);
-				// verticalLayout.addComponent(button);
-				// window.setContent(verticalLayout);
-				// window.center();
-				// window.setModal(true);
-				// UI.getCurrent().addWindow(window);
-				parentActionTaker.takeAction(new ShowEditView<>());
-			} else
-			{
-				try
-				{
-					T t = classObj.newInstance();
-					parentActionTaker.takeAction(new ShowPrevView());
-				} catch (InstantiationException | IllegalAccessException e)
-				{
-					e.printStackTrace();
-				}
-			}
-		}
+		button.addClickListener(foreignFieldListener);
 	}
 
 	public Item addItem(Object itemId)
@@ -91,7 +54,22 @@ public class ForeignField<T> extends CustomField<T> implements ActiveComponent
 	@Override
 	public void setPropertyDataSource(Property newDataSource)
 	{
+		T t = (T) newDataSource.getValue();
+		Container container = comboBox.getContainerDataSource();
+		for (Object item : container.getItemIds())
+		{
+			T itemPojoObject = (T) item;
+			if (ModelUtils.equals(t, itemPojoObject))
+				newDataSource.setValue(itemPojoObject);
+		}
+		comboBox.setPropertyDataSource(newDataSource);
 		super.setPropertyDataSource(newDataSource);
+	}
+
+	@Override
+	public Property getPropertyDataSource()
+	{
+		return comboBox.getPropertyDataSource();
 	}
 
 	@Override
@@ -110,5 +88,21 @@ public class ForeignField<T> extends CustomField<T> implements ActiveComponent
 	public void setParentActionTaker(ActionTaker actionTaker)
 	{
 		this.parentActionTaker = actionTaker;
+	}
+
+	private class ForeignFieldListener implements ValueChangeListener, ClickListener
+	{
+
+		@Override
+		public void buttonClick(ClickEvent event)
+		{
+			parentActionTaker.takeAction(new ShowListObjectView(classObj));
+		}
+
+		@Override
+		public void valueChange(Property.ValueChangeEvent event)
+		{
+			setValue((T) event.getProperty().getValue());
+		}
 	}
 }

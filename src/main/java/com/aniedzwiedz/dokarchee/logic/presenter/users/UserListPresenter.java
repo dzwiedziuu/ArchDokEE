@@ -5,10 +5,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.aniedzwiedz.dokarchee.data.model.User;
-import com.aniedzwiedz.dokarchee.data.service.PojoService;
 import com.aniedzwiedz.dokarchee.data.service.UserService;
-import com.aniedzwiedz.dokarchee.logic.action.Action;
-import com.aniedzwiedz.dokarchee.logic.presenter.AbstractPresenter;
 import com.aniedzwiedz.dokarchee.logic.presenter.PojoListPresenter;
 
 @Component
@@ -20,35 +17,10 @@ public class UserListPresenter extends PojoListPresenter<User>
 	}
 
 	@Autowired
-	private UserService pojoService;
-
-	@Autowired
-	private UserListView pojoListView;
-
-	@Autowired
-	private UserEditPresenter pojoEditPresenter;
-
-	@Override
-	protected void setPojoListView(PojoListView<User> pojoListView)
+	public UserListPresenter(UserListView pojoListView, UserService pojoService, UserEditPresenter pojoEditPresenter)
 	{
-		this.pojoListView = (UserListView) pojoListView;
-	}
-
-	@Override
-	protected PojoListView<User> getPojoListView()
-	{
-		return pojoListView;
-	}
-
-	@Override
-	public PojoService<User> getPojoService()
-	{
-		return pojoService;
-	}
-
-	@Override
-	public AbstractPresenter getNextPresenter(Action action)
-	{
-		return pojoEditPresenter;
+		setPojoListView(pojoListView);
+		setPojoService(pojoService);
+		setNextPresenter(pojoEditPresenter);
 	}
 }
