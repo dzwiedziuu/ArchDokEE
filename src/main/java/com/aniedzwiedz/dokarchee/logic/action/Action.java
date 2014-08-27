@@ -9,12 +9,11 @@ public abstract class Action
 {
 	private AbstractView currentView;
 	private AbstractPresenter currentPresenter;
-	private PreAction immidiateAction;
+	private PreAction immidiateAction = new BlankPreAction();
 
-	public Action(AbstractView abstractView)
+	public void setCurrentView(AbstractView currentView)
 	{
-		this.currentView = abstractView;
-		this.immidiateAction = new BlankPreAction(abstractView);
+		this.currentView = currentView;
 	}
 
 	protected AbstractView getSenderView()

@@ -32,9 +32,9 @@ public class DokarcheeFieldFactory implements FieldGroupFieldFactory
 		return defaultFieldGroupFieldFactory.createField(dataType, fieldType);
 	}
 
-	private <T> ForeignField createForeignField(Class<T> dataType)
+	private <T> ForeignField<T> createForeignField(Class<T> dataType)
 	{
-		ForeignField foreignField = new ForeignField();
+		ForeignField<T> foreignField = new ForeignField<>(dataType);
 		foreignField.setContainerDataSource(new BeanItemContainer<T>(dataType));
 		List<ItemCaptionPart> itemCaptionPars = ModelEntityLabelUtils.getItemCaptionPartList(dataType);
 		List<?> objectList = generalService.getList(dataType);

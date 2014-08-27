@@ -3,11 +3,10 @@ package com.aniedzwiedz.dokarchee.logic.presenter;
 import java.util.List;
 
 import com.aniedzwiedz.dokarchee.gui.view.AbstractView;
-import com.aniedzwiedz.dokarchee.gui.view.NamedView;
 
 public abstract class PojoListPresenter<T> extends PojoPresenter<T>
 {
-	public interface PojoListView<T> extends NamedView
+	public interface PojoListView<T> extends AbstractView
 	{
 		public void setList(List<T> list);
 	}
@@ -23,7 +22,7 @@ public abstract class PojoListPresenter<T> extends PojoPresenter<T>
 	}
 
 	@Override
-	public NamedView getAbstractView()
+	public AbstractView getAbstractView()
 	{
 		return getPojoListView();
 	}

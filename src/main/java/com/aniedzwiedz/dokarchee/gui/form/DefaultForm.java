@@ -11,9 +11,12 @@ import org.springframework.stereotype.Component;
 import com.aniedzwiedz.dokarchee.data.service.GeneralService;
 import com.aniedzwiedz.dokarchee.gui.annotations.EditField;
 import com.aniedzwiedz.dokarchee.gui.form.error.ErrorUtils;
+import com.aniedzwiedz.dokarchee.gui.form.fields.ActiveComponent;
 import com.aniedzwiedz.dokarchee.gui.form.fields.ForeignField;
+import com.aniedzwiedz.dokarchee.gui.view.ActionTaker;
 import com.aniedzwiedz.dokarchee.logic.action.Action;
-import com.aniedzwiedz.dokarchee.logic.action.PojoAction;
+import com.aniedzwiedz.dokarchee.logic.action.SaveObject;
+import com.aniedzwiedz.dokarchee.logic.action.ShowPrevView;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitEvent;
@@ -32,7 +35,7 @@ import com.vaadin.ui.VerticalLayout;
 
 @Component
 @Scope("prototype")
-public class DefaultForm<T> extends Panel implements CommitHandler, ClickListener
+public class DefaultForm<T> extends Panel implements CommitHandler, ClickListener, ActionTaker, ActiveComponent
 {
 	private static final long serialVersionUID = -823980725960033248L;
 	private BeanFieldGroup<T> beanFieldGroup;
@@ -40,12 +43,11 @@ public class DefaultForm<T> extends Panel implements CommitHandler, ClickListene
 	private Button saveButton;
 	private Button discardButton;
 
-	private Action saveAction;
-	private Action discardAction;
 	private HorizontalLayout buttonLayout;
 
 	@Autowired
 	private GeneralService generalService;
+	private ActionTaker parentActionTaker;
 
 	public DefaultForm()
 	{
@@ -54,20 +56,15 @@ public class DefaultForm<T> extends Panel implements CommitHandler, ClickListene
 
 		buttonLayout = new HorizontalLayout();
 		saveButton = new Button("Zapisz", this);
-		discardButton = new Button("Wróc", this);
+		discardButton = new Button("Wroc", this);
 		buttonLayout.addComponent(saveButton);
 		buttonLayout.addComponent(discardButton);
 		setContent(vertiralLayout);
 	}
 
-	public void setSaveAction(Action action)
+	public void setParentActionTaker(ActionTaker parentActionTaker)
 	{
-		this.saveAction = action;
-	}
-
-	public void setDiscardAction(Action action)
-	{
-		this.discardAction = action;
+		this.parentActionTaker = parentActionTaker;
 	}
 
 	public void setObject(T pojoObject)
@@ -99,6 +96,9 @@ public class DefaultForm<T> extends Panel implements CommitHandler, ClickListene
 				TextField textField = (TextField) f;
 				if (textField.getPropertyDataSource().getValue() == null)
 					textField.setValue("");
+			} else if (f instanceof ActiveComponent)
+			{
+				((ActiveComponent) f).setParentActionTaker(this);
 			}
 			f.addValidator(new BeanValidator(classObj, af.getField().getName()));
 			vertiralLayout.addComponent(f);
@@ -118,9 +118,9 @@ public class DefaultForm<T> extends Panel implements CommitHandler, ClickListene
 		FieldGroup fieldGroup = commitEvent.getFieldBinder();
 		BeanItem<T> bi = (BeanItem<T>) fieldGroup.getItemDataSource();
 		T t = bi.getBean();
-		if (saveAction instanceof PojoAction)
-			((PojoAction<T>) saveAction).setPojoObject(t);
-		saveAction.getPreAction().doPreAction(saveAction);
+		SaveObject<T> saveObject = new SaveObject<>();
+		saveObject.setPojoObject(t);
+		takeAction(saveObject);
 	}
 
 	@Override
@@ -129,7 +129,7 @@ public class DefaultForm<T> extends Panel implements CommitHandler, ClickListene
 		if (event.getButton() == discardButton)
 		{
 			beanFieldGroup.discard();
-			discardAction.getPreAction().doPreAction(discardAction);
+			takeAction(new ShowPrevView());
 		} else if (event.getButton() == saveButton)
 		{
 			try
@@ -141,5 +141,11 @@ public class DefaultForm<T> extends Panel implements CommitHandler, ClickListene
 				ErrorUtils.showComponentErrors(beanFieldGroup.getFields());
 			}
 		}
+	}
+
+	@Override
+	public void takeAction(Action action)
+	{
+		parentActionTaker.takeAction(action);
 	}
 }

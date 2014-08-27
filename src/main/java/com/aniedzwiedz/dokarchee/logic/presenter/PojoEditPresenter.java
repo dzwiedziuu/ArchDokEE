@@ -1,12 +1,11 @@
 package com.aniedzwiedz.dokarchee.logic.presenter;
 
 import com.aniedzwiedz.dokarchee.gui.view.AbstractView;
-import com.aniedzwiedz.dokarchee.gui.view.NamedView;
 import com.aniedzwiedz.dokarchee.logic.action.Action;
 
 public abstract class PojoEditPresenter<T> extends PojoPresenter<T>
 {
-	public interface PojoEditView<T> extends NamedView
+	public interface PojoEditView<T> extends AbstractView
 	{
 		void setPojoObject(T t);
 	}
@@ -18,7 +17,7 @@ public abstract class PojoEditPresenter<T> extends PojoPresenter<T>
 	protected abstract void setPojoEditView(PojoEditView<T> namedView);
 
 	@Override
-	public NamedView getAbstractView()
+	public AbstractView getAbstractView()
 	{
 		return getPojoEditView();
 	}

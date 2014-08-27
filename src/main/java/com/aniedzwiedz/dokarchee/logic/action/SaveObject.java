@@ -7,12 +7,13 @@ import com.aniedzwiedz.dokarchee.logic.presenter.PojoPresenter;
 
 public class SaveObject<T> extends PojoAction<T>
 {
-	private ShowPrevView showPrevView;
+	private ShowPrevView showPrevView = new ShowPrevView();
 
-	public SaveObject(AbstractView abstractView)
+	@Override
+	public void setCurrentView(AbstractView currentView)
 	{
-		super(abstractView);
-		showPrevView = new ShowPrevView(abstractView);
+		super.setCurrentView(currentView);
+		showPrevView.setCurrentView(currentView);
 	}
 
 	@Override

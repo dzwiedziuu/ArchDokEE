@@ -1,14 +1,12 @@
 package com.aniedzwiedz.dokarchee.logic.action;
 
-import com.aniedzwiedz.dokarchee.gui.view.AbstractView;
 
 public class ShowNewObjectView<T> extends ShowEditView<T>
 {
 	private T blankObject;
 
-	public ShowNewObjectView(AbstractView abstractView, T blankObject)
+	public ShowNewObjectView(T blankObject)
 	{
-		super(abstractView);
 		this.blankObject = blankObject;
 	}
 

@@ -6,12 +6,13 @@ import com.aniedzwiedz.dokarchee.logic.presenter.PojoEditPresenter;
 
 public class ShowEditView<T> extends PojoAction<T>
 {
-	private ShowNextView showNextView;
+	private ShowNextView showNextView = new ShowNextView(true);
 
-	public ShowEditView(AbstractView abstractView)
+	@Override
+	public void setCurrentView(AbstractView currentView)
 	{
-		super(abstractView);
-		showNextView = new ShowNextView(abstractView);
+		super.setCurrentView(currentView);
+		showNextView.setCurrentView(currentView);
 	}
 
 	@Override

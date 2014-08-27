@@ -15,12 +15,14 @@ import org.vaadin.peter.contextmenu.ContextMenu.ContextMenuItemClickListener;
 
 import com.aniedzwiedz.dokarchee.gui.annotations.ColumnHeader;
 import com.aniedzwiedz.dokarchee.gui.annotations.ForeignFieldLabel;
+import com.aniedzwiedz.dokarchee.gui.form.fields.ActiveComponent;
 import com.aniedzwiedz.dokarchee.gui.form.fields.ForeignFieldColumnGenerator;
 import com.aniedzwiedz.dokarchee.gui.table.contextMenu.MyContextMenu;
 import com.aniedzwiedz.dokarchee.gui.table.contextMenu.MyContextMenu.MyContextMenuOpenedOnTableFooterEvent;
 import com.aniedzwiedz.dokarchee.gui.table.contextMenu.MyContextMenu.MyContextMenuOpenedOnTableHeaderEvent;
 import com.aniedzwiedz.dokarchee.gui.table.contextMenu.MyContextMenu.MyContextMenuOpenedOnTableRowEvent;
 import com.aniedzwiedz.dokarchee.gui.table.contextMenu.MyContextMenu.MyTableListener;
+import com.aniedzwiedz.dokarchee.gui.view.ActionTaker;
 import com.aniedzwiedz.dokarchee.logic.action.Action;
 import com.aniedzwiedz.dokarchee.logic.action.ComponentWithAction;
 import com.aniedzwiedz.dokarchee.logic.action.PojoAction;
@@ -36,7 +38,7 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.VerticalLayout;
 
-public class CRUDTable<T> extends VerticalLayout
+public class CRUDTable<T> extends VerticalLayout implements ActiveComponent
 {
 	private static final long serialVersionUID = 1371883572521815469L;
 
@@ -54,6 +56,8 @@ public class CRUDTable<T> extends VerticalLayout
 	private Map<Object, T> contentMap;
 
 	private Class<T> classObj;
+
+	private ActionTaker parentActionTaker;
 
 	public CRUDTable(Class<T> classObj)
 	{
@@ -163,7 +167,7 @@ public class CRUDTable<T> extends VerticalLayout
 			}
 			((PojoAction<T>) action).setPojoObject((T) itemId);
 		}
-		action.getPreAction().doPreAction(action);
+		action.getPreAction().doPreAction(action, parentActionTaker);
 	}
 
 	public void setData(List<T> list)
@@ -209,5 +213,11 @@ public class CRUDTable<T> extends VerticalLayout
 		for (T t : list)
 			beanItemContainer.addBean(t);
 		return beanItemContainer;
+	}
+
+	@Override
+	public void setParentActionTaker(ActionTaker actionTaker)
+	{
+		this.parentActionTaker = actionTaker;
 	}
 }

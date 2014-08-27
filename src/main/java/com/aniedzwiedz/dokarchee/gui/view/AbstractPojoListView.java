@@ -13,21 +13,18 @@ import com.aniedzwiedz.dokarchee.logic.action.preAction.BlankPreAction;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
-public abstract class AbstractPojoListView<T> extends AbstractView
+public abstract class AbstractPojoListView<T> extends AbstractViewImpl
 {
 	public static class Confirm extends BlankPreAction implements org.vaadin.dialogs.ConfirmDialog.Listener
 	{
 		private Action action;
-
-		public Confirm(AbstractView sender)
-		{
-			super(sender);
-		}
+		private ActionTaker actionTaker;
 
 		@Override
-		public void doPreAction(Action action)
+		public void doPreAction(Action action, ActionTaker actionTaker)
 		{
 			this.action = action;
+			this.actionTaker = actionTaker;
 			ConfirmDialog confirmDialog = ConfirmDialog.getFactory().create("Uwaga", "Na pewno chcesz skasowac ten rekord?", "TAK", "NIE",
 					null);
 			confirmDialog.setWidth(400.0f, Unit.PIXELS);
@@ -38,7 +35,7 @@ public abstract class AbstractPojoListView<T> extends AbstractView
 		public void onClose(ConfirmDialog dialog)
 		{
 			if (dialog.isConfirmed())
-				super.doPreAction(action);
+				super.doPreAction(action, actionTaker);
 		}
 	}
 
@@ -56,6 +53,7 @@ public abstract class AbstractPojoListView<T> extends AbstractView
 	protected CRUDTable<T> createStandardCRUDTable(List<T> userList)
 	{
 		CRUDTable<T> crudTable = new CRUDTable<>(classObj);
+		crudTable.setParentActionTaker(this);
 		T blankObj;
 		try
 		{
@@ -67,15 +65,15 @@ public abstract class AbstractPojoListView<T> extends AbstractView
 			return crudTable;
 		}
 
-		crudTable.addContextMenuItem("Add", new ShowNewObjectView<T>(this, blankObj));
-		crudTable.addContextMenuItem("Edit", new ShowEditView<T>(this));
-		crudTable.addContextMenuItem("Remove", new RemoveRecord<T>(this, new AbstractPojoListView.Confirm(this)));
+		crudTable.addContextMenuItem("Add", new ShowNewObjectView<T>(blankObj));
+		crudTable.addContextMenuItem("Edit", new ShowEditView<T>());
+		crudTable.addContextMenuItem("Remove", new RemoveRecord<T>(new AbstractPojoListView.Confirm()));
 
-		crudTable.addButton("Dodaj", new ShowNewObjectView<T>(this, blankObj));
-		crudTable.addButton("Edytuj", new ShowEditView<T>(this));
-		crudTable.addButton("Usun", new RemoveRecord<T>(this, new AbstractPojoListView.Confirm(this)));
+		crudTable.addButton("Dodaj", new ShowNewObjectView<T>(blankObj));
+		crudTable.addButton("Edytuj", new ShowEditView<T>());
+		crudTable.addButton("Usun", new RemoveRecord<T>(new AbstractPojoListView.Confirm()));
 
-		crudTable.setDoubleClickAction(new ShowEditView<T>(this));
+		crudTable.setDoubleClickAction(new ShowEditView<T>());
 
 		crudTable.setData(userList);
 		return crudTable;

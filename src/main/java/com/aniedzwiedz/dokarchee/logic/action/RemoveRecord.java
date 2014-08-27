@@ -9,18 +9,24 @@ import com.aniedzwiedz.dokarchee.logic.presenter.PojoPresenter;
 
 public class RemoveRecord<T> extends PojoAction<T>
 {
-	private Refresh refresh;
+	private Refresh refresh = new Refresh();
 
-	public RemoveRecord(AbstractView sender)
+	public RemoveRecord()
 	{
-		this(sender, new BlankPreAction(sender));
+		this(new BlankPreAction());
 	}
 
-	public RemoveRecord(AbstractView sender, PreAction preAction)
+	public RemoveRecord(PreAction preAction)
 	{
-		super(sender);
 		setPreAction(preAction);
-		refresh = new Refresh(sender);
+	}
+
+	@Override
+	public void setCurrentView(AbstractView currentView)
+	{
+		// TODO Auto-generated method stub
+		super.setCurrentView(currentView);
+		refresh.setCurrentView(currentView);
 	}
 
 	@Override

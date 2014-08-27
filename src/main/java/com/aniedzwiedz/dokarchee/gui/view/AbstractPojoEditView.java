@@ -3,11 +3,9 @@ package com.aniedzwiedz.dokarchee.gui.view;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.aniedzwiedz.dokarchee.gui.form.DefaultForm;
-import com.aniedzwiedz.dokarchee.logic.action.SaveObject;
-import com.aniedzwiedz.dokarchee.logic.action.ShowPrevView;
 import com.vaadin.ui.VerticalLayout;
 
-public abstract class AbstractPojoEditView<T> extends AbstractView
+public abstract class AbstractPojoEditView<T> extends AbstractViewImpl
 {
 	@Autowired
 	private DefaultForm<T> defaultForm;
@@ -24,8 +22,7 @@ public abstract class AbstractPojoEditView<T> extends AbstractView
 	{
 		verticalLayout.removeAllComponents();
 		defaultForm.setObject(pojoObj);
-		defaultForm.setSaveAction(new SaveObject<>(this));
-		defaultForm.setDiscardAction(new ShowPrevView(this));
+		defaultForm.setParentActionTaker(this);
 		verticalLayout.addComponent(defaultForm);
 	}
 
