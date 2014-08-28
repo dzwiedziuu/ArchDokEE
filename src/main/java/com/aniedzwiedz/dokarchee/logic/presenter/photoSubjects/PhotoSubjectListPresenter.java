@@ -6,9 +6,7 @@ import org.springframework.stereotype.Component;
 
 import com.aniedzwiedz.dokarchee.data.model.PhotoSubject;
 import com.aniedzwiedz.dokarchee.data.service.PhotoSubjectService;
-import com.aniedzwiedz.dokarchee.data.service.PojoService;
-import com.aniedzwiedz.dokarchee.logic.action.Action;
-import com.aniedzwiedz.dokarchee.logic.presenter.AbstractPresenter;
+import com.aniedzwiedz.dokarchee.gui.view.photoSubjects.PhotoSubjectListViewImpl;
 import com.aniedzwiedz.dokarchee.logic.presenter.PojoListPresenter;
 
 @Component
@@ -20,36 +18,11 @@ public class PhotoSubjectListPresenter extends PojoListPresenter<PhotoSubject>
 	}
 
 	@Autowired
-	private PhotoSubjectService pojoService;
-
-	@Autowired
-	private PhotoSubjectListView pojoListView;
-
-	@Autowired
-	private PhotoSubjectEditPresenter pojoEditPresenter;
-
-	@Override
-	protected void setPojoListView(PojoListView<PhotoSubject> pojoListView)
+	public PhotoSubjectListPresenter(PhotoSubjectService pojoService, PhotoSubjectListView pojoListView,
+			PhotoSubjectListViewImpl pojoEditView)
 	{
-		this.pojoListView = (PhotoSubjectListView) pojoListView;
+		setPojoService(pojoService);
+		setPojoListView(pojoListView);
+		setPojoListView(pojoEditView);
 	}
-
-	@Override
-	protected PojoListView<PhotoSubject> getPojoListView()
-	{
-		return pojoListView;
-	}
-
-	@Override
-	public PojoService<PhotoSubject> getPojoService()
-	{
-		return pojoService;
-	}
-
-	@Override
-	public AbstractPresenter getNextPresenter(Action action)
-	{
-		return pojoEditPresenter;
-	}
-
 }

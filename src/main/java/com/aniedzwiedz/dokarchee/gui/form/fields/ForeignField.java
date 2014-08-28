@@ -1,8 +1,11 @@
 package com.aniedzwiedz.dokarchee.gui.form.fields;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.aniedzwiedz.dokarchee.data.model.utils.ModelEntityLabelUtils;
+import com.aniedzwiedz.dokarchee.data.model.utils.ModelEntityLabelUtils.ItemCaptionPart;
 import com.aniedzwiedz.dokarchee.data.model.utils.ModelUtils;
-import com.aniedzwiedz.dokarchee.gui.view.ActionTaker;
-import com.aniedzwiedz.dokarchee.logic.action.pojo.ShowListObjectView;
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
@@ -16,24 +19,56 @@ import com.vaadin.ui.HorizontalLayout;
 
 public class ForeignField<T> extends CustomField<T> implements ActiveComponent
 {
+	public interface ForeignFieldListener
+	{
+		void dictionaryOpened(ForeignFieldEvent foreignFieldEvent);
+	}
+
+	public static class ForeignFieldEvent
+	{
+		private ForeignField<?> foreignField;
+
+		public ForeignFieldEvent(ForeignField<?> foreignField)
+		{
+			this.foreignField = foreignField;
+		}
+
+		public ForeignField<?> getForeignField()
+		{
+			return foreignField;
+		}
+	}
+
+	private List<ForeignFieldListener> foreignFieldListeners = new ArrayList<>();
+
+	public void addForeignFieldListener(ForeignFieldListener foreignFieldListener)
+	{
+		foreignFieldListeners.add(foreignFieldListener);
+	}
+
 	private Class<T> classObj;
 
 	private HorizontalLayout horizontalLayout;
 	private ComboBox comboBox;
 	private Button button;
-	private ActionTaker parentActionTaker;
-	private ForeignFieldListener foreignFieldListener = new ForeignFieldListener();
+	private ForeignFieldActionListener foreignFieldActionListener = new ForeignFieldActionListener();
 
 	public ForeignField(Class<T> classObj)
 	{
 		this.classObj = classObj;
 		horizontalLayout = new HorizontalLayout();
 		comboBox = new ComboBox();
-		comboBox.addValueChangeListener(foreignFieldListener);
+		comboBox.addValueChangeListener(foreignFieldActionListener);
 		button = new Button("D");
 		horizontalLayout.addComponent(comboBox);
 		horizontalLayout.addComponent(button);
-		button.addClickListener(foreignFieldListener);
+		button.addClickListener(foreignFieldActionListener);
+	}
+
+	@Override
+	public void addValueChangeListener(com.vaadin.data.Property.ValueChangeListener listener)
+	{
+		comboBox.addValueChangeListener(listener);
 	}
 
 	public Item addItem(Object itemId)
@@ -84,19 +119,24 @@ public class ForeignField<T> extends CustomField<T> implements ActiveComponent
 		return classObj;
 	}
 
-	@Override
-	public void setParentActionTaker(ActionTaker actionTaker)
+	public void setData(List<T> list, List<ItemCaptionPart> itemCaptionPars)
 	{
-		this.parentActionTaker = actionTaker;
+		for (Object t : list)
+		{
+			Item item = addItem(t);
+			if (itemCaptionPars != null)
+				setItemCaption(t, ModelEntityLabelUtils.getItemCaption(item, itemCaptionPars));
+		}
 	}
 
-	private class ForeignFieldListener implements ValueChangeListener, ClickListener
+	private class ForeignFieldActionListener implements ValueChangeListener, ClickListener
 	{
 
 		@Override
 		public void buttonClick(ClickEvent event)
 		{
-			parentActionTaker.takeAction(new ShowListObjectView(classObj));
+			for (ForeignFieldListener foreignFieldListener : foreignFieldListeners)
+				foreignFieldListener.dictionaryOpened(new ForeignFieldEvent(ForeignField.this));
 		}
 
 		@Override

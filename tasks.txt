@@ -2,5 +2,5 @@
 -null pointer exception while refreshing editView
 -filter on table (foreignField and others probably)
 -many to many relationship
--order of display in table
+-display manyTo* in table
 -double indicator in foreignField?

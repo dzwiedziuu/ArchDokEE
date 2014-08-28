@@ -1,11 +1,16 @@
 package com.aniedzwiedz.dokarchee.logic.presenter;
 
+import com.aniedzwiedz.dokarchee.gui.form.DefaultForm.FormEvent;
+import com.aniedzwiedz.dokarchee.gui.form.fields.ForeignField.ForeignFieldEvent;
+import com.aniedzwiedz.dokarchee.gui.table.CRUDTable.TableEvent;
+import com.aniedzwiedz.dokarchee.gui.view.AbstractEditView;
+import com.aniedzwiedz.dokarchee.gui.view.AbstractEditView.EditViewListener;
 import com.aniedzwiedz.dokarchee.gui.view.AbstractView;
-import com.aniedzwiedz.dokarchee.logic.action.Action;
+import com.aniedzwiedz.dokarchee.gui.view.AbstractView.ViewEvent;
 
-public abstract class PojoEditPresenter<T> extends PojoPresenter<T>
+public abstract class PojoEditPresenter<T> extends PojoPresenter<T> implements EditViewListener<T>
 {
-	public interface PojoEditView<T> extends AbstractView
+	public interface PojoEditView<T> extends AbstractEditView<T>
 	{
 		void setPojoObject(T t);
 	}
@@ -13,32 +18,16 @@ public abstract class PojoEditPresenter<T> extends PojoPresenter<T>
 	private T pojoObject;
 	private PojoEditView<T> pojoEditView;
 
-	// protected abstract PojoEditView<T> getPojoEditView();
-
-	// protected abstract void setPojoEditView(PojoEditView<T> namedView);
-
 	@Override
 	public AbstractView getAbstractView()
 	{
-		return getPojoEditView();
+		return pojoEditView;
 	}
 
 	@Override
 	public void setView(AbstractView namedView)
 	{
 		setPojoEditView((PojoEditView<T>) namedView);
-	}
-
-	@Override
-	public void refreshView()
-	{
-		getPojoEditView().setPojoObject(pojoObject);
-	}
-
-	@Override
-	public AbstractPresenter getNextPresenter(Action action)
-	{
-		return null;
 	}
 
 	public void setPojoObject(T pojoObject)
@@ -54,5 +43,72 @@ public abstract class PojoEditPresenter<T> extends PojoPresenter<T>
 	protected void setPojoEditView(PojoEditView<T> namedView)
 	{
 		this.pojoEditView = namedView;
+		pojoEditView.addEditViewListener(this);
+		pojoEditView.addViewListener(this);
+	}
+
+	@Override
+	public void dictionaryOpened(ForeignFieldEvent foreignFieldEvent)
+	{
+		Class<?> ffType = foreignFieldEvent.getForeignField().getType();
+		AbstractPresenter abstractPresenter = getDictionaryPresenter(ffType);
+		goToNextView(abstractPresenter);
+	}
+
+	protected abstract AbstractPresenter getDictionaryPresenter(Class<?> ffType);
+
+	@Override
+	public void addItem(TableEvent crudTableEvent)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void editItem(TableEvent crudTableEvent)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void removeItem(TableEvent crudTableEvent)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void doubleClickedItem(TableEvent crudTableEvent)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void selectedItem(TableEvent event)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void saveButtonClicked(FormEvent<T> formEvent)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void discardButtonClicked(FormEvent<T> formEvent)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void initializeView(ViewEvent viewEvent)
+	{
+		pojoEditView.setPojoObject(pojoObject);
 	}
 }

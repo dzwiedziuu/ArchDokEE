@@ -1,19 +1,11 @@
 package com.aniedzwiedz.dokarchee.logic.presenter;
 
 import com.aniedzwiedz.dokarchee.gui.view.AbstractView;
-import com.aniedzwiedz.dokarchee.gui.view.ActionTaker;
-import com.aniedzwiedz.dokarchee.logic.action.Action;
 
-public abstract class AbstractPresenter implements ActionTaker
+public abstract class AbstractPresenter implements AbstractView.ViewListener
 {
 	private AbstractPresenter parentPresenter;
-	private boolean presentsWindow = false;
-
-	@Override
-	public void takeAction(Action action)
-	{
-		action.performAction();
-	}
+	private boolean presentsInWindow = false;
 
 	public AbstractPresenter getParentPresenter()
 	{
@@ -25,22 +17,25 @@ public abstract class AbstractPresenter implements ActionTaker
 		this.parentPresenter = parentPresenter;
 	}
 
-	public boolean isPresentsWindow()
+	public void setPresentsInWindow(boolean presentsWindow)
 	{
-		return presentsWindow;
-	}
-
-	public void setPresentsWindow(boolean presentsWindow)
-	{
-		this.presentsWindow = presentsWindow;
+		this.presentsInWindow = presentsWindow;
 	}
 
 	public abstract AbstractView getAbstractView();
 
 	public abstract void setView(AbstractView abstractView);
 
-	public abstract void refreshView();
-
-	public abstract AbstractPresenter getNextPresenter(Action action);
-
+	protected void goToNextView(AbstractPresenter abstractPresenter)
+	{
+		AbstractView abstractView = abstractPresenter.getAbstractView();
+		abstractPresenter.setParentPresenter(this);
+		if (abstractPresenter.presentsInWindow == false)
+			getAbstractView().switchViewTo(abstractView);
+		else
+		{
+			abstractPresenter.presentsInWindow = true;
+			getAbstractView().openInNewWindow(abstractView);
+		}
+	}
 }

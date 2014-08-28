@@ -1,24 +1,28 @@
 package com.aniedzwiedz.dokarchee.gui.form;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
-import com.aniedzwiedz.dokarchee.gui.ComponentWithAction;
 import com.aniedzwiedz.dokarchee.gui.annotations.EditField;
 import com.aniedzwiedz.dokarchee.gui.form.error.ErrorUtils;
 import com.aniedzwiedz.dokarchee.gui.form.fields.ActiveComponent;
 import com.aniedzwiedz.dokarchee.gui.form.fields.ForeignField;
-import com.aniedzwiedz.dokarchee.gui.view.ActionTaker;
-import com.aniedzwiedz.dokarchee.logic.action.Action;
-import com.aniedzwiedz.dokarchee.logic.action.pojo.PojoAction;
+import com.aniedzwiedz.dokarchee.gui.form.fields.ForeignField.ForeignFieldEvent;
+import com.aniedzwiedz.dokarchee.gui.form.fields.ForeignField.ForeignFieldListener;
+import com.aniedzwiedz.dokarchee.gui.table.CRUDTable;
+import com.aniedzwiedz.dokarchee.gui.table.CRUDTable.CRUDTableListener;
+import com.aniedzwiedz.dokarchee.gui.table.CRUDTable.TableEvent;
+import com.aniedzwiedz.dokarchee.logic.action.event.PojoEvent;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitEvent;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitHandler;
-import com.vaadin.data.fieldgroup.FieldGroupFieldFactory;
 import com.vaadin.data.validator.BeanValidator;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -28,72 +32,77 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
-public class DefaultForm<T> extends Panel implements CommitHandler, ActionTaker, ActiveComponent
+public class DefaultForm<T> extends Panel implements ActiveComponent
 {
-	private static final long serialVersionUID = -823980725960033248L;
+	public interface FormListener<T>
+	{
+		void saveButtonClicked(FormEvent<T> formEvent);
+
+		void discardButtonClicked(FormEvent<T> formEvent);
+	}
+
+	public static class FormEvent<T1> extends PojoEvent<T1>
+	{
+	}
+
+	public interface FormFieldListener extends ForeignFieldListener, CRUDTableListener
+	{
+	}
+
 	private BeanFieldGroup<T> beanFieldGroup;
-	private FieldGroupFieldFactory fieldGroupFieldFactory;
+	private ExtendedFieldGroupFieldFactory fieldGroupFieldFactory;
 	private VerticalLayout vertiralLayout;
 	private HorizontalLayout buttonPanel;
 
-	private ActionTaker parentActionTaker;
-	private ActionListener actionListener;
 	private FormActionListener formActionListener;
+	private ActiveFieldListener fieldListener;
 
-	private List<ComponentWithAction<Button>> buttons;
-	private ComponentWithAction<Button> saveActionButton;
-	private ComponentWithAction<Button> discardActionButton;
+	private Button saveActionButton;
+	private Button discardActionButton;
+
+	private List<FormListener<T>> formListeners = new ArrayList<>();
+	private List<FormFieldListener> formFieldListeners = new ArrayList<>();
 
 	public DefaultForm()
 	{
-		actionListener = new ActionListener();
 		formActionListener = new FormActionListener();
+		fieldListener = new ActiveFieldListener();
 		vertiralLayout = new VerticalLayout();
 		buttonPanel = new HorizontalLayout();
-		buttons = new ArrayList<>();
 		setContent(vertiralLayout);
 		setSizeFull();
 	}
 
-	public void addSaveActionButton(Button button, Action action)
+	public void addFormListener(FormListener<T> formListener)
 	{
-		this.saveActionButton = new ComponentWithAction<>(button, action);
+		formListeners.add(formListener);
+	}
+
+	public void addFormFieldListener(FormFieldListener formFieldListener)
+	{
+		formFieldListeners.add(formFieldListener);
+	}
+
+	public void addSaveActionButton(Button button)
+	{
+		this.saveActionButton = button;
 		button.addClickListener(formActionListener);
 		buttonPanel.addComponent(button);
 	}
 
-	public void addDiscardActionButton(Button button, Action action)
+	public void addDiscardActionButton(Button button)
 	{
-		this.discardActionButton = new ComponentWithAction<>(button, action);
+		this.discardActionButton = button;
 		button.addClickListener(formActionListener);
 		buttonPanel.addComponent(button);
 	}
 
-	public void addButton(Button button, Action action)
+	public void addButton(Button button)
 	{
-		ComponentWithAction<Button> componentWithAction = new ComponentWithAction<>(button, action);
-		button.addClickListener(actionListener);
-		buttons.add(componentWithAction);
 		buttonPanel.addComponent(button);
 	}
 
-	public void setParentActionTaker(ActionTaker parentActionTaker)
-	{
-		this.parentActionTaker = parentActionTaker;
-	}
-
-	@Override
-	public void takeAction(Action action)
-	{
-		if (action instanceof PojoAction)
-		{
-			T pojoObject = beanFieldGroup.getItemDataSource().getBean();
-			((PojoAction<T>) action).setPojoObject(pojoObject);
-		}
-		parentActionTaker.takeAction(action);
-	}
-
-	public void setFieldGroupFieldFactory(FieldGroupFieldFactory fieldGroupFieldFactory)
+	public void setFieldGroupFieldFactory(ExtendedFieldGroupFieldFactory fieldGroupFieldFactory)
 	{
 		this.fieldGroupFieldFactory = fieldGroupFieldFactory;
 	}
@@ -107,7 +116,7 @@ public class DefaultForm<T> extends Panel implements CommitHandler, ActionTaker,
 		beanFieldGroup.setItemDataSource(pojoObject);
 		beanFieldGroup.setFieldFactory(fieldGroupFieldFactory);
 		// setObject(pojoObject);
-		beanFieldGroup.addCommitHandler(this);
+		beanFieldGroup.addCommitHandler(formActionListener);
 		TreeMap<Integer, AnnotatedField> map = new TreeMap<>();
 		for (java.lang.reflect.Field reflectField : classObj.getDeclaredFields())
 			if (reflectField.isAnnotationPresent(EditField.class))
@@ -119,48 +128,51 @@ public class DefaultForm<T> extends Panel implements CommitHandler, ActionTaker,
 		for (AnnotatedField af : map.values())
 		{
 			Class<? extends Field> cl = Field.class;
-			if (af.getField().isAnnotationPresent(ManyToOne.class))
-				cl = ForeignField.class;
-			// else if (af.getField().isAnnotationPresent(OneToMany.class))
-			// cl = CRUDTable.class;
-			// else if (af.getField().isAnnotationPresent(ManyToMany.class))
-			// cl = CRUDTable.class;
-			Field<?> f = beanFieldGroup.buildAndBind(af.getEditField().label(), af.getField().getName(), cl);
-			if (f instanceof TextField)
+			Field<?> field = null;
+			boolean manyToMany = af.getField().isAnnotationPresent(ManyToMany.class);
+			boolean manyToOne = af.getField().isAnnotationPresent(OneToMany.class);
+			if (manyToOne || manyToMany)
 			{
-				TextField textField = (TextField) f;
+				Class<?> genericType = (Class<?>) ((ParameterizedType) af.getField().getGenericType()).getActualTypeArguments()[0];
+				field = fieldGroupFieldFactory.createTableField(genericType, manyToMany);
+				field.setCaption(af.getEditField().label());
+				beanFieldGroup.bind(field, af.getField().getName());
+				// cl = CRUDTable.class;
+			} else
+			{
+				if (af.getField().isAnnotationPresent(ManyToOne.class))
+					cl = ForeignField.class;
+				field = beanFieldGroup.buildAndBind(af.getEditField().label(), af.getField().getName(), cl);
+				field.addValidator(new BeanValidator(classObj, af.getField().getName()));
+			}
+			if (field instanceof TextField)
+			{
+				TextField textField = (TextField) field;
 				if (textField.getPropertyDataSource().getValue() == null)
 					textField.setValue("");
-			} else if (f instanceof ActiveComponent)
-				((ActiveComponent) f).setParentActionTaker(this);
-			f.addValidator(new BeanValidator(classObj, af.getField().getName()));
-			vertiralLayout.addComponent(f);
+			}
+			if (field instanceof CRUDTable)
+				((CRUDTable<?>) field).addCRUDTableListener(fieldListener);
+			if (field instanceof ForeignField)
+				((ForeignField<?>) field).addForeignFieldListener(fieldListener);
+			vertiralLayout.addComponent(field);
 		}
-		if (buttons.size() > 0 || saveActionButton != null || discardActionButton != null)
-			vertiralLayout.addComponent(buttonPanel);
+		vertiralLayout.addComponent(buttonPanel);
 	}
 
-	@Override
-	public void preCommit(CommitEvent commitEvent) throws CommitException
-	{
-	}
-
-	@Override
-	public void postCommit(CommitEvent commitEvent) throws CommitException
-	{
-		takeAction(saveActionButton.getAction());
-	}
-
-	public class FormActionListener implements Button.ClickListener
+	private class FormActionListener implements Button.ClickListener, CommitHandler
 	{
 		@Override
 		public void buttonClick(ClickEvent event)
 		{
-			if (event.getButton() == discardActionButton.getComponent())
+			if (event.getButton() == discardActionButton)
 			{
 				beanFieldGroup.discard();
-				takeAction(discardActionButton.getAction());
-			} else if (event.getButton() == saveActionButton.getComponent())
+				FormEvent<T> formEvent = new FormEvent<>();
+				formEvent.setPojoObject(beanFieldGroup.getItemDataSource().getBean());
+				for (FormListener<T> formListener : formListeners)
+					formListener.discardButtonClicked(formEvent);
+			} else if (event.getButton() == saveActionButton)
 			{
 				try
 				{
@@ -172,16 +184,64 @@ public class DefaultForm<T> extends Panel implements CommitHandler, ActionTaker,
 				}
 			}
 		}
+
+		@Override
+		public void preCommit(CommitEvent commitEvent) throws CommitException
+		{
+		}
+
+		@Override
+		public void postCommit(CommitEvent commitEvent) throws CommitException
+		{
+			FormEvent<T> formEvent = new FormEvent<>();
+			formEvent.setPojoObject(beanFieldGroup.getItemDataSource().getBean());
+			for (FormListener<T> formListener : formListeners)
+				formListener.saveButtonClicked(formEvent);
+		}
 	}
 
-	public class ActionListener implements Button.ClickListener
+	private class ActiveFieldListener implements ForeignFieldListener, CRUDTableListener
 	{
 		@Override
-		public void buttonClick(ClickEvent event)
+		public void dictionaryOpened(ForeignFieldEvent foreignFieldEvent)
 		{
-			for (ComponentWithAction<Button> componentWithAction : buttons)
-				if (event.getButton() == componentWithAction.getComponent())
-					takeAction(componentWithAction.getAction());
+			for (FormFieldListener formFieldListener : formFieldListeners)
+				formFieldListener.dictionaryOpened(foreignFieldEvent);
+		}
+
+		@Override
+		public void addItem(TableEvent crudTableEvent)
+		{
+			for (FormFieldListener formFieldListener : formFieldListeners)
+				formFieldListener.addItem(crudTableEvent);
+		}
+
+		@Override
+		public void editItem(TableEvent crudTableEvent)
+		{
+			for (FormFieldListener formFieldListener : formFieldListeners)
+				formFieldListener.editItem(crudTableEvent);
+		}
+
+		@Override
+		public void removeItem(TableEvent crudTableEvent)
+		{
+			for (FormFieldListener formFieldListener : formFieldListeners)
+				formFieldListener.removeItem(crudTableEvent);
+		}
+
+		@Override
+		public void doubleClickedItem(TableEvent crudTableEvent)
+		{
+			for (FormFieldListener formFieldListener : formFieldListeners)
+				formFieldListener.doubleClickedItem(crudTableEvent);
+		}
+
+		@Override
+		public void selectedItem(TableEvent event)
+		{
+			for (FormFieldListener formFieldListener : formFieldListeners)
+				formFieldListener.selectedItem(event);
 		}
 	}
 }

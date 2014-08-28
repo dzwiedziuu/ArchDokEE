@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -59,10 +60,10 @@ public class Photo
 	@Past
 	private Date explorationDate;
 
-	@JoinTable(name = "photo_ar", joinColumns = { @JoinColumn(name = "id_photo") }, inverseJoinColumns = { @JoinColumn(name = "idar") })
-	// @ColumnHeader(value = "Data eksploracji", order = 5)
-	// @EditField(label = "Data eksploracji", order = 5)
-	@ManyToMany(cascade = { CascadeType.ALL })
+	@JoinTable(name = "photo_ar", joinColumns = { @JoinColumn(name = "id_photo") }, inverseJoinColumns = { @JoinColumn(name = "id_ar") })
+	// @ColumnHeader(value = "Ary dotyczace zdjecia", order = 6)
+	@EditField(label = "Ary dotyczace zdjecia:", order = 6)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
 	private Set<Ar> ars = new HashSet<Ar>();
 
 	public PhotoSubject getPhotoSubject()
@@ -113,5 +114,15 @@ public class Photo
 	public void setExplorationDate(Date explorationDate)
 	{
 		this.explorationDate = explorationDate;
+	}
+
+	public Set<Ar> getArs()
+	{
+		return ars;
+	}
+
+	public void setArs(Set<Ar> ars)
+	{
+		this.ars = ars;
 	}
 }

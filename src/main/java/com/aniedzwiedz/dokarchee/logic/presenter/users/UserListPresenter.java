@@ -21,6 +21,6 @@ public class UserListPresenter extends PojoListPresenter<User>
 	{
 		setPojoListView(pojoListView);
 		setPojoService(pojoService);
-		setNextPresenter(pojoEditPresenter);
+		setPojoEditPresenter(pojoEditPresenter);
 	}
 }

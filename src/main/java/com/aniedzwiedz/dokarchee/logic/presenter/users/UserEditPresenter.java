@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import com.aniedzwiedz.dokarchee.data.model.User;
 import com.aniedzwiedz.dokarchee.data.service.UserService;
+import com.aniedzwiedz.dokarchee.logic.presenter.AbstractPresenter;
 import com.aniedzwiedz.dokarchee.logic.presenter.PojoEditPresenter;
 
 @Component
@@ -21,5 +22,11 @@ public class UserEditPresenter extends PojoEditPresenter<User>
 	{
 		setView(userEditView);
 		setPojoService(userService);
+	}
+
+	@Override
+	protected AbstractPresenter getDictionaryPresenter(Class<?> ffType)
+	{
+		return null;
 	}
 }

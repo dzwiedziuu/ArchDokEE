@@ -1,15 +1,12 @@
 package com.aniedzwiedz.dokarchee.logic.action;
 
 import com.aniedzwiedz.dokarchee.gui.view.AbstractView;
-import com.aniedzwiedz.dokarchee.logic.action.preAction.BlankPreAction;
-import com.aniedzwiedz.dokarchee.logic.action.preAction.PreAction;
 import com.aniedzwiedz.dokarchee.logic.presenter.AbstractPresenter;
 
 public abstract class Action
 {
 	private AbstractView currentView;
 	private AbstractPresenter currentPresenter;
-	private PreAction immidiateAction = new BlankPreAction();
 
 	public void setCurrentView(AbstractView currentView)
 	{
@@ -37,14 +34,4 @@ public abstract class Action
 	}
 
 	public abstract void performAction();
-
-	public PreAction getPreAction()
-	{
-		return immidiateAction;
-	}
-
-	public void setPreAction(PreAction immidiateAction)
-	{
-		this.immidiateAction = immidiateAction;
-	}
 }

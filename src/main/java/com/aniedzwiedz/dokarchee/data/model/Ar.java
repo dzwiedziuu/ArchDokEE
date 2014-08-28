@@ -32,4 +32,34 @@ public class Ar
 
 	@ManyToMany(mappedBy = "ars")
 	private Set<Photo> photos = new HashSet<Photo>();
+
+	public Long getId()
+	{
+		return id;
+	}
+
+	public void setId(Long id)
+	{
+		this.id = id;
+	}
+
+	public String getPhotoSubject()
+	{
+		return photoSubject;
+	}
+
+	public void setPhotoSubject(String photoSubject)
+	{
+		this.photoSubject = photoSubject;
+	}
+
+	public Set<Photo> getPhotos()
+	{
+		return photos;
+	}
+
+	public void setPhotos(Set<Photo> photos)
+	{
+		this.photos = photos;
+	}
 }

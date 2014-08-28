@@ -1,47 +1,34 @@
 package com.aniedzwiedz.dokarchee.gui.view;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.vaadin.dialogs.ConfirmDialog;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import com.aniedzwiedz.dokarchee.gui.form.ExtendedFieldGroupFieldFactory;
 import com.aniedzwiedz.dokarchee.gui.table.CRUDTable;
-import com.aniedzwiedz.dokarchee.logic.action.Action;
-import com.aniedzwiedz.dokarchee.logic.action.pojo.RemoveRecord;
-import com.aniedzwiedz.dokarchee.logic.action.pojo.ShowEditObjectView;
-import com.aniedzwiedz.dokarchee.logic.action.pojo.ShowNewObjectView;
-import com.aniedzwiedz.dokarchee.logic.action.preAction.BlankPreAction;
-import com.vaadin.ui.UI;
+import com.aniedzwiedz.dokarchee.gui.table.CRUDTable.CRUDTableListener;
+import com.aniedzwiedz.dokarchee.gui.table.CRUDTable.TableEvent;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.VerticalLayout;
 
-public abstract class AbstractPojoListView<T> extends AbstractViewImpl
+public abstract class AbstractPojoListView<T> extends AbstractViewImpl implements AbstractListView
 {
-	public static class Confirm extends BlankPreAction implements org.vaadin.dialogs.ConfirmDialog.Listener
+	private List<ListViewListener> listViewListeners = new ArrayList<>();
+
+	public void addListViewListener(ListViewListener listViewListener)
 	{
-		private Action action;
-		private ActionTaker actionTaker;
-
-		@Override
-		public void doPreAction(Action action, ActionTaker actionTaker)
-		{
-			this.action = action;
-			this.actionTaker = actionTaker;
-			ConfirmDialog confirmDialog = ConfirmDialog.getFactory().create("Uwaga", "Na pewno chcesz skasowac ten rekord?", "TAK", "NIE",
-					null);
-			confirmDialog.setWidth(400.0f, Unit.PIXELS);
-			confirmDialog.show(UI.getCurrent(), Confirm.this, true);
-		}
-
-		@Override
-		public void onClose(ConfirmDialog dialog)
-		{
-			if (dialog.isConfirmed())
-				super.doPreAction(action, actionTaker);
-		}
+		listViewListeners.add(listViewListener);
 	}
 
 	private VerticalLayout verticalLayout;
-
 	private Class<T> classObj;
+	private boolean selectable = false;
+	private ListViewCRUDTableListener listViewCRUDTableListener = new ListViewCRUDTableListener();
+
+	@Autowired
+	private ExtendedFieldGroupFieldFactory extendedFieldGroupFieldFactory;
+	private CRUDTable<T> crudTable;
 
 	public AbstractPojoListView(Class<T> classObj)
 	{
@@ -50,39 +37,63 @@ public abstract class AbstractPojoListView<T> extends AbstractViewImpl
 		setContent(verticalLayout);
 	}
 
-	protected CRUDTable<T> createStandardCRUDTable(List<T> userList)
+	protected CRUDTable<T> createStandardCRUDTable(List<T> pojoList)
 	{
-		CRUDTable<T> crudTable = new CRUDTable<>(classObj);
-		crudTable.setParentActionTaker(this);
-		T blankObj;
-		try
-		{
-			blankObj = classObj.newInstance();
-		} catch (InstantiationException | IllegalAccessException e)
-		{
-			// TODO print stackTrace
-			e.printStackTrace();
-			return crudTable;
-		}
-
-		crudTable.addContextMenuItem("Add", new ShowNewObjectView<T>(blankObj));
-		crudTable.addContextMenuItem("Edit", new ShowEditObjectView<T>());
-		crudTable.addContextMenuItem("Remove", new RemoveRecord<T>(new AbstractPojoListView.Confirm()));
-
-		crudTable.addButton("Dodaj", new ShowNewObjectView<T>(blankObj));
-		crudTable.addButton("Edytuj", new ShowEditObjectView<T>());
-		crudTable.addButton("Usun", new RemoveRecord<T>(new AbstractPojoListView.Confirm()));
-
-		crudTable.setDoubleClickAction(new ShowEditObjectView<T>());
-
-		crudTable.setData(userList);
+		CRUDTable<T> crudTable = extendedFieldGroupFieldFactory.createTableField(classObj, false);
+		if (selectable)
+			crudTable.setSelectActionButton(crudTable.addLowerButton(new Button("Wybierz")));
+		crudTable.setDataRows(pojoList);
+		crudTable.addCRUDTableListener(listViewCRUDTableListener);
 		return crudTable;
 	}
 
 	public void setList(List<T> list)
 	{
 		verticalLayout.removeAllComponents();
-		CRUDTable<T> crudTable = createStandardCRUDTable(list);
+		crudTable = createStandardCRUDTable(list);
 		verticalLayout.addComponent(crudTable);
+	}
+
+	public void setSelectable(boolean selectable)
+	{
+		this.selectable = selectable;
+	}
+
+	private class ListViewCRUDTableListener implements CRUDTableListener
+	{
+		@Override
+		public void addItem(TableEvent crudTableEvent)
+		{
+			for (ListViewListener listViewListener : listViewListeners)
+				listViewListener.addItem(crudTableEvent);
+		}
+
+		@Override
+		public void editItem(TableEvent crudTableEvent)
+		{
+			for (ListViewListener listViewListener : listViewListeners)
+				listViewListener.editItem(crudTableEvent);
+		}
+
+		@Override
+		public void removeItem(TableEvent crudTableEvent)
+		{
+			for (ListViewListener listViewListener : listViewListeners)
+				listViewListener.removeItem(crudTableEvent);
+		}
+
+		@Override
+		public void doubleClickedItem(TableEvent crudTableEvent)
+		{
+			for (ListViewListener listViewListener : listViewListeners)
+				listViewListener.doubleClickedItem(crudTableEvent);
+		}
+
+		@Override
+		public void selectedItem(TableEvent event)
+		{
+			for (ListViewListener listViewListener : listViewListeners)
+				listViewListener.selectedItem(event);
+		}
 	}
 }

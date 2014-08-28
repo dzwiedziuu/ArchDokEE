@@ -3,7 +3,6 @@ package com.aniedzwiedz.dokarchee.logic.action.pojo;
 import com.aniedzwiedz.dokarchee.logic.action.Action;
 import com.aniedzwiedz.dokarchee.logic.action.ShowNextView;
 import com.aniedzwiedz.dokarchee.logic.presenter.AbstractPresenter;
-import com.aniedzwiedz.dokarchee.logic.presenter.PojoListPresenter;
 
 public class ShowListObjectView<T> extends Action
 {
@@ -31,8 +30,6 @@ public class ShowListObjectView<T> extends Action
 	@Override
 	public void performAction()
 	{
-		PojoListPresenter<T> nextPresenter = (PojoListPresenter<T>) getCurrentPresenter().getNextPresenter(this);
-		showNextView.setNextPresenter(nextPresenter);
 		showNextView.performAction();
 	}
 

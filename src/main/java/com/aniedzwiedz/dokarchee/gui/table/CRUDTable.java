@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.TreeMap;
 
 import org.tepi.filtertable.FilterTable;
+import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.peter.contextmenu.ContextMenu.ContextMenuItem;
 import org.vaadin.peter.contextmenu.ContextMenu.ContextMenuItemClickEvent;
 import org.vaadin.peter.contextmenu.ContextMenu.ContextMenuItemClickListener;
@@ -22,38 +24,82 @@ import com.aniedzwiedz.dokarchee.gui.table.contextMenu.MyContextMenu.MyContextMe
 import com.aniedzwiedz.dokarchee.gui.table.contextMenu.MyContextMenu.MyContextMenuOpenedOnTableHeaderEvent;
 import com.aniedzwiedz.dokarchee.gui.table.contextMenu.MyContextMenu.MyContextMenuOpenedOnTableRowEvent;
 import com.aniedzwiedz.dokarchee.gui.table.contextMenu.MyContextMenu.MyTableListener;
-import com.aniedzwiedz.dokarchee.gui.view.ActionTaker;
-import com.aniedzwiedz.dokarchee.logic.action.Action;
-import com.aniedzwiedz.dokarchee.logic.action.pojo.PojoAction;
+import com.aniedzwiedz.dokarchee.logic.action.event.PojoEvent;
 import com.vaadin.data.Container;
+import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.shared.MouseEventDetails.MouseButton;
+import com.vaadin.ui.AbstractOrderedLayout;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.CustomField;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
-public class CRUDTable<T> extends VerticalLayout implements ActiveComponent
+public class CRUDTable<T> extends CustomField<Set<T>> implements ActiveComponent
 {
-	private static final long serialVersionUID = 1371883572521815469L;
+	public interface CRUDTableListener
+	{
+		void addItem(TableEvent crudTableEvent);
+
+		void editItem(TableEvent crudTableEvent);
+
+		void removeItem(TableEvent crudTableEvent);
+
+		void doubleClickedItem(TableEvent crudTableEvent);
+
+		void selectedItem(TableEvent event);
+	}
+
+	public static class TableEvent extends PojoEvent
+	{
+		private CRUDTable crudTable;
+
+		private void setCRUDTable(CRUDTable crudTable)
+		{
+			this.crudTable = crudTable;
+		}
+
+		public CRUDTable getCrudTable()
+		{
+			return crudTable;
+		}
+	}
+
+	private List<CRUDTableListener> crudTableListeners = new ArrayList<>();
+
+	public void addCRUDTableListener(CRUDTableListener crudTableListener)
+	{
+		crudTableListeners.add(crudTableListener);
+	}
 
 	private ActionButtonClickListener actionListener;
 
 	private List<ComponentWithAction<ContextMenuItem>> contextMenuItems;
 	private List<ComponentWithAction<Button>> buttons;
 
-	private Action doubleClickedAction;
-
 	private FilterTable filterTable;
 	private MyContextMenu myContextMenu;
 	private HorizontalLayout buttonPanel;
+	private AbstractOrderedLayout lowerButtonPanel;
+	private VerticalLayout verticalLayout;
 
 	private Class<T> classObj;
-	private ActionTaker parentActionTaker;
+
+	private Button addActionButton;
+	private Button editActionButton;
+	private Button removeActionButton;
+	private Button selectActionButton;
+
+	private ContextMenuItem addActionMenuItem;
+	private ContextMenuItem editActionMenuItem;
+	private ContextMenuItem removeActionMenuItem;
 
 	public CRUDTable(Class<T> classObj)
 	{
@@ -71,30 +117,71 @@ public class CRUDTable<T> extends VerticalLayout implements ActiveComponent
 		filterTable.addItemClickListener(actionListener);
 
 		myContextMenu = new MyContextMenu();
-		contextMenuItems = new ArrayList<>();
 		myContextMenu.addMyContextMenuTableListener(actionListener);
 		myContextMenu.addItemClickListener(actionListener);
 
 		buttonPanel = new HorizontalLayout();
+		lowerButtonPanel = new HorizontalLayout();
 		buttons = new ArrayList<>();
 	}
 
-	public void addContextMenuItem(String caption, Action action)
+	public void setAddActionButton(Button addActionButton)
 	{
-		ContextMenuItem item = myContextMenu.addItem(caption);
-		contextMenuItems.add(new ComponentWithAction<ContextMenuItem>(item, action));
+		this.addActionButton = addActionButton;
+		this.addActionButton.addClickListener(actionListener);
 	}
 
-	public void addButton(String caption, Action action)
+	public void setEditActionButton(Button editActionButton)
 	{
-		Button button = new Button(caption, actionListener);
+		this.editActionButton = editActionButton;
+		this.editActionButton.addClickListener(actionListener);
+	}
+
+	public void setRemoveActionButton(Button removeActionButton)
+	{
+		this.removeActionButton = removeActionButton;
+		this.removeActionButton.addClickListener(actionListener);
+	}
+
+	public void setSelectActionButton(Button selectActionButton)
+	{
+		this.selectActionButton = selectActionButton;
+		this.selectActionButton.addClickListener(actionListener);
+	}
+
+	public void setAddActionMenuItem(ContextMenuItem addActionMenuItem)
+	{
+		this.addActionMenuItem = addActionMenuItem;
+	}
+
+	public void setEditActionMenuItem(ContextMenuItem editActionMenuItem)
+	{
+		this.editActionMenuItem = editActionMenuItem;
+	}
+
+	public void setRemoveActionMenuItem(ContextMenuItem removeActionMenuItem)
+	{
+		this.removeActionMenuItem = removeActionMenuItem;
+	}
+
+	private boolean anyItemAdded = false;
+
+	public ContextMenuItem addContextMenuItem(String caption)
+	{
+		anyItemAdded = true;
+		return myContextMenu.addItem(caption);
+	}
+
+	public Button addUpperButton(Button button)
+	{
 		buttonPanel.addComponent(button);
-		buttons.add(new ComponentWithAction<Button>(button, action));
+		return button;
 	}
 
-	public void setDoubleClickAction(Action action)
+	public Button addLowerButton(Button button)
 	{
-		this.doubleClickedAction = action;
+		lowerButtonPanel.addComponent(button);
+		return button;
 	}
 
 	private class ActionButtonClickListener implements Button.ClickListener, ContextMenuItemClickListener, MyTableListener,
@@ -106,18 +193,26 @@ public class CRUDTable<T> extends VerticalLayout implements ActiveComponent
 		@Override
 		public void buttonClick(ClickEvent event)
 		{
-			for (ComponentWithAction<Button> componentWithAction : buttons)
-				if (event.getButton() == componentWithAction.getComponent())
-					performActionOrReturn(componentWithAction.getAction(), lastClickedItemId);
+			if (event.getButton() == addActionButton)
+				performAddAction();
+			if (event.getButton() == editActionButton)
+				performEditAction();
+			if (event.getButton() == removeActionButton)
+				performRemoveAction();
+			if (event.getButton() == selectActionButton)
+				performSelectAction();
 		}
 
 		@Override
 		public void contextMenuItemClicked(ContextMenuItemClickEvent event)
 		{
 			ContextMenuItem item = (ContextMenuItem) event.getSource();
-			for (ComponentWithAction<ContextMenuItem> componentWithAction : contextMenuItems)
-				if (item == componentWithAction.getComponent())
-					performActionOrReturn(componentWithAction.getAction(), lastClickedItemId);
+			if (item == addActionMenuItem)
+				performAddAction();
+			if (item == editActionMenuItem)
+				performEditAction();
+			if (item == removeActionMenuItem)
+				performRemoveAction();
 		}
 
 		@Override
@@ -147,39 +242,128 @@ public class CRUDTable<T> extends VerticalLayout implements ActiveComponent
 			if (event.getButton().equals(MouseButton.LEFT))
 				lastClickedItemId = event.getItemId();
 			if (event.isDoubleClick())
-				if (doubleClickedAction != null)
-					performActionOrReturn(doubleClickedAction, lastClickedItemId);
+				performDoubleClickAction();
 		}
-	}
 
-	private void performActionOrReturn(Action action, Object itemId)
-	{
-		if (action instanceof PojoAction)
+		public Object getLastClickedItemId()
 		{
-			if (itemId == null && ((PojoAction<T>) action).isObjectNecessary())
-			{
-				Notification.show("UWAGA", "Zaden rekord nie zostal wybrany", Type.HUMANIZED_MESSAGE);
-				return;
-			}
-			((PojoAction<T>) action).setPojoObject((T) itemId);
+			return lastClickedItemId;
 		}
-		action.getPreAction().doPreAction(action, parentActionTaker);
 	}
 
-	public void setData(List<T> list)
+	private void performAddAction()
 	{
-		removeAllComponents();
+		T obj;
+		try
+		{
+			obj = classObj.newInstance();
+		} catch (InstantiationException | IllegalAccessException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		}
+		for (CRUDTableListener crudListener : crudTableListeners)
+		{
+			TableEvent event = new TableEvent();
+			event.setPojoObject(obj);
+			event.setCRUDTable(this);
+			crudListener.addItem(event);
+		}
+	}
+
+	private void performEditAction()
+	{
+		T lastClicked = getSelectedItem();
+		if (lastClicked == null)
+		{
+			Notification.show("UWAGA", "Zaden rekord nie zostal wybrany", Type.HUMANIZED_MESSAGE);
+			return;
+		}
+		for (CRUDTableListener crudListener : crudTableListeners)
+		{
+			TableEvent event = new TableEvent();
+			event.setPojoObject(lastClicked);
+			event.setCRUDTable(this);
+			crudListener.editItem(event);
+		}
+	}
+
+	private void performRemoveAction()
+	{
+		final T lastClicked = getSelectedItem();
+		if (lastClicked == null)
+		{
+			Notification.show("UWAGA", "Zaden rekord nie zostal wybrany", Type.HUMANIZED_MESSAGE);
+			return;
+		}
+		ConfirmDialog confirmDialog = ConfirmDialog.getFactory()
+				.create("Uwaga", "Na pewno chcesz skasowac ten rekord?", "TAK", "NIE", null);
+		confirmDialog.setWidth(400.0f, Unit.PIXELS);
+		confirmDialog.show(UI.getCurrent(), new ConfirmDialog.Listener()
+		{
+			@Override
+			public void onClose(ConfirmDialog dialog)
+			{
+				if (dialog.isConfirmed())
+				{
+					for (CRUDTableListener crudListener : crudTableListeners)
+					{
+						TableEvent event = new TableEvent();
+						event.setPojoObject(lastClicked);
+						event.setCRUDTable(CRUDTable.this);
+						crudListener.removeItem(event);
+					}
+				}
+			}
+		}, true);
+	}
+
+	private void performDoubleClickAction()
+	{
+		T lastClicked = getSelectedItem();
+		for (CRUDTableListener crudListener : crudTableListeners)
+		{
+			TableEvent event = new TableEvent();
+			event.setPojoObject(lastClicked);
+			event.setCRUDTable(this);
+			crudListener.doubleClickedItem(event);
+		}
+	}
+
+	private void performSelectAction()
+	{
+		T lastClicked = getSelectedItem();
+		if (lastClicked == null)
+		{
+			Notification.show("UWAGA", "Zaden rekord nie zostal wybrany", Type.HUMANIZED_MESSAGE);
+			return;
+		}
+		for (CRUDTableListener crudListener : crudTableListeners)
+		{
+			TableEvent event = new TableEvent();
+			event.setPojoObject(lastClicked);
+			event.setCRUDTable(this);
+			crudListener.selectedItem(event);
+		}
+	}
+
+	public void setDataRows(Iterable<T> list)
+	{
+		verticalLayout = new VerticalLayout();
 		filterTable.setContainerDataSource(getContainerDataSource(list));
 		setColumnHeaders();
 		addColumnGenerators();
-		if (!buttons.isEmpty())
-		{
-			addComponent(buttonPanel);
-			setExpandRatio(buttonPanel, 0);
-		}
-		addComponent(filterTable);
-		setExpandRatio(filterTable, 1);
-		if (!contextMenuItems.isEmpty())
+		// if (!buttons.isEmpty())
+		// {
+		verticalLayout.addComponent(buttonPanel);
+		verticalLayout.setExpandRatio(buttonPanel, 0);
+		// }
+		verticalLayout.addComponent(filterTable);
+		verticalLayout.setExpandRatio(filterTable, 1);
+		verticalLayout.addComponent(lowerButtonPanel);
+		verticalLayout.setExpandRatio(lowerButtonPanel, 0);
+		if (anyItemAdded)
 			myContextMenu.setAsTableContextMenu(filterTable);
 	}
 
@@ -209,7 +393,7 @@ public class CRUDTable<T> extends VerticalLayout implements ActiveComponent
 				filterTable.addGeneratedColumn(field.getName(), new ForeignFieldColumnGenerator<>(field.getType()));
 	}
 
-	private Container getContainerDataSource(List<T> list)
+	private Container getContainerDataSource(Iterable<T> list)
 	{
 		BeanItemContainer<T> beanItemContainer = new BeanItemContainer<>(classObj);
 		for (T t : list)
@@ -218,8 +402,36 @@ public class CRUDTable<T> extends VerticalLayout implements ActiveComponent
 	}
 
 	@Override
-	public void setParentActionTaker(ActionTaker actionTaker)
+	protected Component initContent()
 	{
-		this.parentActionTaker = actionTaker;
+		return verticalLayout;
+	}
+
+	@Override
+	public Class<? extends Set<T>> getType()
+	{
+		return super.getPropertyDataSource().getType();
+		// return (Class<? extends Set<T>>) (new HashSet<T>()).getClass();
+	}
+
+	// private Property<?> property = new Property<?>;
+
+	@Override
+	public void setPropertyDataSource(Property newDataSource)
+	{
+		Iterable<T> iterable = (Iterable<T>) newDataSource.getValue();
+		setDataRows(iterable);
+		super.setPropertyDataSource(newDataSource);
+	}
+
+	@Override
+	public Property getPropertyDataSource()
+	{
+		return super.getPropertyDataSource();
+	}
+
+	public T getSelectedItem()
+	{
+		return (T) actionListener.getLastClickedItemId();
 	}
 }

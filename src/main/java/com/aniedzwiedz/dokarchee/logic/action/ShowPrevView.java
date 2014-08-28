@@ -12,9 +12,9 @@ public class ShowPrevView extends Action
 		AbstractPresenter parent = currentPresenter.getParentPresenter();
 		AbstractView currentView = currentPresenter.getAbstractView();
 		currentPresenter.setParentPresenter(null);
-		if (!currentPresenter.isPresentsWindow())
-			currentView.switchViewTo(parent.getAbstractView());
-		else
-			currentView.closeLastWindow();
+		// if (!currentPresenter.isPresentsWindow())
+		currentView.switchViewTo(parent.getAbstractView());
+		// else
+		currentView.closeLastWindow();
 	}
 }

@@ -21,6 +21,6 @@ public class ArListPresenter extends PojoListPresenter<Ar>
 	{
 		setView(pojoListView);
 		setPojoService(pojoService);
-		setNextPresenter(pojoEditPresenter);
+		setPojoEditPresenter(pojoEditPresenter);
 	}
 }

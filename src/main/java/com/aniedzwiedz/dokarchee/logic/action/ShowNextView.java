@@ -28,7 +28,7 @@ public class ShowNextView extends Action
 			currentView.switchViewTo(nextPresenter.getAbstractView());
 		else
 		{
-			nextPresenter.setPresentsWindow(true);
+			nextPresenter.setPresentsInWindow(true);
 			currentView.openInNewWindow(nextPresenter.getAbstractView());
 		}
 	}

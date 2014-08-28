@@ -21,6 +21,7 @@ public class PhotoListPresenter extends PojoListPresenter<Photo>
 	{
 		setView(pojoListView);
 		setPojoService(pojoService);
-		setNextPresenter(pojoEditPresenter);
+		pojoEditPresenter.setPresentsInWindow(true);
+		setPojoEditPresenter(pojoEditPresenter);
 	}
 }
