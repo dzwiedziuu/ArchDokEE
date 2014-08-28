@@ -121,6 +121,10 @@ public class DefaultForm<T> extends Panel implements CommitHandler, ActionTaker,
 			Class<? extends Field> cl = Field.class;
 			if (af.getField().isAnnotationPresent(ManyToOne.class))
 				cl = ForeignField.class;
+			// else if (af.getField().isAnnotationPresent(OneToMany.class))
+			// cl = CRUDTable.class;
+			// else if (af.getField().isAnnotationPresent(ManyToMany.class))
+			// cl = CRUDTable.class;
 			Field<?> f = beanFieldGroup.buildAndBind(af.getEditField().label(), af.getField().getName(), cl);
 			if (f instanceof TextField)
 			{

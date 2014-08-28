@@ -1,13 +1,21 @@
 package com.aniedzwiedz.dokarchee.data.model;
 
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
 import com.aniedzwiedz.dokarchee.gui.annotations.ColumnHeader;
@@ -30,17 +38,32 @@ public class Photo
 	@Size(min = 1, max = 5, message = "Numer zdjecia musi miec dlugosc w przedziale <1, 5>")
 	private String photoNumber;
 
-	// @Column(name = "PHOTO_SUBJECT")
+	@JoinColumn(name = "PHOTO_SUBJECT")
 	@ColumnHeader(value = "Temat zdjecia", order = 3)
 	@EditField(label = "Temat zdjecia", order = 3)
 	@NotNull(message = "Temat zdjecia nie moze byc pusty")
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "PHOTO_SUBJECT")
 	private PhotoSubject photoSubject;
 
-	public Photo()
-	{
-	}
+	@JoinColumn(name = "AUTHOR")
+	@ColumnHeader(value = "Autor", order = 4)
+	@EditField(label = "Autor", order = 4)
+	@NotNull(message = "Autor nie moze byc pusty")
+	@ManyToOne(optional = false)
+	private User author;
+
+	@Column(name = "EXPLORATION_DATE")
+	@ColumnHeader(value = "Data eksploracji", order = 5)
+	@EditField(label = "Data eksploracji", order = 5)
+	@NotNull(message = "Data eksploracji nie moze byc pusta")
+	@Past
+	private Date explorationDate;
+
+	@JoinTable(name = "photo_ar", joinColumns = { @JoinColumn(name = "id_photo") }, inverseJoinColumns = { @JoinColumn(name = "idar") })
+	// @ColumnHeader(value = "Data eksploracji", order = 5)
+	// @EditField(label = "Data eksploracji", order = 5)
+	@ManyToMany(cascade = { CascadeType.ALL })
+	private Set<Ar> ars = new HashSet<Ar>();
 
 	public PhotoSubject getPhotoSubject()
 	{
@@ -70,5 +93,25 @@ public class Photo
 	public void setPhotoNumber(String photoNumber)
 	{
 		this.photoNumber = photoNumber;
+	}
+
+	public User getAuthor()
+	{
+		return author;
+	}
+
+	public void setAuthor(User author)
+	{
+		this.author = author;
+	}
+
+	public Date getExplorationDate()
+	{
+		return explorationDate;
+	}
+
+	public void setExplorationDate(Date explorationDate)
+	{
+		this.explorationDate = explorationDate;
 	}
 }

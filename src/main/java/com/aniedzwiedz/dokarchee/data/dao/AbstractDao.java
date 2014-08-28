@@ -45,7 +45,7 @@ public class AbstractDao<T> implements Dao<T>
 
 	public void remove(T t)
 	{
-		sessionFactory.getCurrentSession().delete(find(t));
+		sessionFactory.getCurrentSession().delete(t);
 	}
 
 	public void update(T t)

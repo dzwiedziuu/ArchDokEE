@@ -10,9 +10,11 @@ import javax.validation.constraints.Size;
 
 import com.aniedzwiedz.dokarchee.gui.annotations.ColumnHeader;
 import com.aniedzwiedz.dokarchee.gui.annotations.EditField;
+import com.aniedzwiedz.dokarchee.gui.annotations.ForeignFieldLabel;
 
 @Entity
 @Table(name = "USERS")
+@ForeignFieldLabel(pattern = "$firstName$ $lastName$")
 public class User
 {
 	@Id

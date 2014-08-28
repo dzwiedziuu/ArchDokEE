@@ -1,5 +1,6 @@
 -serialization problem ?
 -null pointer exception while refreshing editView
--dictionary ForeignField
+-filter on table (foreignField and others probably)
 -many to many relationship
 -order of display in table
+-double indicator in foreignField?
