@@ -1,12 +1,13 @@
 -serialization problem ?
 -null pointer exception while refreshing editView
--filter on table (foreignField and others probably)
--many to many relationship
--display manyTo* in table
+-filter on table (foreignField and set)
+-many to one relationship
 -CRUDTable - to large Class
--selection vs closing window
+-selection vs closing window (possible memory leak)
 -hibernate exceptions (constraints, deleted rows)
 -refreshing combobox list after selecting/changing list values
+-catching all exceptions (?)
+-logger
 
 consider:
 -Hibernate does "delete all then re-insert" - its not so strange - Bag for Association 

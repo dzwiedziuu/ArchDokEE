@@ -67,7 +67,7 @@ public class Photo
 	private Date explorationDate;
 
 	@JoinTable(name = "photo_ar", joinColumns = { @JoinColumn(name = "id_photo") }, inverseJoinColumns = { @JoinColumn(name = "id_ar") })
-	// @ColumnHeader(value = "Ary dotyczace zdjecia", order = 6)
+	@ColumnHeader(value = "Ary dotyczace zdjecia", order = 6, genericType = Ar.class)
 	@EditField(label = "Ary dotyczace zdjecia:", order = 6)
 	// without CascadeType.Persist
 	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE })

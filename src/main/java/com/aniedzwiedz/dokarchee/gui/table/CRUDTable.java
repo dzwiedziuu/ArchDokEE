@@ -407,8 +407,20 @@ public class CRUDTable<T> extends CustomField<Set<T>> implements ActiveComponent
 	private void addColumnGenerators()
 	{
 		for (Field field : classObj.getDeclaredFields())
+		{
+			if (!field.isAnnotationPresent(ColumnHeader.class))
+				continue;
 			if (field.getType().isAnnotationPresent(ForeignFieldLabel.class))
 				filterTable.addGeneratedColumn(field.getName(), new ForeignFieldColumnGenerator<>(field.getType()));
+			else if (Iterable.class.isAssignableFrom(field.getType()))
+			{
+				ColumnHeader columnHeader = field.getAnnotation(ColumnHeader.class);
+				Class<?> classObj = columnHeader.genericType();
+				if (Object.class.equals(classObj))
+					throw new RuntimeException("Not declared generic type in ColumnHeader annotation for Set field");
+				filterTable.addGeneratedColumn(field.getName(), new TableFieldColumnGenerator<>(classObj));
+			}
+		}
 	}
 
 	private Container getContainerDataSource(Iterable<T> list)

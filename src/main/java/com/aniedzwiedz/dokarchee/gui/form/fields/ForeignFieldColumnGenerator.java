@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.aniedzwiedz.dokarchee.common.utils.ModelEntityLabelUtils;
 import com.aniedzwiedz.dokarchee.common.utils.ModelEntityLabelUtils.ItemCaptionPart;
-import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.CustomTable;
 import com.vaadin.ui.CustomTable.ColumnGenerator;
@@ -21,9 +20,11 @@ public class ForeignFieldColumnGenerator<T> implements ColumnGenerator
 	@Override
 	public Object generateCell(CustomTable source, Object itemId, Object columnId)
 	{
-		Property<T> prop = source.getItem(itemId).getItemProperty(columnId);
+		T pojoObject = (T) source.getItem(itemId).getItemProperty(columnId).getValue();
+		if (pojoObject == null)
+			return "(no data)";
 		if (itemCaptionParts == null)
-			return prop.getValue().toString();
-		return ModelEntityLabelUtils.getItemCaption(new BeanItem<>(prop.getValue()), itemCaptionParts);
+			return pojoObject.toString();
+		return ModelEntityLabelUtils.getItemCaption(new BeanItem<>(pojoObject), itemCaptionParts);
 	}
 }

@@ -12,4 +12,6 @@ public @interface ColumnHeader
 	String value();
 
 	int order();
+
+	Class<?> genericType() default Object.class;
 }
