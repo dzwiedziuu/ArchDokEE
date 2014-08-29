@@ -1,4 +1,4 @@
-package com.aniedzwiedz.dokarchee.gui.annotations;
+package com.aniedzwiedz.dokarchee.common.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

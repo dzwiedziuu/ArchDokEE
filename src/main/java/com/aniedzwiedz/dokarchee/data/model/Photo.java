@@ -19,8 +19,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
-import com.aniedzwiedz.dokarchee.gui.annotations.ColumnHeader;
-import com.aniedzwiedz.dokarchee.gui.annotations.EditField;
+import com.aniedzwiedz.dokarchee.common.annotations.ColumnHeader;
+import com.aniedzwiedz.dokarchee.common.annotations.EditField;
 
 @Entity
 @Table(name = "PHOTO")

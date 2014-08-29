@@ -7,7 +7,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.aniedzwiedz.dokarchee.data.model.utils.ModelUtils;
+import com.aniedzwiedz.dokarchee.common.utils.ModelUtils;
 
 @Repository
 public class AbstractDao<T> implements Dao<T>

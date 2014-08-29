@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.aniedzwiedz.dokarchee.data.model.utils.ModelUtils;
+import com.aniedzwiedz.dokarchee.common.utils.ModelUtils;
 import com.aniedzwiedz.dokarchee.data.service.PojoService;
 import com.aniedzwiedz.dokarchee.gui.form.DefaultForm.FormEvent;
 import com.aniedzwiedz.dokarchee.gui.form.fields.ActiveComponent;

@@ -1,4 +1,4 @@
-package com.aniedzwiedz.dokarchee.logic.action.event;
+package com.aniedzwiedz.dokarchee.gui.view;
 
 public abstract class PojoEvent<T>
 {

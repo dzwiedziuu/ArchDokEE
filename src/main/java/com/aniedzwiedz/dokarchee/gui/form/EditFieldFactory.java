@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.aniedzwiedz.dokarchee.data.model.utils.ModelEntityLabelUtils;
-import com.aniedzwiedz.dokarchee.data.model.utils.ModelEntityLabelUtils.ItemCaptionPart;
+import com.aniedzwiedz.dokarchee.common.utils.ModelEntityLabelUtils;
+import com.aniedzwiedz.dokarchee.common.utils.ModelEntityLabelUtils.ItemCaptionPart;
 import com.aniedzwiedz.dokarchee.data.service.GeneralService;
 import com.aniedzwiedz.dokarchee.gui.form.fields.ForeignField;
 import com.aniedzwiedz.dokarchee.gui.table.CRUDTable;

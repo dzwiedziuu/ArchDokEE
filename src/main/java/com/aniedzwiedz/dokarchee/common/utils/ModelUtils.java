@@ -1,4 +1,4 @@
-package com.aniedzwiedz.dokarchee.data.model.utils;
+package com.aniedzwiedz.dokarchee.common.utils;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;

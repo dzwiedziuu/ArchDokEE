@@ -15,9 +15,9 @@ import org.vaadin.peter.contextmenu.ContextMenu.ContextMenuItem;
 import org.vaadin.peter.contextmenu.ContextMenu.ContextMenuItemClickEvent;
 import org.vaadin.peter.contextmenu.ContextMenu.ContextMenuItemClickListener;
 
-import com.aniedzwiedz.dokarchee.data.model.utils.ModelUtils;
-import com.aniedzwiedz.dokarchee.gui.annotations.ColumnHeader;
-import com.aniedzwiedz.dokarchee.gui.annotations.ForeignFieldLabel;
+import com.aniedzwiedz.dokarchee.common.annotations.ColumnHeader;
+import com.aniedzwiedz.dokarchee.common.annotations.ForeignFieldLabel;
+import com.aniedzwiedz.dokarchee.common.utils.ModelUtils;
 import com.aniedzwiedz.dokarchee.gui.form.fields.ActiveComponent;
 import com.aniedzwiedz.dokarchee.gui.form.fields.ForeignFieldColumnGenerator;
 import com.aniedzwiedz.dokarchee.gui.table.contextMenu.MyContextMenu;
@@ -25,7 +25,7 @@ import com.aniedzwiedz.dokarchee.gui.table.contextMenu.MyContextMenu.MyContextMe
 import com.aniedzwiedz.dokarchee.gui.table.contextMenu.MyContextMenu.MyContextMenuOpenedOnTableHeaderEvent;
 import com.aniedzwiedz.dokarchee.gui.table.contextMenu.MyContextMenu.MyContextMenuOpenedOnTableRowEvent;
 import com.aniedzwiedz.dokarchee.gui.table.contextMenu.MyContextMenu.MyTableListener;
-import com.aniedzwiedz.dokarchee.logic.action.event.PojoEvent;
+import com.aniedzwiedz.dokarchee.gui.view.PojoEvent;
 import com.vaadin.data.Container;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItemContainer;

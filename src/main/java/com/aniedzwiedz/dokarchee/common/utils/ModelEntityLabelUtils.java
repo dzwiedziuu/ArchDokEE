@@ -1,10 +1,10 @@
-package com.aniedzwiedz.dokarchee.data.model.utils;
+package com.aniedzwiedz.dokarchee.common.utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.aniedzwiedz.dokarchee.gui.annotations.ForeignFieldLabel;
+import com.aniedzwiedz.dokarchee.common.annotations.ForeignFieldLabel;
 import com.vaadin.data.Item;
 
 public class ModelEntityLabelUtils

@@ -2,8 +2,8 @@ package com.aniedzwiedz.dokarchee.gui.form.fields;
 
 import java.util.List;
 
-import com.aniedzwiedz.dokarchee.data.model.utils.ModelEntityLabelUtils;
-import com.aniedzwiedz.dokarchee.data.model.utils.ModelEntityLabelUtils.ItemCaptionPart;
+import com.aniedzwiedz.dokarchee.common.utils.ModelEntityLabelUtils;
+import com.aniedzwiedz.dokarchee.common.utils.ModelEntityLabelUtils.ItemCaptionPart;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.CustomTable;

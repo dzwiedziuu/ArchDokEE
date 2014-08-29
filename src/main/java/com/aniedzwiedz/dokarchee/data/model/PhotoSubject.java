@@ -10,9 +10,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import com.aniedzwiedz.dokarchee.gui.annotations.ColumnHeader;
-import com.aniedzwiedz.dokarchee.gui.annotations.EditField;
-import com.aniedzwiedz.dokarchee.gui.annotations.ForeignFieldLabel;
+import com.aniedzwiedz.dokarchee.common.annotations.ColumnHeader;
+import com.aniedzwiedz.dokarchee.common.annotations.EditField;
+import com.aniedzwiedz.dokarchee.common.annotations.ForeignFieldLabel;
 
 @Entity
 @Table(name = "photo_subject")

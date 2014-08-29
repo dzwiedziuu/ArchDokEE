@@ -9,7 +9,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import com.aniedzwiedz.dokarchee.gui.annotations.EditField;
+import com.aniedzwiedz.dokarchee.common.annotations.EditField;
 import com.aniedzwiedz.dokarchee.gui.form.error.ErrorUtils;
 import com.aniedzwiedz.dokarchee.gui.form.fields.ForeignField;
 import com.aniedzwiedz.dokarchee.gui.form.fields.ForeignField.ForeignFieldEvent;
@@ -17,7 +17,7 @@ import com.aniedzwiedz.dokarchee.gui.form.fields.ForeignField.ForeignFieldListen
 import com.aniedzwiedz.dokarchee.gui.table.CRUDTable;
 import com.aniedzwiedz.dokarchee.gui.table.CRUDTable.CRUDTableListener;
 import com.aniedzwiedz.dokarchee.gui.table.CRUDTable.TableEvent;
-import com.aniedzwiedz.dokarchee.logic.action.event.PojoEvent;
+import com.aniedzwiedz.dokarchee.gui.view.PojoEvent;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitEvent;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;

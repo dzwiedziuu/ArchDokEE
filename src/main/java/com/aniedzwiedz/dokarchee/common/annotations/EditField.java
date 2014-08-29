@@ -1,4 +1,4 @@
-package com.aniedzwiedz.dokarchee.gui.annotations;
+package com.aniedzwiedz.dokarchee.common.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -6,8 +6,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface ForeignFieldLabel
+@Target(ElementType.FIELD)
+public @interface EditField
 {
-	String pattern();
+	String label();
+
+	int order();
 }

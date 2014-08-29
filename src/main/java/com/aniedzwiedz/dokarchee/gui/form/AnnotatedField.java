@@ -2,7 +2,7 @@ package com.aniedzwiedz.dokarchee.gui.form;
 
 import java.lang.reflect.Field;
 
-import com.aniedzwiedz.dokarchee.gui.annotations.EditField;
+import com.aniedzwiedz.dokarchee.common.annotations.EditField;
 
 public class AnnotatedField
 {
