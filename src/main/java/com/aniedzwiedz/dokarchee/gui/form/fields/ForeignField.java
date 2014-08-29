@@ -145,4 +145,12 @@ public class ForeignField<T> extends CustomField<T> implements ActiveComponent
 			setValue((T) event.getProperty().getValue());
 		}
 	}
+
+	@Override
+	public void getSelectedValue(Object value)
+	{
+		Property property = getPropertyDataSource();
+		property.setValue(value);
+		setPropertyDataSource(property);
+	}
 }

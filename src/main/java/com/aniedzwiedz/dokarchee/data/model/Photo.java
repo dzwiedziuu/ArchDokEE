@@ -33,11 +33,17 @@ public class Photo
 	private Long id;
 
 	@Column(name = "PHOTO_NUMBER")
-	@ColumnHeader(value = "Numer zdjecia", order = 2)
-	@EditField(label = "Numer zdjecia", order = 2)
+	@ColumnHeader(value = "Numer zdjecia", order = 1)
+	@EditField(label = "Numer zdjecia", order = 1)
 	@NotNull(message = "Numer zdjecia nie moze byc pusty")
 	@Size(min = 1, max = 5, message = "Numer zdjecia musi miec dlugosc w przedziale <1, 5>")
 	private String photoNumber;
+
+	@JoinColumn(name = "OBJECT")
+	@ColumnHeader(value = "Powiazany obiekt", order = 2)
+	@EditField(label = "Powiazany obiekt", order = 2)
+	@ManyToOne(optional = true)
+	private ArchObject object;
 
 	@JoinColumn(name = "PHOTO_SUBJECT")
 	@ColumnHeader(value = "Temat zdjecia", order = 3)
@@ -63,7 +69,8 @@ public class Photo
 	@JoinTable(name = "photo_ar", joinColumns = { @JoinColumn(name = "id_photo") }, inverseJoinColumns = { @JoinColumn(name = "id_ar") })
 	// @ColumnHeader(value = "Ary dotyczace zdjecia", order = 6)
 	@EditField(label = "Ary dotyczace zdjecia:", order = 6)
-	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
+	// without CascadeType.Persist
+	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE })
 	private Set<Ar> ars = new HashSet<Ar>();
 
 	public PhotoSubject getPhotoSubject()
@@ -124,5 +131,15 @@ public class Photo
 	public void setArs(Set<Ar> ars)
 	{
 		this.ars = ars;
+	}
+
+	public ArchObject getObject()
+	{
+		return object;
+	}
+
+	public void setObject(ArchObject object)
+	{
+		this.object = object;
 	}
 }

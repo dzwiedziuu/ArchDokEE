@@ -56,11 +56,13 @@ public class EditFieldFactory implements ExtendedFieldGroupFieldFactory
 	{
 		CRUDTable<T> crudTable = new CRUDTable<>(genericType);
 		crudTable.setAddActionMenuItem(crudTable.addContextMenuItem("Dodaj"));
-		if (!manyToMany)
-			crudTable.setEditActionMenuItem(crudTable.addContextMenuItem("Edytuj"));
-		crudTable.setRemoveActionMenuItem(crudTable.addContextMenuItem("Usun"));
 		crudTable.setAddActionButton(crudTable.addUpperButton(new Button("Dodaj")));
-		crudTable.setEditActionButton(crudTable.addUpperButton(new Button("Edytuj")));
+		if (!manyToMany)
+		{
+			crudTable.setEditActionMenuItem(crudTable.addContextMenuItem("Edytuj"));
+			crudTable.setEditActionButton(crudTable.addUpperButton(new Button("Edytuj")));
+		}
+		crudTable.setRemoveActionMenuItem(crudTable.addContextMenuItem("Usun"));
 		crudTable.setRemoveActionButton(crudTable.addUpperButton(new Button("Usun")));
 		return crudTable;
 	}

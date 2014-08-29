@@ -59,6 +59,11 @@ public abstract class AbstractPojoListView<T> extends AbstractViewImpl implement
 		this.selectable = selectable;
 	}
 
+	public boolean isSelectable()
+	{
+		return selectable;
+	}
+
 	private class ListViewCRUDTableListener implements CRUDTableListener
 	{
 		@Override

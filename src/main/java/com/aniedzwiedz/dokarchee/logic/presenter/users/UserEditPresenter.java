@@ -29,4 +29,10 @@ public class UserEditPresenter extends PojoEditPresenter<User>
 	{
 		return null;
 	}
+
+	@Override
+	protected AbstractPresenter getActiveFieldPresenter(Class<?> ffType)
+	{
+		return null;
+	}
 }

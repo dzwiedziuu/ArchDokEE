@@ -1,24 +1,24 @@
-package com.aniedzwiedz.dokarchee.logic.presenter.ars;
+package com.aniedzwiedz.dokarchee.logic.presenter.archObjects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.aniedzwiedz.dokarchee.data.model.Ar;
-import com.aniedzwiedz.dokarchee.data.service.ArService;
+import com.aniedzwiedz.dokarchee.data.model.ArchObject;
+import com.aniedzwiedz.dokarchee.data.service.ArchObjectService;
 import com.aniedzwiedz.dokarchee.logic.presenter.AbstractPresenter;
 import com.aniedzwiedz.dokarchee.logic.presenter.PojoEditPresenter;
 
 @Component
 @Scope("session")
-public class ArEditPresenter extends PojoEditPresenter<Ar>
+public class ArchObjectEditPresenter extends PojoEditPresenter<ArchObject>
 {
-	public interface ArEditView extends PojoEditView<Ar>
+	public interface ArchObjectEditView extends PojoEditView<ArchObject>
 	{
 	}
 
 	@Autowired
-	public ArEditPresenter(ArEditView pojoEditView, ArService pojoService)
+	public ArchObjectEditPresenter(ArchObjectEditView pojoEditView, ArchObjectService pojoService)
 	{
 		setView(pojoEditView);
 		setPojoService(pojoService);

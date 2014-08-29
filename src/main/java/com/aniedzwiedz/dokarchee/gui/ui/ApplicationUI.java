@@ -104,7 +104,8 @@ public class ApplicationUI extends UI implements GuiController
 	{
 		SubWindow lastWindow = openedWindows.peekLast();
 		if (lastWindow != null)
-			lastWindow.getView().refresh();
+			;
+		// lastWindow.getView().refresh();
 		else
 			lastView.refresh();
 	}

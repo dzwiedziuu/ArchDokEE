@@ -29,4 +29,10 @@ public class PhotoSubjectEditPresenter extends PojoEditPresenter<PhotoSubject>
 	{
 		return null;
 	}
+
+	@Override
+	protected AbstractPresenter getActiveFieldPresenter(Class<?> ffType)
+	{
+		return null;
+	}
 }

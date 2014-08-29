@@ -36,6 +36,7 @@ public abstract class AbstractPojoEditView<T> extends AbstractViewImpl implement
 		verticalLayout = new VerticalLayout();
 		defaultForm = new DefaultForm<>();
 		defaultForm.addFormListener(formWithFieldListener);
+		defaultForm.addFormFieldListener(formWithFieldListener);
 		defaultForm.addSaveActionButton(new Button("Zapisz"));
 		defaultForm.addDiscardActionButton(new Button("Wroc"));
 		verticalLayout.addComponent(defaultForm);
@@ -61,7 +62,6 @@ public abstract class AbstractPojoEditView<T> extends AbstractViewImpl implement
 
 	private class FormWithFieldListener implements FormFieldListener, FormListener<T>
 	{
-
 		@Override
 		public void dictionaryOpened(ForeignFieldEvent foreignFieldEvent)
 		{

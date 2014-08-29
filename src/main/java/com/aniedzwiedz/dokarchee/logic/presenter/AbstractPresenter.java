@@ -30,7 +30,7 @@ public abstract class AbstractPresenter implements AbstractView.ViewListener
 	{
 		AbstractView abstractView = abstractPresenter.getAbstractView();
 		abstractPresenter.setParentPresenter(this);
-		if (abstractPresenter.presentsInWindow == false)
+		if (abstractPresenter.presentsInWindow == false && this.presentsInWindow == false)
 			getAbstractView().switchViewTo(abstractView);
 		else
 		{

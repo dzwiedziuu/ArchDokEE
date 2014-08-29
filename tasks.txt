@@ -3,4 +3,10 @@
 -filter on table (foreignField and others probably)
 -many to many relationship
 -display manyTo* in table
--double indicator in foreignField?
+-CRUDTable - to large Class
+-selection vs closing window
+-hibernate exceptions (constraints, deleted rows)
+-refreshing combobox list after selecting/changing list values
+
+consider:
+-Hibernate does "delete all then re-insert" - its not so strange - Bag for Association 

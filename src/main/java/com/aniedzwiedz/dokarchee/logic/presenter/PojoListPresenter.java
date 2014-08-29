@@ -14,6 +14,8 @@ public abstract class PojoListPresenter<T> extends PojoPresenter<T> implements A
 		public void setList(List<T> list);
 
 		public void setSelectable(boolean selectable);
+
+		public boolean isSelectable();
 	}
 
 	private PojoListView<T> pojoListView;
@@ -51,11 +53,15 @@ public abstract class PojoListPresenter<T> extends PojoPresenter<T> implements A
 
 	public void addItem(TableEvent crudTableEvent)
 	{
-		pojoEditPresenter.setPojoObject((T) crudTableEvent.getPojoObject());
-		goToNextView(pojoEditPresenter);
+		openEditWindowFromEvent(crudTableEvent);
 	}
 
 	public void editItem(TableEvent crudTableEvent)
+	{
+		openEditWindowFromEvent(crudTableEvent);
+	}
+
+	public void openEditWindowFromEvent(TableEvent crudTableEvent)
 	{
 		pojoEditPresenter.setPojoObject((T) crudTableEvent.getPojoObject());
 		goToNextView(pojoEditPresenter);
@@ -64,16 +70,21 @@ public abstract class PojoListPresenter<T> extends PojoPresenter<T> implements A
 	public void removeItem(TableEvent crudTableEvent)
 	{
 		getPojoService().remove((T) crudTableEvent.getPojoObject());
-		initializeView(null);
+		crudTableEvent.getCrudTable().removeItem(crudTableEvent.getPojoObject());
 	}
 
 	public void doubleClickedItem(TableEvent crudTableEvent)
 	{
-		editItem(crudTableEvent);
+		if (pojoListView.isSelectable())
+			selectedItem(crudTableEvent);
+		else
+			editItem(crudTableEvent);
 	}
 
 	public void selectedItem(TableEvent event)
 	{
+		((PojoEditPresenter) getParentPresenter()).returnValue(this, event.getPojoObject());
+		pojoListView.closeLastWindow();
 	}
 
 	@Override

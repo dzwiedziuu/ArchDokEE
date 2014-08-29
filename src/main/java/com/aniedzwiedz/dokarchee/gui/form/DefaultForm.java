@@ -11,7 +11,6 @@ import javax.persistence.OneToMany;
 
 import com.aniedzwiedz.dokarchee.gui.annotations.EditField;
 import com.aniedzwiedz.dokarchee.gui.form.error.ErrorUtils;
-import com.aniedzwiedz.dokarchee.gui.form.fields.ActiveComponent;
 import com.aniedzwiedz.dokarchee.gui.form.fields.ForeignField;
 import com.aniedzwiedz.dokarchee.gui.form.fields.ForeignField.ForeignFieldEvent;
 import com.aniedzwiedz.dokarchee.gui.form.fields.ForeignField.ForeignFieldListener;
@@ -23,7 +22,6 @@ import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitEvent;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitHandler;
-import com.vaadin.data.validator.BeanValidator;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Field;
@@ -32,7 +30,7 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
-public class DefaultForm<T> extends Panel implements ActiveComponent
+public class DefaultForm<T> extends Panel
 {
 	public interface FormListener<T>
 	{
@@ -142,8 +140,8 @@ public class DefaultForm<T> extends Panel implements ActiveComponent
 			{
 				if (af.getField().isAnnotationPresent(ManyToOne.class))
 					cl = ForeignField.class;
+				// BeanValidator added in buildAndBind method
 				field = beanFieldGroup.buildAndBind(af.getEditField().label(), af.getField().getName(), cl);
-				field.addValidator(new BeanValidator(classObj, af.getField().getName()));
 			}
 			if (field instanceof TextField)
 			{

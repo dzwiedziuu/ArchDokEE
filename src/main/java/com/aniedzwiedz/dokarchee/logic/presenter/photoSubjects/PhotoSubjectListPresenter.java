@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 import com.aniedzwiedz.dokarchee.data.model.PhotoSubject;
 import com.aniedzwiedz.dokarchee.data.service.PhotoSubjectService;
-import com.aniedzwiedz.dokarchee.gui.view.photoSubjects.PhotoSubjectListViewImpl;
 import com.aniedzwiedz.dokarchee.logic.presenter.PojoListPresenter;
 
 @Component
@@ -19,10 +18,10 @@ public class PhotoSubjectListPresenter extends PojoListPresenter<PhotoSubject>
 
 	@Autowired
 	public PhotoSubjectListPresenter(PhotoSubjectService pojoService, PhotoSubjectListView pojoListView,
-			PhotoSubjectListViewImpl pojoEditView)
+			PhotoSubjectEditPresenter photoSubjectEditPresenter)
 	{
 		setPojoService(pojoService);
 		setPojoListView(pojoListView);
-		setPojoListView(pojoEditView);
+		setPojoEditPresenter(photoSubjectEditPresenter);
 	}
 }

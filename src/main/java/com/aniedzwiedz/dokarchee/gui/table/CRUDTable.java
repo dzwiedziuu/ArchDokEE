@@ -3,6 +3,7 @@ package com.aniedzwiedz.dokarchee.gui.table;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -14,7 +15,7 @@ import org.vaadin.peter.contextmenu.ContextMenu.ContextMenuItem;
 import org.vaadin.peter.contextmenu.ContextMenu.ContextMenuItemClickEvent;
 import org.vaadin.peter.contextmenu.ContextMenu.ContextMenuItemClickListener;
 
-import com.aniedzwiedz.dokarchee.gui.ComponentWithAction;
+import com.aniedzwiedz.dokarchee.data.model.utils.ModelUtils;
 import com.aniedzwiedz.dokarchee.gui.annotations.ColumnHeader;
 import com.aniedzwiedz.dokarchee.gui.annotations.ForeignFieldLabel;
 import com.aniedzwiedz.dokarchee.gui.form.fields.ActiveComponent;
@@ -81,9 +82,6 @@ public class CRUDTable<T> extends CustomField<Set<T>> implements ActiveComponent
 
 	private ActionButtonClickListener actionListener;
 
-	private List<ComponentWithAction<ContextMenuItem>> contextMenuItems;
-	private List<ComponentWithAction<Button>> buttons;
-
 	private FilterTable filterTable;
 	private MyContextMenu myContextMenu;
 	private HorizontalLayout buttonPanel;
@@ -105,6 +103,7 @@ public class CRUDTable<T> extends CustomField<Set<T>> implements ActiveComponent
 	{
 		this.classObj = classObj;
 		actionListener = new ActionButtonClickListener();
+		verticalLayout = new VerticalLayout();
 
 		filterTable = new FilterTable();
 		filterTable.setSizeFull();
@@ -122,7 +121,11 @@ public class CRUDTable<T> extends CustomField<Set<T>> implements ActiveComponent
 
 		buttonPanel = new HorizontalLayout();
 		lowerButtonPanel = new HorizontalLayout();
-		buttons = new ArrayList<>();
+	}
+
+	public Class<?> getContentType()
+	{
+		return classObj;
 	}
 
 	public void setAddActionButton(Button addActionButton)
@@ -182,6 +185,24 @@ public class CRUDTable<T> extends CustomField<Set<T>> implements ActiveComponent
 	{
 		lowerButtonPanel.addComponent(button);
 		return button;
+	}
+
+	/**
+	 * 
+	 * @param item
+	 *            == item in table container
+	 */
+	public void removeItem(T item)
+	{
+		filterTable.removeItem(item);
+		Property p = getPropertyDataSource();
+		Set c = (Set) p.getValue();
+		List<Object> toRemove = new ArrayList<>();
+		for (Object object : c)
+			if (ModelUtils.equals(item, object))
+				toRemove.add(object);
+		for (Object o : toRemove)
+			c.remove(o);
 	}
 
 	private class ActionButtonClickListener implements Button.ClickListener, ContextMenuItemClickListener, MyTableListener,
@@ -350,15 +371,12 @@ public class CRUDTable<T> extends CustomField<Set<T>> implements ActiveComponent
 
 	public void setDataRows(Iterable<T> list)
 	{
-		verticalLayout = new VerticalLayout();
+		verticalLayout.removeAllComponents();
 		filterTable.setContainerDataSource(getContainerDataSource(list));
 		setColumnHeaders();
 		addColumnGenerators();
-		// if (!buttons.isEmpty())
-		// {
 		verticalLayout.addComponent(buttonPanel);
 		verticalLayout.setExpandRatio(buttonPanel, 0);
-		// }
 		verticalLayout.addComponent(filterTable);
 		verticalLayout.setExpandRatio(filterTable, 1);
 		verticalLayout.addComponent(lowerButtonPanel);
@@ -416,11 +434,17 @@ public class CRUDTable<T> extends CustomField<Set<T>> implements ActiveComponent
 
 	// private Property<?> property = new Property<?>;
 
+	private Set<T> initialSet;
+
 	@Override
 	public void setPropertyDataSource(Property newDataSource)
 	{
+		if (initialSet == null)
+			initialSet = (Set<T>) newDataSource.getValue();
 		Iterable<T> iterable = (Iterable<T>) newDataSource.getValue();
 		setDataRows(iterable);
+		Set<T> mergedSet = mergePropertyDataSource(initialSet, (Set<T>) newDataSource.getValue());
+		newDataSource.setValue(mergedSet);
 		super.setPropertyDataSource(newDataSource);
 	}
 
@@ -430,8 +454,39 @@ public class CRUDTable<T> extends CustomField<Set<T>> implements ActiveComponent
 		return super.getPropertyDataSource();
 	}
 
+	private Set<T> mergePropertyDataSource(Set<T> initialSet, Set<T> currentSet)
+	{
+		Set<T> resultSet = new HashSet<>();
+		outer: for (T currentObj : currentSet)
+		{
+			for (T initialObj : initialSet)
+				if (ModelUtils.equals(initialObj, currentObj))
+				{
+					resultSet.add(initialObj);
+					continue outer;
+				}
+			resultSet.add(currentObj);
+		}
+		return resultSet;
+	}
+
 	public T getSelectedItem()
 	{
 		return (T) actionListener.getLastClickedItemId();
+	}
+
+	@Override
+	public void getSelectedValue(Object value)
+	{
+		Property p = getPropertyDataSource();
+		Set c = (Set) p.getValue();
+		for (Object object : c)
+			if (ModelUtils.equals(value, object))
+			{
+				Notification.show("Blad", "Podany rekord zostal juz dodany do tabeli", Type.HUMANIZED_MESSAGE);
+				return;
+			}
+		c.add(value);
+		setPropertyDataSource(p);
 	}
 }

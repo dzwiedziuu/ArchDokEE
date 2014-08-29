@@ -13,9 +13,11 @@ import javax.validation.constraints.NotNull;
 
 import com.aniedzwiedz.dokarchee.gui.annotations.ColumnHeader;
 import com.aniedzwiedz.dokarchee.gui.annotations.EditField;
+import com.aniedzwiedz.dokarchee.gui.annotations.ForeignFieldLabel;
 
 @Entity
 @Table(name = "Ar")
+@ForeignFieldLabel(pattern = "arNumber")
 public class Ar
 {
 	@Id
@@ -28,9 +30,10 @@ public class Ar
 	@ColumnHeader(value = "Numer ara", order = 2)
 	@EditField(label = "Numer ara", order = 2)
 	@NotNull(message = "Numer ara nie moze byc pusty")
-	private String photoSubject;
+	private String arNumber;
 
 	@ManyToMany(mappedBy = "ars")
+	// , fetch = FetchType.EAGER)
 	private Set<Photo> photos = new HashSet<Photo>();
 
 	public Long getId()
@@ -43,14 +46,14 @@ public class Ar
 		this.id = id;
 	}
 
-	public String getPhotoSubject()
+	public String getArNumber()
 	{
-		return photoSubject;
+		return arNumber;
 	}
 
-	public void setPhotoSubject(String photoSubject)
+	public void setArNumber(String arNumber)
 	{
-		this.photoSubject = photoSubject;
+		this.arNumber = arNumber;
 	}
 
 	public Set<Photo> getPhotos()
