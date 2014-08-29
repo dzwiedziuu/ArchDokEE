@@ -6,9 +6,9 @@ import java.util.List;
 
 import javax.persistence.Id;
 
-public class ModelUtils
+public class ReflectionUtils
 {
-	public static Object getObjectId(Object object, String propertyId)
+	public static Object getObjectPropertyValue(Object object, String propertyId)
 	{
 		Object result = null;
 		try

@@ -2,8 +2,8 @@ package com.aniedzwiedz.dokarchee.gui.form.fields;
 
 import java.util.List;
 
-import com.aniedzwiedz.dokarchee.common.utils.ModelEntityLabelUtils;
-import com.aniedzwiedz.dokarchee.common.utils.ModelEntityLabelUtils.ItemCaptionPart;
+import com.aniedzwiedz.dokarchee.common.utils.EntityLabelUtils;
+import com.aniedzwiedz.dokarchee.common.utils.EntityLabelUtils.ItemCaptionPart;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.CustomTable;
 import com.vaadin.ui.CustomTable.ColumnGenerator;
@@ -14,7 +14,7 @@ public class ForeignFieldColumnGenerator<T> implements ColumnGenerator
 
 	public ForeignFieldColumnGenerator(Class<T> classObj)
 	{
-		itemCaptionParts = ModelEntityLabelUtils.getItemCaptionPartList(classObj);
+		itemCaptionParts = EntityLabelUtils.getItemCaptionPartList(classObj);
 	}
 
 	@Override
@@ -25,6 +25,6 @@ public class ForeignFieldColumnGenerator<T> implements ColumnGenerator
 			return "(no data)";
 		if (itemCaptionParts == null)
 			return pojoObject.toString();
-		return ModelEntityLabelUtils.getItemCaption(new BeanItem<>(pojoObject), itemCaptionParts);
+		return EntityLabelUtils.getItemCaption(new BeanItem<>(pojoObject), itemCaptionParts);
 	}
 }

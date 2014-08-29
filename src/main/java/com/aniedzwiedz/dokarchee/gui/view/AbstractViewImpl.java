@@ -34,7 +34,7 @@ public abstract class AbstractViewImpl extends Panel implements AbstractView, Vi
 	public void refresh()
 	{
 		for (ViewListener viewListener : viewListeners)
-			viewListener.initializeView(new ViewEvent());
+			viewListener.initializeView(this);
 	}
 
 	public void switchViewTo(AbstractView view)
@@ -55,5 +55,11 @@ public abstract class AbstractViewImpl extends Panel implements AbstractView, Vi
 	public void setGuiController(GuiController guiController)
 	{
 		this.guiController = guiController;
+	}
+
+	public void takeFocusAfterClosedWindow(AbstractView closedView)
+	{
+		for (ViewListener viewListener : viewListeners)
+			viewListener.focusAfterClosedWindow(new ViewEvent(closedView));
 	}
 }

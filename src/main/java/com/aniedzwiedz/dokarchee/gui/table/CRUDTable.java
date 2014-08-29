@@ -3,8 +3,9 @@ package com.aniedzwiedz.dokarchee.gui.table;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
@@ -17,7 +18,6 @@ import org.vaadin.peter.contextmenu.ContextMenu.ContextMenuItemClickListener;
 
 import com.aniedzwiedz.dokarchee.common.annotations.ColumnHeader;
 import com.aniedzwiedz.dokarchee.common.annotations.ForeignFieldLabel;
-import com.aniedzwiedz.dokarchee.common.utils.ModelUtils;
 import com.aniedzwiedz.dokarchee.gui.form.fields.ActiveComponent;
 import com.aniedzwiedz.dokarchee.gui.form.fields.ForeignFieldColumnGenerator;
 import com.aniedzwiedz.dokarchee.gui.table.contextMenu.MyContextMenu;
@@ -28,7 +28,9 @@ import com.aniedzwiedz.dokarchee.gui.table.contextMenu.MyContextMenu.MyTableList
 import com.aniedzwiedz.dokarchee.gui.view.PojoEvent;
 import com.vaadin.data.Container;
 import com.vaadin.data.Property;
+import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.shared.MouseEventDetails.MouseButton;
@@ -115,12 +117,21 @@ public class CRUDTable<T> extends CustomField<Set<T>> implements ActiveComponent
 		filterTable.setNullSelectionAllowed(false);
 		filterTable.addItemClickListener(actionListener);
 
-		myContextMenu = new MyContextMenu();
-		myContextMenu.addMyContextMenuTableListener(actionListener);
-		myContextMenu.addItemClickListener(actionListener);
+		addColumnGenerators();
 
 		buttonPanel = new HorizontalLayout();
 		lowerButtonPanel = new HorizontalLayout();
+
+		verticalLayout.addComponent(buttonPanel);
+		verticalLayout.setExpandRatio(buttonPanel, 0);
+		verticalLayout.addComponent(filterTable);
+		verticalLayout.setExpandRatio(filterTable, 1);
+		verticalLayout.addComponent(lowerButtonPanel);
+		verticalLayout.setExpandRatio(lowerButtonPanel, 0);
+
+		myContextMenu = new MyContextMenu();
+		myContextMenu.addMyContextMenuTableListener(actionListener);
+		myContextMenu.addItemClickListener(actionListener);
 	}
 
 	public Class<?> getContentType()
@@ -185,24 +196,6 @@ public class CRUDTable<T> extends CustomField<Set<T>> implements ActiveComponent
 	{
 		lowerButtonPanel.addComponent(button);
 		return button;
-	}
-
-	/**
-	 * 
-	 * @param item
-	 *            == item in table container
-	 */
-	public void removeItem(T item)
-	{
-		filterTable.removeItem(item);
-		Property p = getPropertyDataSource();
-		Set c = (Set) p.getValue();
-		List<Object> toRemove = new ArrayList<>();
-		for (Object object : c)
-			if (ModelUtils.equals(item, object))
-				toRemove.add(object);
-		for (Object o : toRemove)
-			c.remove(o);
 	}
 
 	private class ActionButtonClickListener implements Button.ClickListener, ContextMenuItemClickListener, MyTableListener,
@@ -369,39 +362,81 @@ public class CRUDTable<T> extends CustomField<Set<T>> implements ActiveComponent
 		}
 	}
 
-	public void setDataRows(Iterable<T> list)
+	private void setDataRows(Iterable<T> list)
 	{
-		verticalLayout.removeAllComponents();
-		filterTable.setContainerDataSource(getContainerDataSource(list));
-		setColumnHeaders();
-		addColumnGenerators();
-		verticalLayout.addComponent(buttonPanel);
-		verticalLayout.setExpandRatio(buttonPanel, 0);
-		verticalLayout.addComponent(filterTable);
-		verticalLayout.setExpandRatio(filterTable, 1);
-		verticalLayout.addComponent(lowerButtonPanel);
-		verticalLayout.setExpandRatio(lowerButtonPanel, 0);
+		List<PropertyWithClass> visibleProperties = setColumnHeadersAndGetPropertyList();
+		Container container = getContainerDataSource(list, visibleProperties);
+		filterTable.setContainerDataSource(container);
+		Object[] visCol = new Object[visibleProperties.size()];
+		for (int i = 0; i < visibleProperties.size(); i++)
+			visCol[i] = visibleProperties.get(i).getPropertyName();
+		filterTable.setVisibleColumns(visCol);
 		if (anyItemAdded)
 			myContextMenu.setAsTableContextMenu(filterTable);
 	}
 
-	private void setColumnHeaders()
+	private Container getContainerDataSource(Iterable<T> list, List<PropertyWithClass> visibleProperties)
 	{
+		BeanItemContainer<T> beanItemContainer = new BeanItemContainer<>(classObj);
+		IndexedContainer indexedContainer = new IndexedContainer();
+		for (PropertyWithClass p : visibleProperties)
+			indexedContainer.addContainerProperty(p.getPropertyName(), p.getPropertyType(), null);
+		if (list.iterator().hasNext())
+		{
+			for (T t : list)
+			{
+				// Item item = indexedContainer.addItem(t);
+				// beanItemContainer.add
+				// beanItemContainer.addItem(itemId)
+				// Object id = beanItemContainer.addItem();
+				// Item item = beanItemContainer.getItem(id);
+				// for (String property : visibleProperties)
+				BeanItem<T> beanItem = beanItemContainer.addBean(t);
+				List<Object> listToRemove = new ArrayList<>();
+				outer: for (Object id : beanItem.getItemPropertyIds())
+				{
+					for (PropertyWithClass property : visibleProperties)
+						if (id.equals(property.getPropertyName()))
+							continue outer;
+					listToRemove.add(id);
+					// Object value = ReflectionUtils.getObjectPropertyValue(t,
+					// property);
+					// item.addItemProperty(property, new
+					// ObjectProperty<>(value));
+				}
+				for (Object toRem : listToRemove)
+					beanItem.removeItemProperty(toRem);
+				// beanItemContainer.addBean(t);
+			}
+			return beanItemContainer;
+		} else
+		{
+		}
+		return indexedContainer;
+	}
+
+	// TODO unefficent
+	private List<PropertyWithClass> setColumnHeadersAndGetPropertyList()
+	{
+		List<PropertyWithClass> result = new ArrayList<>();
+		Map<String, Class<?>> propertyClassMap = new HashMap<>();
 		TreeMap<Integer, List<String>> map = new TreeMap<>();
 		for (Field field : classObj.getDeclaredFields())
 			if (field.isAnnotationPresent(ColumnHeader.class))
 			{
 				ColumnHeader columnHeader = field.getAnnotation(ColumnHeader.class);
 				map.put(columnHeader.order(), Arrays.asList(field.getName(), columnHeader.value()));
+				propertyClassMap.put(field.getName(), field.getType());
 			}
-		Object[] visibleColumns = new Object[map.size()];
+		String[] visibleProperties = new String[map.size()];
 		int i = 0;
 		for (Entry<Integer, List<String>> entry : map.entrySet())
 		{
-			filterTable.setColumnHeader(entry.getValue().get(0), entry.getValue().get(1));
-			visibleColumns[i++] = entry.getValue().get(0);
+			String property = entry.getValue().get(0);
+			filterTable.setColumnHeader(property, entry.getValue().get(1));
+			result.add(new PropertyWithClass(property, propertyClassMap.get(property)));
 		}
-		filterTable.setVisibleColumns(visibleColumns);
+		return result;
 	}
 
 	private void addColumnGenerators()
@@ -423,14 +458,6 @@ public class CRUDTable<T> extends CustomField<Set<T>> implements ActiveComponent
 		}
 	}
 
-	private Container getContainerDataSource(Iterable<T> list)
-	{
-		BeanItemContainer<T> beanItemContainer = new BeanItemContainer<>(classObj);
-		for (T t : list)
-			beanItemContainer.addBean(t);
-		return beanItemContainer;
-	}
-
 	@Override
 	protected Component initContent()
 	{
@@ -441,64 +468,41 @@ public class CRUDTable<T> extends CustomField<Set<T>> implements ActiveComponent
 	public Class<? extends Set<T>> getType()
 	{
 		return super.getPropertyDataSource().getType();
-		// return (Class<? extends Set<T>>) (new HashSet<T>()).getClass();
 	}
 
-	// private Property<?> property = new Property<?>;
-
-	private Set<T> initialSet;
+	private TablePropertyHolder<T> tablePropertyHolder = new TablePropertyHolder<>();
 
 	@Override
 	public void setPropertyDataSource(Property newDataSource)
 	{
-		if (initialSet == null)
-			initialSet = (Set<T>) newDataSource.getValue();
-		Iterable<T> iterable = (Iterable<T>) newDataSource.getValue();
-		setDataRows(iterable);
-		Set<T> mergedSet = mergePropertyDataSource(initialSet, (Set<T>) newDataSource.getValue());
-		newDataSource.setValue(mergedSet);
-		super.setPropertyDataSource(newDataSource);
+		newDataSource = tablePropertyHolder.setProperty(newDataSource);
+		setDataRows((Iterable<T>) newDataSource.getValue());
+	}
+
+	public void removeItem(T item)
+	{
+		filterTable.removeItem(item);
+		tablePropertyHolder.removeItem(item);
 	}
 
 	@Override
 	public Property getPropertyDataSource()
 	{
-		return super.getPropertyDataSource();
+		return tablePropertyHolder.getProperty();
 	}
 
-	private Set<T> mergePropertyDataSource(Set<T> initialSet, Set<T> currentSet)
+	@Override
+	public void addNewValueToTable(Object value)
 	{
-		Set<T> resultSet = new HashSet<>();
-		outer: for (T currentObj : currentSet)
-		{
-			for (T initialObj : initialSet)
-				if (ModelUtils.equals(initialObj, currentObj))
-				{
-					resultSet.add(initialObj);
-					continue outer;
-				}
-			resultSet.add(currentObj);
-		}
-		return resultSet;
+		if (!tablePropertyHolder.addUnique((T) value))
+			Notification.show("Blad", "Podany rekord zostal juz dodany do tabeli", Type.HUMANIZED_MESSAGE);
+		// notify about table content change
+		// TODO unefficent
+		setPropertyDataSource(tablePropertyHolder.getProperty());
 	}
 
 	public T getSelectedItem()
 	{
 		return (T) actionListener.getLastClickedItemId();
-	}
-
-	@Override
-	public void getSelectedValue(Object value)
-	{
-		Property p = getPropertyDataSource();
-		Set c = (Set) p.getValue();
-		for (Object object : c)
-			if (ModelUtils.equals(value, object))
-			{
-				Notification.show("Blad", "Podany rekord zostal juz dodany do tabeli", Type.HUMANIZED_MESSAGE);
-				return;
-			}
-		c.add(value);
-		setPropertyDataSource(p);
 	}
 }

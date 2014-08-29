@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import ru.xpoft.vaadin.DiscoveryNavigator;
 
+import com.aniedzwiedz.dokarchee.gui.ui.errors.ArchDokErrorHandler;
 import com.aniedzwiedz.dokarchee.gui.view.AbstractView;
 import com.aniedzwiedz.dokarchee.gui.view.photos.PhotoListViewImpl;
 import com.aniedzwiedz.dokarchee.gui.window.AbstractWindow;
@@ -16,6 +17,7 @@ import com.aniedzwiedz.dokarchee.gui.window.SubWindow;
 import com.aniedzwiedz.dokarchee.logic.controller.SessionController;
 import com.vaadin.navigator.View;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.Window.CloseEvent;
@@ -52,9 +54,13 @@ public class ApplicationUI extends UI implements GuiController
 
 	private AbstractView lastView;
 
+	private static final ArchDokErrorHandler archDokErrorHandler = new ArchDokErrorHandler();
+
 	@Override
 	protected void init(VaadinRequest request)
 	{
+		setErrorHandler(archDokErrorHandler);
+		VaadinSession.getCurrent().setErrorHandler(archDokErrorHandler);
 		setSizeFull();
 		lastView = startView;
 		startView.setGuiController(this);
@@ -103,11 +109,10 @@ public class ApplicationUI extends UI implements GuiController
 	private void refreshLastFreezedView()
 	{
 		SubWindow lastWindow = openedWindows.peekLast();
-		if (lastWindow != null)
-			;
-		// lastWindow.getView().refresh();
-		else
+		if (lastWindow == null)
 			lastView.refresh();
+		else
+			lastWindow.getView().refresh();
 	}
 
 	private class CloseWindowListener implements Window.CloseListener
@@ -118,7 +123,14 @@ public class ApplicationUI extends UI implements GuiController
 			SubWindow lastWindow = openedWindows.peekLast();
 			if (lastWindow != e.getWindow())
 				return;
-			openedWindows.pollLast();
+			SubWindow closedWindow = openedWindows.pollLast();
+			AbstractView newTopView = null;
+			if (closedWindow != null)
+				newTopView = lastWindow.getView();
+			else
+				newTopView = lastView;
+			AbstractView closedView = ((SubWindow) e.getWindow()).getView();
+			newTopView.takeFocusAfterClosedWindow(closedView);
 			refreshLastFreezedView();
 		}
 	}

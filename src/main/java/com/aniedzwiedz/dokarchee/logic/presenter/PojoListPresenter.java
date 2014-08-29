@@ -88,7 +88,7 @@ public abstract class PojoListPresenter<T> extends PojoPresenter<T> implements A
 	}
 
 	@Override
-	public void initializeView(ViewEvent viewEvent)
+	public void initializeView(AbstractView abstractView)
 	{
 		pojoListView.setSelectable(listSelectable);
 		pojoListView.setList(getPojoService().getAll());
@@ -97,5 +97,12 @@ public abstract class PojoListPresenter<T> extends PojoPresenter<T> implements A
 	protected void setPojoEditPresenter(PojoEditPresenter<T> pojoEditPresenter)
 	{
 		this.pojoEditPresenter = pojoEditPresenter;
+	}
+
+	@Override
+	public void focusAfterClosedWindow(ViewEvent viewEvent)
+	{
+		if (viewEvent.getClosedWindowView() == pojoListView)
+			getParentPresenter().focusAfterClosedWindow(viewEvent);
 	}
 }

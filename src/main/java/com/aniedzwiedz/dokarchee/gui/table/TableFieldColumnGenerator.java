@@ -3,8 +3,8 @@ package com.aniedzwiedz.dokarchee.gui.table;
 import java.util.Iterator;
 import java.util.List;
 
-import com.aniedzwiedz.dokarchee.common.utils.ModelEntityLabelUtils;
-import com.aniedzwiedz.dokarchee.common.utils.ModelEntityLabelUtils.ItemCaptionPart;
+import com.aniedzwiedz.dokarchee.common.utils.EntityLabelUtils;
+import com.aniedzwiedz.dokarchee.common.utils.EntityLabelUtils.ItemCaptionPart;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.CustomTable;
@@ -18,7 +18,7 @@ public class TableFieldColumnGenerator<T> implements ColumnGenerator
 	public TableFieldColumnGenerator(Class<T> classObj)
 	{
 		this.classObj = classObj;
-		itemCaptionParts = ModelEntityLabelUtils.getItemCaptionPartList(classObj);
+		itemCaptionParts = EntityLabelUtils.getItemCaptionPartList(classObj);
 	}
 
 	@Override
@@ -39,7 +39,7 @@ public class TableFieldColumnGenerator<T> implements ColumnGenerator
 			return "(no data)";
 		StringBuffer sb = new StringBuffer();
 		for (T t : set)
-			sb.append(ModelEntityLabelUtils.getItemCaption(new BeanItem<>(t), itemCaptionParts)).append(", ");
+			sb.append(EntityLabelUtils.getItemCaption(new BeanItem<>(t), itemCaptionParts)).append(", ");
 		sb.setLength(sb.length() - 2);
 		return sb.toString();
 	}

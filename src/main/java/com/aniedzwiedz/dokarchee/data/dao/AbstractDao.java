@@ -7,7 +7,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.aniedzwiedz.dokarchee.common.utils.ModelUtils;
+import com.aniedzwiedz.dokarchee.common.utils.ReflectionUtils;
 
 @Repository
 public class AbstractDao<T> implements Dao<T>
@@ -37,7 +37,7 @@ public class AbstractDao<T> implements Dao<T>
 	{
 		Class<T> classObj = (Class<T>) t.getClass();
 		String propertyId = generalDao.getIdentifierPropertyName(classObj);
-		Serializable idValue = (Serializable) ModelUtils.getObjectId(t, propertyId);
+		Serializable idValue = (Serializable) ReflectionUtils.getObjectPropertyValue(t, propertyId);
 		if (idValue == null)
 			return null;
 		return (T) sessionFactory.getCurrentSession().get(classObj, idValue);

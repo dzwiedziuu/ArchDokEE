@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.aniedzwiedz.dokarchee.common.utils.ModelEntityLabelUtils;
-import com.aniedzwiedz.dokarchee.common.utils.ModelEntityLabelUtils.ItemCaptionPart;
+import com.aniedzwiedz.dokarchee.common.utils.EntityLabelUtils;
+import com.aniedzwiedz.dokarchee.common.utils.EntityLabelUtils.ItemCaptionPart;
 import com.aniedzwiedz.dokarchee.data.service.GeneralService;
 import com.aniedzwiedz.dokarchee.gui.form.fields.ForeignField;
 import com.aniedzwiedz.dokarchee.gui.table.CRUDTable;
@@ -45,7 +45,7 @@ public class EditFieldFactory implements ExtendedFieldGroupFieldFactory
 	{
 		ForeignField<T> foreignField = new ForeignField<>(dataType);
 		foreignField.setContainerDataSource(new BeanItemContainer<T>(dataType));
-		List<ItemCaptionPart> itemCaptionPars = ModelEntityLabelUtils.getItemCaptionPartList(dataType);
+		List<ItemCaptionPart> itemCaptionPars = EntityLabelUtils.getItemCaptionPartList(dataType);
 		List<T> objectList = (List<T>) generalService.getList(dataType);
 		foreignField.setData(objectList, itemCaptionPars);
 		return foreignField;

@@ -1,13 +1,13 @@
 -serialization problem ?
 -null pointer exception while refreshing editView
--filter on table (foreignField and set)
+-filter on table - actionField (foreignField and set)
 -many to one relationship
 -CRUDTable - to large Class
--selection vs closing window (possible memory leak)
 -hibernate exceptions (constraints, deleted rows)
 -refreshing combobox list after selecting/changing list values
--catching all exceptions (?)
--logger
+-log some exceptions
+-removing dependent objects
 
 consider:
--Hibernate does "delete all then re-insert" - its not so strange - Bag for Association 
+-Hibernate does "delete all then re-insert" - its not so strange - Bag for Association
+-changing ID from number to String and add editable parameter 

@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.aniedzwiedz.dokarchee.common.utils.ModelUtils;
+import com.aniedzwiedz.dokarchee.common.utils.ReflectionUtils;
 import com.aniedzwiedz.dokarchee.data.service.PojoService;
 import com.aniedzwiedz.dokarchee.gui.form.DefaultForm.FormEvent;
 import com.aniedzwiedz.dokarchee.gui.form.fields.ActiveComponent;
@@ -24,14 +24,14 @@ public abstract class PojoEditPresenter<T> extends PojoPresenter<T> implements E
 
 	private T pojoObject;
 	private PojoEditView<T> pojoEditView;
-	private Map<Class<? extends AbstractPresenter>, ActiveComponent> childPresentersFromFields = new HashMap<>();
+	private Map<Class<? extends AbstractView>, ActiveComponent> childPresentersFromFields = new HashMap<>();
 
 	public void returnValue(AbstractPresenter abstractPresenter, Object value)
 	{
 		if (value == null)
 			return;
-		ActiveComponent activeComponent = childPresentersFromFields.remove(abstractPresenter.getClass());
-		activeComponent.getSelectedValue(value);
+		ActiveComponent activeComponent = childPresentersFromFields.remove(abstractPresenter.getAbstractView().getClass());
+		activeComponent.addNewValueToTable(value);
 	}
 
 	@Override
@@ -74,7 +74,7 @@ public abstract class PojoEditPresenter<T> extends PojoPresenter<T> implements E
 		AbstractPresenter abstractPresenter = getDictionaryPresenter(ffType);
 		if (abstractPresenter == null)
 			throw new RuntimeException("Couldn't find dictionary presenter for class " + ffType);
-		childPresentersFromFields.put(abstractPresenter.getClass(), foreignFieldEvent.getForeignField());
+		childPresentersFromFields.put(abstractPresenter.getAbstractView().getClass(), foreignFieldEvent.getForeignField());
 		goToNextView(abstractPresenter);
 	}
 
@@ -98,7 +98,7 @@ public abstract class PojoEditPresenter<T> extends PojoPresenter<T> implements E
 			throw new RuntimeException("Couldn't find activeField presenter for class " + crudClass);
 		if (abstractPresenter instanceof PojoEditPresenter)
 			((PojoEditPresenter) abstractPresenter).setPojoObject(crudTableEvent.getPojoObject());
-		childPresentersFromFields.put(abstractPresenter.getClass(), crudTableEvent.getCrudTable());
+		childPresentersFromFields.put(abstractPresenter.getAbstractView().getClass(), crudTableEvent.getCrudTable());
 		goToNextView(abstractPresenter);
 	}
 
@@ -141,7 +141,7 @@ public abstract class PojoEditPresenter<T> extends PojoPresenter<T> implements E
 	}
 
 	@Override
-	public void initializeView(ViewEvent viewEvent)
+	public void initializeView(AbstractView abstractView)
 	{
 		pojoEditView.setPojoObject(pojoObject);
 	}
@@ -150,7 +150,7 @@ public abstract class PojoEditPresenter<T> extends PojoPresenter<T> implements E
 	{
 		try
 		{
-			for (Field field : ModelUtils.getObjectIdFields(pojoObject.getClass()))
+			for (Field field : ReflectionUtils.getObjectIdFields(pojoObject.getClass()))
 			{
 				field.setAccessible(true);
 				if (field.get(pojoObject) == null)
@@ -162,5 +162,15 @@ public abstract class PojoEditPresenter<T> extends PojoPresenter<T> implements E
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	// TODO to spaghetti
+	@Override
+	public void focusAfterClosedWindow(ViewEvent viewEvent)
+	{
+		if (viewEvent.getClosedWindowView() == pojoEditView)
+			getParentPresenter().focusAfterClosedWindow(viewEvent);
+		else
+			childPresentersFromFields.remove(viewEvent.getClosedWindowView().getClass());
 	}
 }

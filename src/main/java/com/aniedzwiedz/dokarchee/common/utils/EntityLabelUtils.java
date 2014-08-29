@@ -7,7 +7,7 @@ import java.util.List;
 import com.aniedzwiedz.dokarchee.common.annotations.ForeignFieldLabel;
 import com.vaadin.data.Item;
 
-public class ModelEntityLabelUtils
+public class EntityLabelUtils
 {
 	public static class ItemCaptionPart
 	{

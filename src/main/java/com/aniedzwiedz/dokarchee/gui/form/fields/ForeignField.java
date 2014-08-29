@@ -3,9 +3,9 @@ package com.aniedzwiedz.dokarchee.gui.form.fields;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.aniedzwiedz.dokarchee.common.utils.ModelEntityLabelUtils;
-import com.aniedzwiedz.dokarchee.common.utils.ModelUtils;
-import com.aniedzwiedz.dokarchee.common.utils.ModelEntityLabelUtils.ItemCaptionPart;
+import com.aniedzwiedz.dokarchee.common.utils.EntityLabelUtils;
+import com.aniedzwiedz.dokarchee.common.utils.ReflectionUtils;
+import com.aniedzwiedz.dokarchee.common.utils.EntityLabelUtils.ItemCaptionPart;
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
@@ -94,7 +94,7 @@ public class ForeignField<T> extends CustomField<T> implements ActiveComponent
 		for (Object item : container.getItemIds())
 		{
 			T itemPojoObject = (T) item;
-			if (ModelUtils.equals(t, itemPojoObject))
+			if (ReflectionUtils.equals(t, itemPojoObject))
 				newDataSource.setValue(itemPojoObject);
 		}
 		comboBox.setPropertyDataSource(newDataSource);
@@ -125,7 +125,7 @@ public class ForeignField<T> extends CustomField<T> implements ActiveComponent
 		{
 			Item item = addItem(t);
 			if (itemCaptionPars != null)
-				setItemCaption(t, ModelEntityLabelUtils.getItemCaption(item, itemCaptionPars));
+				setItemCaption(t, EntityLabelUtils.getItemCaption(item, itemCaptionPars));
 		}
 	}
 
@@ -147,7 +147,7 @@ public class ForeignField<T> extends CustomField<T> implements ActiveComponent
 	}
 
 	@Override
-	public void getSelectedValue(Object value)
+	public void addNewValueToTable(Object value)
 	{
 		Property property = getPropertyDataSource();
 		property.setValue(value);

@@ -9,6 +9,7 @@ import com.aniedzwiedz.dokarchee.gui.form.ExtendedFieldGroupFieldFactory;
 import com.aniedzwiedz.dokarchee.gui.table.CRUDTable;
 import com.aniedzwiedz.dokarchee.gui.table.CRUDTable.CRUDTableListener;
 import com.aniedzwiedz.dokarchee.gui.table.CRUDTable.TableEvent;
+import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.VerticalLayout;
 
@@ -42,7 +43,7 @@ public abstract class AbstractPojoListView<T> extends AbstractViewImpl implement
 		CRUDTable<T> crudTable = extendedFieldGroupFieldFactory.createTableField(classObj, false);
 		if (selectable)
 			crudTable.setSelectActionButton(crudTable.addLowerButton(new Button("Wybierz")));
-		crudTable.setDataRows(pojoList);
+		crudTable.setPropertyDataSource(new ObjectProperty<>(pojoList, List.class));
 		crudTable.addCRUDTableListener(listViewCRUDTableListener);
 		return crudTable;
 	}
@@ -100,5 +101,11 @@ public abstract class AbstractPojoListView<T> extends AbstractViewImpl implement
 			for (ListViewListener listViewListener : listViewListeners)
 				listViewListener.selectedItem(event);
 		}
+	}
+
+	@Override
+	public void addItem(Object value)
+	{
+		crudTable.addNewValueToTable(value);
 	}
 }

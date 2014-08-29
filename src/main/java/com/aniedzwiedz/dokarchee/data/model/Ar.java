@@ -22,7 +22,6 @@ public class Ar
 {
 	@Id
 	@Column(name = "idar")
-	@ColumnHeader(value = "ID Ara", order = 0)
 	@GeneratedValue
 	private Long id;
 
