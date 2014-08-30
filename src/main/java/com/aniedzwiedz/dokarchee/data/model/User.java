@@ -13,14 +13,13 @@ import com.aniedzwiedz.dokarchee.common.annotations.EditField;
 import com.aniedzwiedz.dokarchee.common.annotations.ForeignFieldLabel;
 
 @Entity
-@Table(name = "USERS")
+@Table(name = "USER")
 @ForeignFieldLabel(pattern = "$firstName$ $lastName$")
 public class User
 {
 	@Id
-	@Column(name = "IDUSERS")
-	@ColumnHeader(value = "ID", order = 0)
 	@GeneratedValue
+	@Column(name = "iduser")
 	private Long id;
 
 	@Column(name = "FIRSTNAME")

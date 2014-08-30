@@ -12,4 +12,8 @@ public @interface EditField
 	String label();
 
 	int order();
+
+	boolean editable() default true;
+
+	boolean autofiled() default true;
 }

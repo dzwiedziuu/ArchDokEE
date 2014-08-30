@@ -33,32 +33,16 @@
 		</listener-class>
 	</listener>
 
-	<!-- <listener> <listener-class>com.aniedzwiedz.dokarchee.session.DokarcheeSessionListener 
-		</listener-class> </listener> -->
-
 	<servlet>
-		<servlet-name>users</servlet-name>
+		<servlet-name>applicationServlet</servlet-name>
 		<servlet-class>ru.xpoft.vaadin.SpringVaadinServlet</servlet-class>
 		<init-param>
 			<param-name>beanName</param-name>
 			<param-value>applicationUI</param-value>
 		</init-param>
-		<!-- <init-param> <param-name>systemMessagesBeanName</param-name> <param-value>DEFAULT</param-value> 
-			</init-param> -->
 		<init-param>
-			<description>Application widgetset</description>
-			<param-name>widgetset</param-name>
-			<param-value>com.aniedzwiedz.dokarchee.ui.users.widgetset.DokarcheeWidgetset
-			</param-value>
-		</init-param>
-	</servlet>
-
-	<servlet>
-		<servlet-name>test</servlet-name>
-		<servlet-class>ru.xpoft.vaadin.SpringVaadinServlet</servlet-class>
-		<init-param>
-			<param-name>beanName</param-name>
-			<param-value>defaultFormUI</param-value>
+			<param-name>systemMessagesBeanName</param-name>
+			<param-value>DEFAULT</param-value>
 		</init-param>
 		<init-param>
 			<description>Application widgetset</description>
@@ -69,12 +53,7 @@
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>users</servlet-name>
-		<url-pattern>/users</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>users</servlet-name>
+		<servlet-name>applicationServlet</servlet-name>
 		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
 </web-app>

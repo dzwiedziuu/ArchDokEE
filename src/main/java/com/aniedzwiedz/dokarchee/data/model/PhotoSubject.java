@@ -20,9 +20,8 @@ import com.aniedzwiedz.dokarchee.common.annotations.ForeignFieldLabel;
 public class PhotoSubject
 {
 	@Id
-	@Column(name = "idphoto_subject")
-	@ColumnHeader(value = "ID Tematu zdjecia", order = 0)
 	@GeneratedValue
+	@Column(name = "idphoto_subject")
 	private Long id;
 
 	@Column(name = "content")
@@ -30,6 +29,16 @@ public class PhotoSubject
 	@EditField(label = "Temat zdjecia", order = 2)
 	@NotNull(message = "Temat zdjecia nie moze byc pusty")
 	private String photoSubject;
+
+	public Collection<Photo> getPhotos()
+	{
+		return photos;
+	}
+
+	public void setPhotos(Collection<Photo> photos)
+	{
+		this.photos = photos;
+	}
 
 	@OneToMany(mappedBy = "photoSubject")
 	private Collection<Photo> photos;

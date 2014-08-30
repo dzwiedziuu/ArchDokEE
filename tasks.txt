@@ -4,10 +4,8 @@
 -many to one relationship
 -CRUDTable - to large Class
 -hibernate exceptions (constraints, deleted rows)
--refreshing combobox list after selecting/changing list values
 -log some exceptions
 -removing dependent objects
 
 consider:
 -Hibernate does "delete all then re-insert" - its not so strange - Bag for Association
--changing ID from number to String and add editable parameter 

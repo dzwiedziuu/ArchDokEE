@@ -17,7 +17,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
-import javax.validation.constraints.Size;
 
 import com.aniedzwiedz.dokarchee.common.annotations.ColumnHeader;
 import com.aniedzwiedz.dokarchee.common.annotations.EditField;
@@ -27,17 +26,15 @@ import com.aniedzwiedz.dokarchee.common.annotations.EditField;
 public class Photo
 {
 	@Id
-	@Column(name = "IDPHOTO")
-	@ColumnHeader(value = "ID Zdjecia", order = 0)
 	@GeneratedValue
+	@Column(name = "idphoto")
 	private Long id;
 
 	@Column(name = "PHOTO_NUMBER")
 	@ColumnHeader(value = "Numer zdjecia", order = 1)
 	@EditField(label = "Numer zdjecia", order = 1)
 	@NotNull(message = "Numer zdjecia nie moze byc pusty")
-	@Size(min = 1, max = 5, message = "Numer zdjecia musi miec dlugosc w przedziale <1, 5>")
-	private String photoNumber;
+	private Long photoNumber;
 
 	@JoinColumn(name = "OBJECT")
 	@ColumnHeader(value = "Powiazany obiekt", order = 2)
@@ -73,16 +70,6 @@ public class Photo
 	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
 	private Set<Ar> ars = new HashSet<Ar>();
 
-	public PhotoSubject getPhotoSubject()
-	{
-		return photoSubject;
-	}
-
-	public void setPhotoSubject(PhotoSubject photoSubject)
-	{
-		this.photoSubject = photoSubject;
-	}
-
 	public Long getId()
 	{
 		return id;
@@ -93,12 +80,22 @@ public class Photo
 		this.id = id;
 	}
 
-	public String getPhotoNumber()
+	public PhotoSubject getPhotoSubject()
+	{
+		return photoSubject;
+	}
+
+	public void setPhotoSubject(PhotoSubject photoSubject)
+	{
+		this.photoSubject = photoSubject;
+	}
+
+	public Long getPhotoNumber()
 	{
 		return photoNumber;
 	}
 
-	public void setPhotoNumber(String photoNumber)
+	public void setPhotoNumber(Long photoNumber)
 	{
 		this.photoNumber = photoNumber;
 	}

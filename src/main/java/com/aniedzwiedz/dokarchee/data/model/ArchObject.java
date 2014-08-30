@@ -1,11 +1,14 @@
 package com.aniedzwiedz.dokarchee.data.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
 import com.aniedzwiedz.dokarchee.common.annotations.ColumnHeader;
 import com.aniedzwiedz.dokarchee.common.annotations.EditField;
@@ -17,8 +20,8 @@ import com.aniedzwiedz.dokarchee.common.annotations.ForeignFieldLabel;
 public class ArchObject
 {
 	@Id
-	@Column(name = "idobject")
 	@GeneratedValue
+	@Column(name = "idobject")
 	private Long id;
 
 	@Column(name = "objectnumber")
@@ -26,6 +29,13 @@ public class ArchObject
 	@EditField(label = "Numer obiektu", order = 1)
 	@NotNull(message = "Numer obiektu nie moze byc pusty")
 	private String objectNumber;
+
+	@Column(name = "explorationDate")
+	@ColumnHeader(value = "Data eksploracji", order = 2)
+	@EditField(label = "Data eksploracji", order = 2)
+	@NotNull(message = "Data eksploracji nie moze byc pusta")
+	@Past
+	private Date explorationDate;
 
 	public Long getId()
 	{
@@ -45,5 +55,15 @@ public class ArchObject
 	public void setObjectNumber(String objectNumber)
 	{
 		this.objectNumber = objectNumber;
+	}
+
+	public Date getExplorationDate()
+	{
+		return explorationDate;
+	}
+
+	public void setExplorationDate(Date explorationDate)
+	{
+		this.explorationDate = explorationDate;
 	}
 }

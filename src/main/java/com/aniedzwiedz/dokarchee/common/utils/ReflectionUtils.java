@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.persistence.Id;
 
+import com.aniedzwiedz.dokarchee.common.annotations.EditField;
+
 public class ReflectionUtils
 {
 	public static Object getObjectPropertyValue(Object object, String propertyId)
@@ -22,6 +24,17 @@ public class ReflectionUtils
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	/*
+	 * type must have at least one field to edit other than ID
+	 */
+	public static boolean isEditable(Class<?> genericType)
+	{
+		for (Field field : genericType.getDeclaredFields())
+			if (field.isAnnotationPresent(EditField.class) && !field.isAnnotationPresent(Id.class))
+				return true;
+		return false;
 	}
 
 	public static <T> boolean equals(T t1, T t2)

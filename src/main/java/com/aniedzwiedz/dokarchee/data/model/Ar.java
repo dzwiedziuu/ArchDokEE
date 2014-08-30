@@ -21,13 +21,13 @@ import com.aniedzwiedz.dokarchee.common.annotations.ForeignFieldLabel;
 public class Ar
 {
 	@Id
-	@Column(name = "idar")
 	@GeneratedValue
+	@Column(name = "idar")
 	private Long id;
 
 	@Column(name = "ar_number")
-	@ColumnHeader(value = "Numer ara", order = 2)
-	@EditField(label = "Numer ara", order = 2)
+	@ColumnHeader(value = "Numer ara", order = 1)
+	@EditField(label = "Numer ara", order = 1, editable = false)
 	@NotNull(message = "Numer ara nie moze byc pusty")
 	private String arNumber;
 

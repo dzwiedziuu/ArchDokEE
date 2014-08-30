@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.aniedzwiedz.dokarchee.common.utils.EntityLabelUtils;
 import com.aniedzwiedz.dokarchee.common.utils.EntityLabelUtils.ItemCaptionPart;
+import com.aniedzwiedz.dokarchee.common.utils.ReflectionUtils;
 import com.aniedzwiedz.dokarchee.data.service.GeneralService;
 import com.aniedzwiedz.dokarchee.gui.form.fields.ForeignField;
 import com.aniedzwiedz.dokarchee.gui.table.CRUDTable;
@@ -57,7 +58,7 @@ public class EditFieldFactory implements ExtendedFieldGroupFieldFactory
 		CRUDTable<T> crudTable = new CRUDTable<>(genericType);
 		crudTable.setAddActionMenuItem(crudTable.addContextMenuItem("Dodaj"));
 		crudTable.setAddActionButton(crudTable.addUpperButton(new Button("Dodaj")));
-		if (!manyToMany)
+		if (!manyToMany && ReflectionUtils.isEditable(genericType))
 		{
 			crudTable.setEditActionMenuItem(crudTable.addContextMenuItem("Edytuj"));
 			crudTable.setEditActionButton(crudTable.addUpperButton(new Button("Edytuj")));

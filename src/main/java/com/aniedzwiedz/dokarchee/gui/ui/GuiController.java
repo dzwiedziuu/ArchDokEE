@@ -8,5 +8,5 @@ public interface GuiController
 
 	void openInNewWindow(AbstractView view);
 
-	void closeLastOpenedWindow();
+	void closeWindowOrGoPrevView();
 }

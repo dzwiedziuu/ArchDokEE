@@ -11,7 +11,10 @@ import ru.xpoft.vaadin.DiscoveryNavigator;
 
 import com.aniedzwiedz.dokarchee.gui.ui.errors.ArchDokErrorHandler;
 import com.aniedzwiedz.dokarchee.gui.view.AbstractView;
-import com.aniedzwiedz.dokarchee.gui.view.photos.PhotoListViewImpl;
+import com.aniedzwiedz.dokarchee.gui.view.AbstractViewImpl;
+import com.aniedzwiedz.dokarchee.gui.view.pageView.PageTopView;
+import com.aniedzwiedz.dokarchee.gui.view.pageView.PageView;
+import com.aniedzwiedz.dokarchee.gui.view.pageView.StartPageView;
 import com.aniedzwiedz.dokarchee.gui.window.AbstractWindow;
 import com.aniedzwiedz.dokarchee.gui.window.SubWindow;
 import com.aniedzwiedz.dokarchee.logic.controller.SessionController;
@@ -39,20 +42,27 @@ public class ApplicationUI extends UI implements GuiController
 		protected void navigateTo(View view, String viewName, String parameters)
 		{
 			AbstractView abstractView = (AbstractView) view;
+			lastView = currentView;
+			currentView = abstractView;
 			abstractView.setGuiController(ApplicationUI.this);
 			sessionController.registerView(abstractView);
 			abstractView.refresh();
-			super.navigateTo(view, viewName, parameters);
+			PageView pageView = new PageView((AbstractViewImpl) abstractView, pageTopView);
+			super.navigateTo(pageView, viewName, parameters);
 		}
 	}
+
+	@Autowired
+	private PageTopView pageTopView;
 
 	@Autowired
 	private SessionController sessionController;
 
 	@Autowired
-	private PhotoListViewImpl startView;
+	private StartPageView startView;
 
 	private AbstractView lastView;
+	private AbstractView currentView;
 
 	private static final ArchDokErrorHandler archDokErrorHandler = new ArchDokErrorHandler();
 
@@ -62,7 +72,7 @@ public class ApplicationUI extends UI implements GuiController
 		setErrorHandler(archDokErrorHandler);
 		VaadinSession.getCurrent().setErrorHandler(archDokErrorHandler);
 		setSizeFull();
-		lastView = startView;
+		currentView = startView;
 		startView.setGuiController(this);
 		new MyNavigator(this, startView);
 	}
@@ -70,7 +80,6 @@ public class ApplicationUI extends UI implements GuiController
 	@Override
 	public void switchViewTo(AbstractView view)
 	{
-		lastView = view;
 		getNavigator().navigateTo(view.getViewName());
 	}
 
@@ -98,19 +107,23 @@ public class ApplicationUI extends UI implements GuiController
 	}
 
 	@Override
-	public void closeLastOpenedWindow()
+	public void closeWindowOrGoPrevView()
 	{
+		if (openedWindows.peekLast() == null)
+			switchViewTo(lastView);
 		AbstractWindow lastOpenedWindow = openedWindows.pollLast();
-		if (lastOpenedWindow != null)
+		if (lastOpenedWindow == null)
+			refreshLastFreezedView();
+		else
 			removeWindow((Window) lastOpenedWindow);
-		refreshLastFreezedView();
+
 	}
 
 	private void refreshLastFreezedView()
 	{
 		SubWindow lastWindow = openedWindows.peekLast();
 		if (lastWindow == null)
-			lastView.refresh();
+			currentView.refresh();
 		else
 			lastWindow.getView().refresh();
 	}
@@ -128,7 +141,7 @@ public class ApplicationUI extends UI implements GuiController
 			if (closedWindow != null)
 				newTopView = lastWindow.getView();
 			else
-				newTopView = lastView;
+				newTopView = currentView;
 			AbstractView closedView = ((SubWindow) e.getWindow()).getView();
 			newTopView.takeFocusAfterClosedWindow(closedView);
 			refreshLastFreezedView();

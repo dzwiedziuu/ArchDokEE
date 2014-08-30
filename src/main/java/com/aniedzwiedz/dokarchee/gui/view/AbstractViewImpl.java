@@ -49,7 +49,7 @@ public abstract class AbstractViewImpl extends Panel implements AbstractView, Vi
 
 	public void closeLastWindow()
 	{
-		guiController.closeLastOpenedWindow();
+		guiController.closeWindowOrGoPrevView();
 	}
 
 	public void setGuiController(GuiController guiController)

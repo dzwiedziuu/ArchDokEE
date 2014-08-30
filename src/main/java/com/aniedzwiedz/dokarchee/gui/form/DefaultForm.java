@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
+import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -145,14 +146,29 @@ public class DefaultForm<T> extends Panel
 			}
 			if (field instanceof TextField)
 			{
-				TextField textField = (TextField) field;
-				if (textField.getPropertyDataSource().getValue() == null)
-					textField.setValue("");
+				((TextField) field).setNullRepresentation("");
+				// for (Validator validator : field.getValidators())
+				// System.out.println(validator);
+				((TextField) field).setConversionError("Wprowadzana wartosc musi byc liczba");
 			}
 			if (field instanceof CRUDTable)
 				((CRUDTable<?>) field).addCRUDTableListener(fieldListener);
 			if (field instanceof ForeignField)
 				((ForeignField<?>) field).addForeignFieldListener(fieldListener);
+			if (af.getField().isAnnotationPresent(Id.class))
+			{
+				try
+				{
+					af.getField().setAccessible(true);
+					if (af.getField().get(pojoObject) != null)
+						field.setEnabled(false);
+				} catch (IllegalArgumentException | IllegalAccessException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
 			vertiralLayout.addComponent(field);
 		}
 		vertiralLayout.addComponent(buttonPanel);
