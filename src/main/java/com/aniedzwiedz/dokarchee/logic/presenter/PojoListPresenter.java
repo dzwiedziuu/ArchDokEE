@@ -53,17 +53,18 @@ public abstract class PojoListPresenter<T> extends PojoPresenter<T> implements A
 
 	public void addItem(TableEvent crudTableEvent)
 	{
-		openEditWindowFromEvent(crudTableEvent);
+		openEditWindowFromEvent(crudTableEvent, true);
 	}
 
 	public void editItem(TableEvent crudTableEvent)
 	{
-		openEditWindowFromEvent(crudTableEvent);
+		openEditWindowFromEvent(crudTableEvent, false);
 	}
 
-	public void openEditWindowFromEvent(TableEvent crudTableEvent)
+	public void openEditWindowFromEvent(TableEvent crudTableEvent, boolean newObject)
 	{
 		pojoEditPresenter.setPojoObject((T) crudTableEvent.getPojoObject());
+		pojoEditPresenter.setNewObject(newObject);
 		goToNextView(pojoEditPresenter);
 	}
 

@@ -16,7 +16,7 @@ public class UsersListViewImpl extends AbstractPojoListView<User> implements Use
 {
 	private static final long serialVersionUID = -974633482319703150L;
 
-	public static final String VIEW_NAME = "USER_LIST";
+	static final String VIEW_NAME = "USER_LIST";
 
 	public UsersListViewImpl()
 	{

@@ -14,7 +14,7 @@ import com.aniedzwiedz.dokarchee.logic.presenter.photoSubjects.PhotoSubjectListP
 @VaadinView(PhotoSubjectListViewImpl.VIEW_NAME)
 public class PhotoSubjectListViewImpl extends AbstractPojoListView<PhotoSubject> implements PhotoSubjectListView
 {
-	public static final String VIEW_NAME = "PHOTOSUBJECT_LIST";
+	static final String VIEW_NAME = "PHOTOSUBJECT_LIST";
 
 	public PhotoSubjectListViewImpl()
 	{

@@ -14,7 +14,7 @@ import com.aniedzwiedz.dokarchee.logic.presenter.photos.PhotoEditPresenter.Photo
 @VaadinView(PhotoEditViewImpl.VIEW_NAME)
 public class PhotoEditViewImpl extends AbstractPojoEditView<Photo> implements PhotoEditView
 {
-	public static final String VIEW_NAME = "PHOTO_EDIT";
+	static final String VIEW_NAME = "PHOTO_EDIT";
 
 	public PhotoEditViewImpl()
 	{

@@ -25,6 +25,12 @@ public abstract class PojoEditPresenter<T> extends PojoPresenter<T> implements E
 	private T pojoObject;
 	private PojoEditView<T> pojoEditView;
 	private Map<Class<? extends AbstractView>, ActiveComponent> childPresentersFromFields = new HashMap<>();
+	private boolean newObject;
+
+	public void setNewObject(boolean newObject)
+	{
+		this.newObject = newObject;
+	}
 
 	public void returnValue(AbstractPresenter abstractPresenter, Object value)
 	{
@@ -81,23 +87,26 @@ public abstract class PojoEditPresenter<T> extends PojoPresenter<T> implements E
 	@Override
 	public void addItem(TableEvent crudTableEvent)
 	{
-		openEditWindowForEvent(crudTableEvent);
+		openEditWindowForEvent(crudTableEvent, true);
 	}
 
 	@Override
 	public void editItem(TableEvent crudTableEvent)
 	{
-		openEditWindowForEvent(crudTableEvent);
+		openEditWindowForEvent(crudTableEvent, false);
 	}
 
-	private void openEditWindowForEvent(TableEvent crudTableEvent)
+	private void openEditWindowForEvent(TableEvent crudTableEvent, boolean newObject)
 	{
 		Class<?> crudClass = crudTableEvent.getCrudTable().getContentType();
 		AbstractPresenter abstractPresenter = getActiveFieldPresenter(crudClass);
 		if (abstractPresenter == null)
 			throw new RuntimeException("Couldn't find activeField presenter for class " + crudClass);
 		if (abstractPresenter instanceof PojoEditPresenter)
+		{
 			((PojoEditPresenter) abstractPresenter).setPojoObject(crudTableEvent.getPojoObject());
+			((PojoEditPresenter) abstractPresenter).setNewObject(newObject);
+		}
 		childPresentersFromFields.put(abstractPresenter.getAbstractView().getClass(), crudTableEvent.getCrudTable());
 		goToNextView(abstractPresenter);
 	}
@@ -126,8 +135,7 @@ public abstract class PojoEditPresenter<T> extends PojoPresenter<T> implements E
 	{
 		PojoService<T> pojoService = getPojoService();
 		T pojoObject = formEvent.getPojoObject();
-		boolean newObj = checkIfObjectIsNew(pojoObject);
-		if (newObj)
+		if (newObject)
 			pojoService.add(pojoObject);
 		else
 			pojoService.update(pojoObject);

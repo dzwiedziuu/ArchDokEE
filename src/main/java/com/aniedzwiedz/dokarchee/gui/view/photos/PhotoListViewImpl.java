@@ -14,7 +14,7 @@ import com.aniedzwiedz.dokarchee.logic.presenter.photos.PhotoListPresenter.Photo
 @VaadinView(PhotoListViewImpl.VIEW_NAME)
 public class PhotoListViewImpl extends AbstractPojoListView<Photo> implements PhotoListView
 {
-	public static final String VIEW_NAME = "PHOTO_LIST";
+	static final String VIEW_NAME = "PHOTO_LIST";
 
 	public PhotoListViewImpl()
 	{

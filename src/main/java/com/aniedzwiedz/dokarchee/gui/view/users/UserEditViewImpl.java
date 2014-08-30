@@ -16,7 +16,7 @@ public class UserEditViewImpl extends AbstractPojoEditView<User> implements User
 {
 	private static final long serialVersionUID = -6321530911411760761L;
 
-	public static final String VIEW_NAME = "USER_EDIT";
+	static final String VIEW_NAME = "USER_EDIT";
 
 	public UserEditViewImpl()
 	{

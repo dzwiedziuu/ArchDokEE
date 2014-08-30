@@ -14,7 +14,7 @@ import com.aniedzwiedz.dokarchee.logic.presenter.photoSubjects.PhotoSubjectEditP
 @VaadinView(PhotoSubjectEditViewImpl.VIEW_NAME)
 public class PhotoSubjectEditViewImpl extends AbstractPojoEditView<PhotoSubject> implements PhotoSubjectEditView
 {
-	public static final String VIEW_NAME = "PHOTOSUBJECT_EDIT";
+	static final String VIEW_NAME = "PHOTOSUBJECT_EDIT";
 
 	public PhotoSubjectEditViewImpl()
 	{
