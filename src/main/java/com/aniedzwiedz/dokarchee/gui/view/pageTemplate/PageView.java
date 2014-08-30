@@ -1,4 +1,4 @@
-package com.aniedzwiedz.dokarchee.gui.view.pageView;
+package com.aniedzwiedz.dokarchee.gui.view.pageTemplate;
 
 import com.aniedzwiedz.dokarchee.gui.view.AbstractViewImpl;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;

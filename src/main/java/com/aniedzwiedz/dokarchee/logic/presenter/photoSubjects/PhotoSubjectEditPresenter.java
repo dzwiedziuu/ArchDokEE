@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.aniedzwiedz.dokarchee.data.model.PhotoSubject;
-import com.aniedzwiedz.dokarchee.data.service.PhotoSubjectService;
+import com.aniedzwiedz.dokarchee.data.service.AbstractServiceInterface;
 import com.aniedzwiedz.dokarchee.logic.presenter.AbstractPresenter;
 import com.aniedzwiedz.dokarchee.logic.presenter.PojoEditPresenter;
 
@@ -18,7 +18,7 @@ public class PhotoSubjectEditPresenter extends PojoEditPresenter<PhotoSubject>
 	}
 
 	@Autowired
-	public PhotoSubjectEditPresenter(PhotoSubjectEditView pojoEditView, PhotoSubjectService pojoService)
+	public PhotoSubjectEditPresenter(PhotoSubjectEditView pojoEditView, AbstractServiceInterface<PhotoSubject> pojoService)
 	{
 		setView(pojoEditView);
 		setPojoService(pojoService);

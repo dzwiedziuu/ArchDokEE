@@ -1,4 +1,4 @@
-package com.aniedzwiedz.dokarchee.gui.view.pageView;
+package com.aniedzwiedz.dokarchee.gui.view.startPage;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -18,7 +18,7 @@ public class StartPageView extends AbstractViewImpl
 		setContent(new Label("Content of start page"));
 	}
 
-	static final String VIEW_NAME = "StartPage";
+	public static final String VIEW_NAME = "StartPage";
 
 	@Override
 	public String getViewName()

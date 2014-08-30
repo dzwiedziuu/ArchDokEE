@@ -9,3 +9,4 @@
 
 consider:
 -Hibernate does "delete all then re-insert" - its not so strange - Bag for Association
+-page in one view?

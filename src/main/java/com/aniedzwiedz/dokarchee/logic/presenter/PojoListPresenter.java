@@ -18,6 +18,13 @@ public abstract class PojoListPresenter<T> extends PojoPresenter<T> implements A
 		public boolean isSelectable();
 	}
 
+	private Class<T> typeClass;
+
+	protected PojoListPresenter(Class<T> typeClass)
+	{
+		this.typeClass = typeClass;
+	}
+
 	private PojoListView<T> pojoListView;
 	private boolean listSelectable = false;
 	private PojoEditPresenter<T> pojoEditPresenter;
@@ -84,7 +91,7 @@ public abstract class PojoListPresenter<T> extends PojoPresenter<T> implements A
 
 	public void selectedItem(TableEvent event)
 	{
-		((PojoEditPresenter) getParentPresenter()).returnValue(this, event.getPojoObject());
+		((SelectListener) getParentPresenter()).returnValue(this, event.getPojoObject());
 		pojoListView.closeLastWindow();
 	}
 
@@ -92,7 +99,7 @@ public abstract class PojoListPresenter<T> extends PojoPresenter<T> implements A
 	public void initializeView(AbstractView abstractView)
 	{
 		pojoListView.setSelectable(listSelectable);
-		pojoListView.setList(getPojoService().getAll());
+		pojoListView.setList(getPojoService().getAll(typeClass));
 	}
 
 	protected void setPojoEditPresenter(PojoEditPresenter<T> pojoEditPresenter)

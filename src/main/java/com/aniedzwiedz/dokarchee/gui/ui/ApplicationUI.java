@@ -12,9 +12,9 @@ import ru.xpoft.vaadin.DiscoveryNavigator;
 import com.aniedzwiedz.dokarchee.gui.ui.errors.ArchDokErrorHandler;
 import com.aniedzwiedz.dokarchee.gui.view.AbstractView;
 import com.aniedzwiedz.dokarchee.gui.view.AbstractViewImpl;
-import com.aniedzwiedz.dokarchee.gui.view.pageView.PageTopView;
-import com.aniedzwiedz.dokarchee.gui.view.pageView.PageView;
-import com.aniedzwiedz.dokarchee.gui.view.pageView.StartPageView;
+import com.aniedzwiedz.dokarchee.gui.view.pageTemplate.PageTopView;
+import com.aniedzwiedz.dokarchee.gui.view.pageTemplate.PageView;
+import com.aniedzwiedz.dokarchee.gui.view.startPage.StartPageView;
 import com.aniedzwiedz.dokarchee.gui.window.AbstractWindow;
 import com.aniedzwiedz.dokarchee.gui.window.SubWindow;
 import com.aniedzwiedz.dokarchee.logic.controller.SessionController;
@@ -47,6 +47,9 @@ public class ApplicationUI extends UI implements GuiController
 			abstractView.setGuiController(ApplicationUI.this);
 			sessionController.registerView(abstractView);
 			abstractView.refresh();
+			pageTopView.setGuiController(ApplicationUI.this);
+			sessionController.registerView(pageTopView);
+			pageTopView.refresh();
 			PageView pageView = new PageView((AbstractViewImpl) abstractView, pageTopView);
 			super.navigateTo(pageView, viewName, parameters);
 		}
@@ -110,12 +113,14 @@ public class ApplicationUI extends UI implements GuiController
 	public void closeWindowOrGoPrevView()
 	{
 		if (openedWindows.peekLast() == null)
+		{
 			switchViewTo(lastView);
+			return;
+		}
 		AbstractWindow lastOpenedWindow = openedWindows.pollLast();
-		if (lastOpenedWindow == null)
-			refreshLastFreezedView();
-		else
+		if (lastOpenedWindow != null)
 			removeWindow((Window) lastOpenedWindow);
+		refreshLastFreezedView();
 
 	}
 

@@ -19,6 +19,7 @@ public class PhotoListPresenter extends PojoListPresenter<Photo>
 	@Autowired
 	public PhotoListPresenter(PhotoListView pojoListView, PhotoService pojoService, PhotoEditPresenter pojoEditPresenter)
 	{
+		super(Photo.class);
 		setView(pojoListView);
 		setPojoService(pojoService);
 		pojoEditPresenter.setPresentsInWindow(true);

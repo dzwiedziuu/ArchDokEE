@@ -19,6 +19,7 @@ public class ArListPresenter extends PojoListPresenter<Ar>
 	@Autowired
 	public ArListPresenter(ArListView pojoListView, ArService pojoService, ArEditPresenter pojoEditPresenter)
 	{
+		super(Ar.class);
 		setView(pojoListView);
 		setPojoService(pojoService);
 		setPojoEditPresenter(pojoEditPresenter);

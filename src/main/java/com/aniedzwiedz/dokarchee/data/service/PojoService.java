@@ -12,5 +12,5 @@ public interface PojoService<T>
 
 	T find(T t);
 
-	List<T> getAll();
+	List<T> getAll(Class<T> clazz);
 }

@@ -15,7 +15,7 @@ import com.aniedzwiedz.dokarchee.gui.view.AbstractEditView.EditViewListener;
 import com.aniedzwiedz.dokarchee.gui.view.AbstractView;
 import com.aniedzwiedz.dokarchee.gui.view.AbstractView.ViewEvent;
 
-public abstract class PojoEditPresenter<T> extends PojoPresenter<T> implements EditViewListener<T>
+public abstract class PojoEditPresenter<T> extends PojoPresenter<T> implements EditViewListener<T>, SelectListener
 {
 	public interface PojoEditView<T> extends AbstractEditView<T>
 	{

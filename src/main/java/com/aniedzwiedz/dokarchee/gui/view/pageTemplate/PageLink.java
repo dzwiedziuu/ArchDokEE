@@ -1,4 +1,4 @@
-package com.aniedzwiedz.dokarchee.gui.view.pageView;
+package com.aniedzwiedz.dokarchee.gui.view.pageTemplate;
 
 public class PageLink
 {

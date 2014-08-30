@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.aniedzwiedz.dokarchee.data.model.ArchObject;
-import com.aniedzwiedz.dokarchee.data.service.ArchObjectService;
+import com.aniedzwiedz.dokarchee.data.service.AbstractServiceInterface;
 import com.aniedzwiedz.dokarchee.logic.presenter.AbstractPresenter;
 import com.aniedzwiedz.dokarchee.logic.presenter.PojoEditPresenter;
 
@@ -18,7 +18,7 @@ public class ArchObjectEditPresenter extends PojoEditPresenter<ArchObject>
 	}
 
 	@Autowired
-	public ArchObjectEditPresenter(ArchObjectEditView pojoEditView, ArchObjectService pojoService)
+	public ArchObjectEditPresenter(ArchObjectEditView pojoEditView, AbstractServiceInterface<ArchObject> pojoService)
 	{
 		setView(pojoEditView);
 		setPojoService(pojoService);

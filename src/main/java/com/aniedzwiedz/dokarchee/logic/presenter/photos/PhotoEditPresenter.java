@@ -62,7 +62,7 @@ public class PhotoEditPresenter extends PojoEditPresenter<Photo>
 	public void setArListPresenter(ArListPresenter arListPresenter)
 	{
 		this.arListPresenter = arListPresenter;
-		this.arListPresenter.setListSelectable(false);
+		this.arListPresenter.setListSelectable(true);
 	}
 
 	@Override

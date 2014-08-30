@@ -1,10 +1,11 @@
-package com.aniedzwiedz.dokarchee.data.dao;
+package com.aniedzwiedz.dokarchee.data.dao.custom;
 
 import java.util.List;
 
 import org.hibernate.FetchMode;
 import org.springframework.stereotype.Repository;
 
+import com.aniedzwiedz.dokarchee.data.dao.AbstractDao;
 import com.aniedzwiedz.dokarchee.data.model.Ar;
 
 @Repository
