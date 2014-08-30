@@ -47,6 +47,7 @@ public class ApplicationUI extends UI implements GuiController
 			abstractView.setGuiController(ApplicationUI.this);
 			sessionController.registerView(abstractView);
 			abstractView.refresh();
+			PageTopView pageTopView = new PageTopView();
 			pageTopView.setGuiController(ApplicationUI.this);
 			sessionController.registerView(pageTopView);
 			pageTopView.refresh();
@@ -54,9 +55,6 @@ public class ApplicationUI extends UI implements GuiController
 			super.navigateTo(pageView, viewName, parameters);
 		}
 	}
-
-	@Autowired
-	private PageTopView pageTopView;
 
 	@Autowired
 	private SessionController sessionController;

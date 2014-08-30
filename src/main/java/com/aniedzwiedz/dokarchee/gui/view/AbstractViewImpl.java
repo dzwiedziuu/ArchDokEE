@@ -34,7 +34,7 @@ public abstract class AbstractViewImpl extends Panel implements AbstractView, Vi
 	public void refresh()
 	{
 		for (ViewListener viewListener : viewListeners)
-			viewListener.initializeView(this);
+			viewListener.refreshView(this);
 	}
 
 	public void switchViewTo(AbstractView view)

@@ -2,6 +2,8 @@ package com.aniedzwiedz.dokarchee.data.service;
 
 import java.util.List;
 
+import org.hibernate.criterion.Criterion;
+
 public interface PojoService<T>
 {
 	void add(T t);
@@ -12,5 +14,5 @@ public interface PojoService<T>
 
 	T find(T t);
 
-	List<T> getAll(Class<T> clazz);
+	List<T> getAll(Class<T> clazz, Criterion criterion);
 }

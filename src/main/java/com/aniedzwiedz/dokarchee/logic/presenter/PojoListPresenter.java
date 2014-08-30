@@ -2,6 +2,8 @@ package com.aniedzwiedz.dokarchee.logic.presenter;
 
 import java.util.List;
 
+import org.hibernate.criterion.Criterion;
+
 import com.aniedzwiedz.dokarchee.gui.table.CRUDTable.TableEvent;
 import com.aniedzwiedz.dokarchee.gui.view.AbstractListView;
 import com.aniedzwiedz.dokarchee.gui.view.AbstractView;
@@ -60,17 +62,17 @@ public abstract class PojoListPresenter<T> extends PojoPresenter<T> implements A
 
 	public void addItem(TableEvent crudTableEvent)
 	{
-		openEditWindowFromEvent(crudTableEvent, true);
+		openEditWindowFromEvent(crudTableEvent, true, getEmptyObject());
 	}
 
 	public void editItem(TableEvent crudTableEvent)
 	{
-		openEditWindowFromEvent(crudTableEvent, false);
+		openEditWindowFromEvent(crudTableEvent, false, (T) crudTableEvent.getPojoObject());
 	}
 
-	public void openEditWindowFromEvent(TableEvent crudTableEvent, boolean newObject)
+	public void openEditWindowFromEvent(TableEvent crudTableEvent, boolean newObject, T pojoObject)
 	{
-		pojoEditPresenter.setPojoObject((T) crudTableEvent.getPojoObject());
+		pojoEditPresenter.setPojoObject(pojoObject);
 		pojoEditPresenter.setNewObject(newObject);
 		goToNextView(pojoEditPresenter);
 	}
@@ -96,10 +98,10 @@ public abstract class PojoListPresenter<T> extends PojoPresenter<T> implements A
 	}
 
 	@Override
-	public void initializeView(AbstractView abstractView)
+	public void refreshView(AbstractView abstractView)
 	{
 		pojoListView.setSelectable(listSelectable);
-		pojoListView.setList(getPojoService().getAll(typeClass));
+		pojoListView.setList(getPojoService().getAll(typeClass, getCriterion()));
 	}
 
 	protected void setPojoEditPresenter(PojoEditPresenter<T> pojoEditPresenter)
@@ -113,4 +115,8 @@ public abstract class PojoListPresenter<T> extends PojoPresenter<T> implements A
 		if (viewEvent.getClosedWindowView() == pojoListView)
 			getParentPresenter().focusAfterClosedWindow(viewEvent);
 	}
+
+	protected abstract Criterion getCriterion();
+
+	protected abstract T getEmptyObject();
 }

@@ -1,17 +1,18 @@
 package com.aniedzwiedz.dokarchee.logic.presenter;
 
-import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import com.aniedzwiedz.dokarchee.common.utils.ReflectionUtils;
 import com.aniedzwiedz.dokarchee.data.service.PojoService;
+import com.aniedzwiedz.dokarchee.gui.form.DefaultForm.DataProvider;
 import com.aniedzwiedz.dokarchee.gui.form.DefaultForm.FormEvent;
 import com.aniedzwiedz.dokarchee.gui.form.fields.ActiveComponent;
 import com.aniedzwiedz.dokarchee.gui.form.fields.ForeignField.ForeignFieldEvent;
 import com.aniedzwiedz.dokarchee.gui.table.CRUDTable.TableEvent;
 import com.aniedzwiedz.dokarchee.gui.view.AbstractEditView;
 import com.aniedzwiedz.dokarchee.gui.view.AbstractEditView.EditViewListener;
+import com.aniedzwiedz.dokarchee.gui.view.AbstractPojoEditView;
 import com.aniedzwiedz.dokarchee.gui.view.AbstractView;
 import com.aniedzwiedz.dokarchee.gui.view.AbstractView.ViewEvent;
 
@@ -67,6 +68,8 @@ public abstract class PojoEditPresenter<T> extends PojoPresenter<T> implements E
 		this.pojoEditView = namedView;
 		pojoEditView.addEditViewListener(this);
 		pojoEditView.addViewListener(this);
+		if (pojoEditView instanceof AbstractPojoEditView)
+			((AbstractPojoEditView) pojoEditView).setDataProvider(getDataProvider());
 	}
 
 	protected abstract AbstractPresenter getDictionaryPresenter(Class<?> ffType);
@@ -149,27 +152,9 @@ public abstract class PojoEditPresenter<T> extends PojoPresenter<T> implements E
 	}
 
 	@Override
-	public void initializeView(AbstractView abstractView)
+	public void refreshView(AbstractView abstractView)
 	{
 		pojoEditView.setPojoObject(pojoObject);
-	}
-
-	private boolean checkIfObjectIsNew(T pojoObject)
-	{
-		try
-		{
-			for (Field field : ReflectionUtils.getObjectIdFields(pojoObject.getClass()))
-			{
-				field.setAccessible(true);
-				if (field.get(pojoObject) == null)
-					return true;
-			}
-		} catch (IllegalArgumentException | IllegalAccessException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return false;
 	}
 
 	// TODO to spaghetti
@@ -181,4 +166,18 @@ public abstract class PojoEditPresenter<T> extends PojoPresenter<T> implements E
 		else
 			childPresentersFromFields.remove(viewEvent.getClosedWindowView().getClass());
 	}
+
+	protected DataProvider getDataProvider()
+	{
+		return dummyDataProvider;
+	}
+
+	private static DataProvider dummyDataProvider = new DataProvider()
+	{
+		@Override
+		public <T> List<T> getList(Class<T> classObj)
+		{
+			throw new RuntimeException("Not implemented method DataProvider.getList() - used to fill dictionaries");
+		}
+	};
 }

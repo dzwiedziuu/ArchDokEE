@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -36,6 +38,20 @@ public class ArchObject
 	@NotNull(message = "Data eksploracji nie moze byc pusta")
 	@Past
 	private Date explorationDate;
+
+	@JoinColumn(name = "businessContext")
+	@ManyToOne(optional = false)
+	private BusinessContext businessContext;
+
+	public BusinessContext getBusinessContext()
+	{
+		return businessContext;
+	}
+
+	public void setBusinessContext(BusinessContext businessContext)
+	{
+		this.businessContext = businessContext;
+	}
 
 	public Long getId()
 	{

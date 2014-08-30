@@ -3,7 +3,9 @@ package com.aniedzwiedz.dokarchee.data.dao;
 import java.io.Serializable;
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Criterion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -28,9 +30,12 @@ public class AbstractDao<T> implements Dao<T>
 		sessionFactory.getCurrentSession().save(t);
 	}
 
-	public List<T> getList(Class<T> classObj)
+	public List<T> getList(Class<T> classObj, Criterion criterion)
 	{
-		return sessionFactory.getCurrentSession().createCriteria(classObj).list();
+		Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(classObj);
+		if (criterion != null)
+			criteria.add(criterion);
+		return criteria.list();
 	}
 
 	public T find(T t)

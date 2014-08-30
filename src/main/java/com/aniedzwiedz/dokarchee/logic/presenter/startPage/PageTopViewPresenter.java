@@ -33,7 +33,7 @@ public class PageTopViewPresenter extends AbstractPresenter implements SelectLis
 	}
 
 	@Override
-	public void initializeView(AbstractView abstractView)
+	public void refreshView(AbstractView abstractView)
 	{
 		BusinessContext currentBusinessContext = VaadinSession.getCurrent().getAttribute(BusinessContext.class);
 		if (currentBusinessContext == null)

@@ -1,5 +1,6 @@
 package com.aniedzwiedz.dokarchee.logic.presenter.businessContext;
 
+import org.hibernate.criterion.Criterion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -24,5 +25,17 @@ public class BusinessContextListPresenter extends PojoListPresenter<BusinessCont
 		setPojoService(pojoService);
 		setPojoListView(pojoListView);
 		setPojoEditPresenter(photoSubjectEditPresenter);
+	}
+
+	@Override
+	protected Criterion getCriterion()
+	{
+		return null;
+	}
+
+	@Override
+	protected BusinessContext getEmptyObject()
+	{
+		return new BusinessContext();
 	}
 }

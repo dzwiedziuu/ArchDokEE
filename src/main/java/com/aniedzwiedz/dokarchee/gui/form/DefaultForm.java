@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.aniedzwiedz.dokarchee.common.annotations.EditField;
+import com.aniedzwiedz.dokarchee.common.utils.EntityLabelUtils;
+import com.aniedzwiedz.dokarchee.common.utils.EntityLabelUtils.ItemCaptionPart;
 import com.aniedzwiedz.dokarchee.gui.form.error.ErrorUtils;
 import com.aniedzwiedz.dokarchee.gui.form.fields.ForeignField;
 import com.aniedzwiedz.dokarchee.gui.form.fields.ForeignField.ForeignFieldEvent;
@@ -19,10 +21,12 @@ import com.aniedzwiedz.dokarchee.gui.table.CRUDTable;
 import com.aniedzwiedz.dokarchee.gui.table.CRUDTable.CRUDTableListener;
 import com.aniedzwiedz.dokarchee.gui.table.CRUDTable.TableEvent;
 import com.aniedzwiedz.dokarchee.gui.view.PojoEvent;
+import com.vaadin.data.Property;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitEvent;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitHandler;
+import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Field;
@@ -61,6 +65,7 @@ public class DefaultForm<T> extends Panel
 
 	private List<FormListener<T>> formListeners = new ArrayList<>();
 	private List<FormFieldListener> formFieldListeners = new ArrayList<>();
+	private T pojoObject;
 
 	public DefaultForm()
 	{
@@ -106,9 +111,19 @@ public class DefaultForm<T> extends Panel
 		this.fieldGroupFieldFactory = fieldGroupFieldFactory;
 	}
 
-	public void setObject(T pojoObject)
+	/*
+	 * reinitialize defaultForm if pojoObject in param is diffrent than stored
+	 * in field 'pojoObject'
+	 */
+	public void trySetPojoObjectOrRefresh(T pojoObject)
 	{
+		if (this.pojoObject == pojoObject)
+		{
+			refreshForm();
+			return;
+		}
 		vertiralLayout.removeAllComponents();
+		foreignFields.clear();
 		Class<T> classObj = (Class<T>) pojoObject.getClass();
 		beanFieldGroup = new BeanFieldGroup<>(classObj);
 		// BeanItem<T> beanItem = new BeanItem<>(pojoObject);
@@ -154,7 +169,12 @@ public class DefaultForm<T> extends Panel
 			if (field instanceof CRUDTable)
 				((CRUDTable<?>) field).addCRUDTableListener(fieldListener);
 			if (field instanceof ForeignField)
-				((ForeignField<?>) field).addForeignFieldListener(fieldListener);
+			{
+				ForeignField foreignField = (ForeignField<?>) field;
+				foreignField.addForeignFieldListener(fieldListener);
+				fillForeignField(foreignField, field.getType());
+				foreignFields.add(foreignField);
+			}
 			if (af.getField().isAnnotationPresent(Id.class))
 			{
 				try
@@ -172,6 +192,34 @@ public class DefaultForm<T> extends Panel
 			vertiralLayout.addComponent(field);
 		}
 		vertiralLayout.addComponent(buttonPanel);
+		this.pojoObject = pojoObject;
+	}
+
+	private <T1> void fillForeignField(ForeignField<T1> foreignField, Class<T1> dataType)
+	{
+		foreignField.setContainerDataSource(new BeanItemContainer<T1>(dataType));
+		List<ItemCaptionPart> itemCaptionPars = EntityLabelUtils.getItemCaptionPartList(dataType);
+		List<T1> data = new ArrayList<>();
+		if (getDataProvider() != null)
+			data = getDataProvider().getList(dataType);
+		foreignField.setData(data, itemCaptionPars);
+	}
+
+	public interface DataProvider
+	{
+		<T> List<T> getList(Class<T> classObj);
+	}
+
+	private DataProvider dataProvider;
+
+	private DataProvider getDataProvider()
+	{
+		return dataProvider;
+	}
+
+	public void setDataProvider(DataProvider dataProvider)
+	{
+		this.dataProvider = dataProvider;
 	}
 
 	private class FormActionListener implements Button.ClickListener, CommitHandler
@@ -256,6 +304,20 @@ public class DefaultForm<T> extends Panel
 		{
 			for (FormFieldListener formFieldListener : formFieldListeners)
 				formFieldListener.selectedItem(event);
+		}
+	}
+
+	private List<ForeignField<?>> foreignFields = new ArrayList<>();
+
+	public void refreshForm()
+	{
+		for (ForeignField foreignField : foreignFields)
+		{
+			Property p = foreignField.getPropertyDataSource();
+			Object value = p.getValue();
+			fillForeignField(foreignField, foreignField.getType());
+			p.setValue(value);
+			foreignField.setPropertyDataSource(p);
 		}
 	}
 }

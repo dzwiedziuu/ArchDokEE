@@ -6,7 +6,7 @@ public interface AbstractView extends NamedView
 {
 	public interface ViewListener
 	{
-		void initializeView(AbstractView abstractView);
+		void refreshView(AbstractView abstractView);
 
 		void focusAfterClosedWindow(ViewEvent viewEvent);
 	}

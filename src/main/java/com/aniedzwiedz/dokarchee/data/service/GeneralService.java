@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.hibernate.criterion.Criterion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +17,9 @@ public class GeneralService
 	private GeneralDao generalDao;
 
 	@Transactional
-	public List<?> getList(Class<?> objectClass)
+	public List<?> getList(Class<?> objectClass, Criterion criterion)
 	{
-		return generalDao.getList(objectClass);
+		return generalDao.getList(objectClass, criterion);
 	}
 
 	public String getIdentifierPropertyName(Class<?> classObj)

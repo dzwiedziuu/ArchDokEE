@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.aniedzwiedz.dokarchee.gui.form.DefaultForm;
+import com.aniedzwiedz.dokarchee.gui.form.DefaultForm.DataProvider;
 import com.aniedzwiedz.dokarchee.gui.form.DefaultForm.FormEvent;
 import com.aniedzwiedz.dokarchee.gui.form.DefaultForm.FormFieldListener;
 import com.aniedzwiedz.dokarchee.gui.form.DefaultForm.FormListener;
@@ -15,7 +16,7 @@ import com.aniedzwiedz.dokarchee.gui.table.CRUDTable.TableEvent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.VerticalLayout;
 
-public abstract class AbstractPojoEditView<T> extends AbstractViewImpl implements AbstractEditView<T>
+public abstract class AbstractPojoEditView<T> extends AbstractViewImpl implements AbstractEditView<T>, DataProvider
 {
 	private List<EditViewListener<T>> editViewListeners = new ArrayList<>();
 
@@ -31,16 +32,25 @@ public abstract class AbstractPojoEditView<T> extends AbstractViewImpl implement
 
 	private FormWithFieldListener formWithFieldListener = new FormWithFieldListener();
 
+	private DataProvider dataProvider;
+
 	public AbstractPojoEditView()
 	{
 		verticalLayout = new VerticalLayout();
+		recreateView();
+		setContent(verticalLayout);
+	}
+
+	private void recreateView()
+	{
+		verticalLayout.removeAllComponents();
 		defaultForm = new DefaultForm<>();
+		defaultForm.setDataProvider(this);
 		defaultForm.addFormListener(formWithFieldListener);
 		defaultForm.addFormFieldListener(formWithFieldListener);
 		defaultForm.addSaveActionButton(new Button("Zapisz"));
 		defaultForm.addDiscardActionButton(new Button("Wroc"));
 		verticalLayout.addComponent(defaultForm);
-		setContent(verticalLayout);
 	}
 
 	@Autowired
@@ -57,7 +67,7 @@ public abstract class AbstractPojoEditView<T> extends AbstractViewImpl implement
 
 	public void setPojoObject(T pojoObj)
 	{
-		defaultForm.setObject(pojoObj);
+		defaultForm.trySetPojoObjectOrRefresh(pojoObj);
 	}
 
 	private class FormWithFieldListener implements FormFieldListener, FormListener<T>
@@ -117,5 +127,16 @@ public abstract class AbstractPojoEditView<T> extends AbstractViewImpl implement
 			for (EditViewListener<T> editViewListener : editViewListeners)
 				editViewListener.discardButtonClicked(formEvent);
 		}
+	}
+
+	public void setDataProvider(DataProvider dataProvider)
+	{
+		this.dataProvider = dataProvider;
+	}
+
+	@Override
+	public <T> List<T> getList(Class<T> classObj)
+	{
+		return dataProvider.getList(classObj);
 	}
 }

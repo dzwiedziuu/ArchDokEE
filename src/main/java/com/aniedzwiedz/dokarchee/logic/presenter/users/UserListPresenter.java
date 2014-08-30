@@ -1,5 +1,6 @@
 package com.aniedzwiedz.dokarchee.logic.presenter.users;
 
+import org.hibernate.criterion.Criterion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -23,5 +24,17 @@ public class UserListPresenter extends PojoListPresenter<User>
 		setPojoListView(pojoListView);
 		setPojoService(pojoService);
 		setPojoEditPresenter(pojoEditPresenter);
+	}
+
+	@Override
+	protected Criterion getCriterion()
+	{
+		return null;
+	}
+
+	@Override
+	protected User getEmptyObject()
+	{
+		return new User();
 	}
 }

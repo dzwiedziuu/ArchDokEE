@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.hibernate.criterion.Criterion;
+
 import com.aniedzwiedz.dokarchee.data.dao.AbstractDao;
 
 public abstract class AbstractService<T> implements PojoService<T>
@@ -40,8 +42,8 @@ public abstract class AbstractService<T> implements PojoService<T>
 
 	@Transactional
 	@Override
-	public List<T> getAll(Class<T> clazz)
+	public List<T> getAll(Class<T> clazz, Criterion criterion)
 	{
-		return getDaoObj().getList(clazz);
+		return getDaoObj().getList(clazz, criterion);
 	}
 }
