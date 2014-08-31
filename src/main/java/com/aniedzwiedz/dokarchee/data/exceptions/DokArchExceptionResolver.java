@@ -10,14 +10,19 @@ import org.springframework.stereotype.Component;
 public class DokArchExceptionResolver
 {
 	@AfterThrowing(pointcut = "execution(public * com.aniedzwiedz.dokarchee.data.service.AbstractService+.*(..))", throwing = "e")
-	public void errorInterceptorAbstract(JoinPoint jp, Exception e) throws Throwable
+	public void errorInterceptorAbstract(JoinPoint jp, Throwable e) throws Throwable
 	{
 		errorInterceptor(jp, e);
 	}
 
-	private void errorInterceptor(JoinPoint jp, Exception e) throws Throwable
+	@AfterThrowing(pointcut = "execution(public * com.aniedzwiedz.dokarchee.data.service.impl.*.*(..))", throwing = "e")
+	public void errorInterceptorAbstract2(JoinPoint jp, Throwable e) throws Throwable
 	{
-		e.printStackTrace();
-		throw new Error("Blad bazy danych!");
+		errorInterceptor(jp, e);
+	}
+
+	private void errorInterceptor(JoinPoint jp, Throwable e) throws Throwable
+	{
+		// e.printStackTrace();
 	}
 }

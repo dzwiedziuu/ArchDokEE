@@ -6,10 +6,15 @@ import java.util.List;
 
 import javax.persistence.Id;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.aniedzwiedz.dokarchee.common.annotations.EditField;
 
 public class ReflectionUtils
 {
+	private static final Logger logger = LoggerFactory.getLogger(ReflectionUtils.class);
+
 	public static Object getObjectPropertyValue(Object object, String propertyId)
 	{
 		Object result = null;
@@ -20,7 +25,7 @@ public class ReflectionUtils
 			result = field.get(object);
 		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e)
 		{
-			// TODO Auto-generated catch block
+			logger.error("", e);
 			e.printStackTrace();
 		}
 		return result;
@@ -64,7 +69,7 @@ public class ReflectionUtils
 			return true;
 		} catch (IllegalArgumentException | IllegalAccessException e)
 		{
-			// TODO Auto-generated catch block
+			logger.error("", e);
 			e.printStackTrace();
 			return false;
 		}

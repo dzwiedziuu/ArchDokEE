@@ -18,6 +18,7 @@ import com.aniedzwiedz.dokarchee.gui.view.pageTemplate.StartPageView;
 import com.aniedzwiedz.dokarchee.gui.window.AbstractWindow;
 import com.aniedzwiedz.dokarchee.gui.window.SubWindow;
 import com.aniedzwiedz.dokarchee.logic.controller.SessionController;
+import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.View;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinSession;
@@ -27,6 +28,7 @@ import com.vaadin.ui.Window.CloseEvent;
 
 @Component
 @Scope("prototype")
+@Theme("dokarchee")
 public class ApplicationUI extends UI implements GuiController
 {
 	// class necessary to avoid entering the initial view twice

@@ -8,6 +8,8 @@ import com.aniedzwiedz.dokarchee.gui.table.CRUDTable.TableEvent;
 import com.aniedzwiedz.dokarchee.gui.view.AbstractListView;
 import com.aniedzwiedz.dokarchee.gui.view.AbstractView;
 import com.aniedzwiedz.dokarchee.gui.view.AbstractView.ViewEvent;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.Notification.Type;
 
 public abstract class PojoListPresenter<T> extends PojoPresenter<T> implements AbstractListView.ListViewListener
 {
@@ -74,8 +76,15 @@ public abstract class PojoListPresenter<T> extends PojoPresenter<T> implements A
 
 	public void removeItem(TableEvent crudTableEvent)
 	{
-		getPojoService().remove((T) crudTableEvent.getPojoObject());
-		crudTableEvent.getCrudTable().removeItem(crudTableEvent.getPojoObject());
+		try
+		{
+			getPojoService().remove((T) crudTableEvent.getPojoObject());
+			crudTableEvent.getCrudTable().removeItem(crudTableEvent.getPojoObject());
+		} catch (Exception e)
+		{
+			String message = "Usuwany rekord jest powiazany z innymi rekordami. Nie mozna go usunac. Usun najpierw rekordy odwolujace sie do niego.";
+			Notification.show("Blad", message, Type.ERROR_MESSAGE);
+		}
 	}
 
 	public void doubleClickedItem(TableEvent crudTableEvent)

@@ -10,6 +10,8 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tepi.filtertable.FilterTable;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.peter.contextmenu.ContextMenu.ContextMenuItem;
@@ -82,6 +84,8 @@ public class CRUDTable<T> extends CustomField<Set<T>> implements ActiveComponent
 		crudTableListeners.add(crudTableListener);
 	}
 
+	private static final Logger logger = LoggerFactory.getLogger(CRUDTable.class);
+
 	private ActionButtonClickListener actionListener;
 
 	private FilterTable filterTable;
@@ -109,7 +113,7 @@ public class CRUDTable<T> extends CustomField<Set<T>> implements ActiveComponent
 
 		filterTable = new FilterTable();
 		filterTable.setSizeFull();
-		filterTable.setFilterGenerator(new FilterGeneratorImpl());
+		filterTable.setFilterGenerator(new FilterGeneratorImpl(classObj));
 		filterTable.setFilterDecorator(new FilterDecoratorImpl());
 		filterTable.setFilterBarVisible(true);
 		filterTable.setSelectable(true);
@@ -273,7 +277,7 @@ public class CRUDTable<T> extends CustomField<Set<T>> implements ActiveComponent
 			obj = classObj.newInstance();
 		} catch (InstantiationException | IllegalAccessException e)
 		{
-			// TODO Auto-generated catch block
+			logger.error("", e);
 			e.printStackTrace();
 			return;
 		}
@@ -454,7 +458,8 @@ public class CRUDTable<T> extends CustomField<Set<T>> implements ActiveComponent
 				if (Object.class.equals(classObj))
 					throw new RuntimeException("Not declared generic type in ColumnHeader annotation for Set field");
 				filterTable.addGeneratedColumn(field.getName(), new TableFieldColumnGenerator<>(classObj));
-			}
+			} else if (Boolean.class.isAssignableFrom(field.getType()))
+				filterTable.addGeneratedColumn(field.getName(), new BooleanColumnGenerator());
 		}
 	}
 

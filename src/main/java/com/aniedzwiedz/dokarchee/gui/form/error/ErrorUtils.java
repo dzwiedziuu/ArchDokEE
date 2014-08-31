@@ -37,9 +37,6 @@ public class ErrorUtils
 	public static void showComponentErrors(final AbstractComponent[] componentArray)
 	{
 		List<String> errorList = ErrorUtils.getComponentError(componentArray);
-		// TODO into consideration
-		// if (errorList.isEmpty())
-		// return;
 		String error = StringUtils.join(errorList, "\n");
 		Notification notification = new Notification("Error", error, Type.ERROR_MESSAGE, true);
 		notification.show(Page.getCurrent());

@@ -27,98 +27,86 @@ public class FilterDecoratorImpl implements FilterDecorator
 	@Override
 	public String getBooleanFilterDisplayName(Object propertyId, boolean value)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		if (value == true)
+			return "Tak";
+		return "Nie";
 	}
 
 	@Override
 	public Resource getBooleanFilterIcon(Object propertyId, boolean value)
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public boolean isTextFilterImmediate(Object propertyId)
 	{
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public int getTextChangeTimeout(Object propertyId)
 	{
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public String getFromCaption()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return "Od";
 	}
 
 	@Override
 	public String getToCaption()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return "Do";
 	}
 
 	@Override
 	public String getSetCaption()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return "Ustaw";
 	}
 
 	@Override
 	public String getClearCaption()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return "Wyczysc";
 	}
 
 	@Override
 	public Resolution getDateFieldResolution(Object propertyId)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return Resolution.DAY;
 	}
 
 	@Override
 	public String getDateFormatPattern(Object propertyId)
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Locale getLocale()
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getAllItemsVisibleString()
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public NumberFilterPopupConfig getNumberFilterPopupConfig()
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public boolean usePopupForNumericProperty(Object propertyId)
 	{
-		// TODO Auto-generated method stub
 		return false;
 	}
 

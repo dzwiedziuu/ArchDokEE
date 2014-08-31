@@ -55,6 +55,12 @@ public class AbstractDao<T> implements Dao<T>
 
 	public void update(T t)
 	{
-		sessionFactory.getCurrentSession().update(t);
+		try
+		{
+			sessionFactory.getCurrentSession().update(t);
+		} catch (Exception e)
+		{
+			System.out.println(e);
+		}
 	}
 }

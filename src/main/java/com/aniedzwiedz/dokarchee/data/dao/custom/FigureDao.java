@@ -25,7 +25,6 @@ public class FigureDao extends AbstractDao<Figure>
 	@Override
 	public void update(Figure t)
 	{
-		// TODO generates too many select statements
 		getSessionFactory().getCurrentSession().merge(t);
 	}
 }

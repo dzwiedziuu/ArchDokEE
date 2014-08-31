@@ -102,7 +102,6 @@ public class FigureEditPresenter extends PojoEditPresenter<Figure>
 	{
 		if (!(value instanceof FigureSpecification))
 			return;
-		// TODO czy potrzebne
 		FigureSpecification fs = (FigureSpecification) value;
 		fs.setFigure(getPojoObject());
 	}

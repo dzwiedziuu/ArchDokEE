@@ -31,8 +31,7 @@ public class ArListPresenter extends PojoListPresenter<Are>
 	@Override
 	protected Criterion getCriterion()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return SessionUtils.getBusinessContextCriterion("businessContext");
 	}
 
 	@Override

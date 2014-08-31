@@ -10,6 +10,11 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.hibernate.HibernateException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
+
 import com.aniedzwiedz.dokarchee.common.annotations.EditField;
 import com.aniedzwiedz.dokarchee.common.utils.EntityLabelUtils;
 import com.aniedzwiedz.dokarchee.common.utils.EntityLabelUtils.ItemCaptionPart;
@@ -20,6 +25,7 @@ import com.aniedzwiedz.dokarchee.gui.form.fields.ForeignField.ForeignFieldListen
 import com.aniedzwiedz.dokarchee.gui.table.CRUDTable;
 import com.aniedzwiedz.dokarchee.gui.table.CRUDTable.CRUDTableListener;
 import com.aniedzwiedz.dokarchee.gui.table.CRUDTable.TableEvent;
+import com.aniedzwiedz.dokarchee.gui.ui.errors.DBExceptionResolver;
 import com.aniedzwiedz.dokarchee.gui.view.PojoEvent;
 import com.vaadin.data.Property;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
@@ -68,6 +74,7 @@ public class DefaultForm<T> extends Panel
 	private List<FormListener<T>> formListeners = new ArrayList<>();
 	private List<FormFieldListener> formFieldListeners = new ArrayList<>();
 	private T pojoObject;
+	private static final Logger logger = LoggerFactory.getLogger(DefaultForm.class);
 
 	public DefaultForm()
 	{
@@ -186,7 +193,7 @@ public class DefaultForm<T> extends Panel
 						field.setEnabled(false);
 				} catch (IllegalArgumentException | IllegalAccessException e)
 				{
-					// TODO Auto-generated catch block
+					logger.error("", e);
 					e.printStackTrace();
 				}
 			}
@@ -248,13 +255,17 @@ public class DefaultForm<T> extends Panel
 					beanFieldGroup.commit();
 				} catch (CommitException e)
 				{
-					// TODO
-					ErrorUtils.showComponentErrors(beanFieldGroup.getFields());
-				} catch (Error e) // thrown by DokArchExceptionResolver
-				{
-					Notification.show("ERROR", e.getMessage(), Type.ERROR_MESSAGE);
+					if (e.getCause() instanceof HibernateException || e.getCause() instanceof DataAccessException)
+						Notification.show("ERROR", dbExceptionResolver.getErrorContent(e.getCause()), Type.ERROR_MESSAGE);
+					else
+						ErrorUtils.showComponentErrors(beanFieldGroup.getFields());
 				}
 			}
+		}
+
+		private void resolveException(Throwable cause)
+		{
+			Notification.show("ERROR", cause.getMessage(), Type.ERROR_MESSAGE);
 		}
 
 		@Override
@@ -271,6 +282,8 @@ public class DefaultForm<T> extends Panel
 				formListener.saveButtonClicked(formEvent);
 		}
 	}
+
+	private DBExceptionResolver dbExceptionResolver = new DBExceptionResolver();
 
 	private class ActiveFieldListener implements ForeignFieldListener, CRUDTableListener
 	{

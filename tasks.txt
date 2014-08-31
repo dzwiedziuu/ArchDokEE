@@ -1,13 +1,9 @@
 -serialization problem ?
--null pointer exception while refreshing editView
--filter on table - actionField (foreignField and set)
 -CRUDTable - to large Class
--hibernate exceptions (constraints, deleted rows)
--log some exceptions
--removing dependent objects
--many to one relationship - editing
--displaying boolean
 
 consider:
 -Hibernate does "delete all then re-insert" - its not so strange - Bag for Association
 -page in one view?
+-merge (in onetoMany relation) generates too many selects
+-displaying date in table
+-null pointer exception while refreshing editView
