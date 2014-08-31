@@ -22,53 +22,67 @@ import com.aniedzwiedz.dokarchee.common.annotations.ColumnHeader;
 import com.aniedzwiedz.dokarchee.common.annotations.EditField;
 
 @Entity
-@Table(name = "PHOTO")
+@Table(name = "photos")
 public class Photo
 {
 	@Id
 	@GeneratedValue
-	@Column(name = "idphoto")
+	@Column(name = "photo_id")
 	private Long id;
 
-	@Column(name = "PHOTO_NUMBER")
+	@Column(name = "photo_nr")
 	@ColumnHeader(value = "Numer zdjecia", order = 1)
 	@EditField(label = "Numer zdjecia", order = 1)
 	@NotNull(message = "Numer zdjecia nie moze byc pusty")
 	private Long photoNumber;
 
-	@JoinColumn(name = "OBJECT")
+	@JoinColumn(name = "object_id")
 	@ColumnHeader(value = "Powiazany obiekt", order = 2)
 	@EditField(label = "Powiazany obiekt", order = 2)
 	@ManyToOne(optional = true)
 	private ArchObject object;
 
-	@JoinColumn(name = "PHOTO_SUBJECT")
+	@JoinColumn(name = "photo_subject_id")
 	@ColumnHeader(value = "Temat zdjecia", order = 3)
 	@EditField(label = "Temat zdjecia", order = 3)
 	@NotNull(message = "Temat zdjecia nie moze byc pusty")
 	@ManyToOne(optional = false)
 	private PhotoSubject photoSubject;
 
-	@JoinColumn(name = "AUTHOR")
+	@JoinColumn(name = "user_id")
 	@ColumnHeader(value = "Autor", order = 4)
 	@EditField(label = "Autor", order = 4)
 	@NotNull(message = "Autor nie moze byc pusty")
 	@ManyToOne(optional = false)
 	private User author;
 
-	@Column(name = "EXPLORATION_DATE")
+	@Column(name = "photo_exploration_date")
 	@ColumnHeader(value = "Data eksploracji", order = 5)
 	@EditField(label = "Data eksploracji", order = 5)
 	@NotNull(message = "Data eksploracji nie moze byc pusta")
 	@Past
 	private Date explorationDate;
 
-	@JoinTable(name = "photo_ar", joinColumns = { @JoinColumn(name = "id_photo") }, inverseJoinColumns = { @JoinColumn(name = "id_ar") })
-	@ColumnHeader(value = "Ary dotyczace zdjecia", order = 6, genericType = Ar.class)
+	@JoinColumn(name = "business_context_id")
+	@ManyToOne(optional = false)
+	private BusinessContext businessContext;
+
+	@JoinTable(name = "ares_photos", joinColumns = { @JoinColumn(name = "ares_ar_id") }, inverseJoinColumns = { @JoinColumn(name = "photos_photo_id") })
+	@ColumnHeader(value = "Ary dotyczace zdjecia", order = 6, genericType = Are.class)
 	@EditField(label = "Ary dotyczace zdjecia:", order = 6)
 	// without CascadeType.Persist, CascadeType.REMOVE
 	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
-	private Set<Ar> ars = new HashSet<Ar>();
+	private Set<Are> ars = new HashSet<Are>();
+
+	public BusinessContext getBusinessContext()
+	{
+		return businessContext;
+	}
+
+	public void setBusinessContext(BusinessContext businessContext)
+	{
+		this.businessContext = businessContext;
+	}
 
 	public Long getId()
 	{
@@ -120,12 +134,12 @@ public class Photo
 		this.explorationDate = explorationDate;
 	}
 
-	public Set<Ar> getArs()
+	public Set<Are> getArs()
 	{
 		return ars;
 	}
 
-	public void setArs(Set<Ar> ars)
+	public void setArs(Set<Are> ars)
 	{
 		this.ars = ars;
 	}

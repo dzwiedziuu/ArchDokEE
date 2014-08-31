@@ -5,9 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.aniedzwiedz.dokarchee.data.model.BusinessContext;
 import com.aniedzwiedz.dokarchee.data.model.Photo;
 import com.aniedzwiedz.dokarchee.data.service.PhotoService;
 import com.aniedzwiedz.dokarchee.logic.presenter.PojoListPresenter;
+import com.aniedzwiedz.dokarchee.logic.session.SessionUtils;
 
 @Component
 @Scope("session")
@@ -30,14 +32,17 @@ public class PhotoListPresenter extends PojoListPresenter<Photo>
 	@Override
 	protected Criterion getCriterion()
 	{
-		// TODO
-		return null;
+		return SessionUtils.getBusinessContextCriterion("businessContext");
 	}
 
 	@Override
 	protected Photo getEmptyObject()
 	{
-		// TODO
-		return new Photo();
+		BusinessContext bc = SessionUtils.getCurrentBusinessContext();
+		if (bc == null)
+			throw new RuntimeException("Business context not selected");
+		Photo photo = new Photo();
+		photo.setBusinessContext(bc);
+		return photo;
 	}
 }

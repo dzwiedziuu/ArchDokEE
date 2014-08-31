@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.aniedzwiedz.dokarchee.data.model.Ar;
+import com.aniedzwiedz.dokarchee.data.model.Are;
 import com.aniedzwiedz.dokarchee.data.model.ArchObject;
 import com.aniedzwiedz.dokarchee.data.model.BusinessContext;
 import com.aniedzwiedz.dokarchee.data.model.Photo;
@@ -19,7 +19,7 @@ import com.aniedzwiedz.dokarchee.gui.form.DefaultForm.DataProvider;
 import com.aniedzwiedz.dokarchee.logic.presenter.AbstractPresenter;
 import com.aniedzwiedz.dokarchee.logic.presenter.PojoEditPresenter;
 import com.aniedzwiedz.dokarchee.logic.presenter.archObjects.ArchObjectListPresenter;
-import com.aniedzwiedz.dokarchee.logic.presenter.ars.ArListPresenter;
+import com.aniedzwiedz.dokarchee.logic.presenter.ares.ArListPresenter;
 import com.aniedzwiedz.dokarchee.logic.presenter.photoSubjects.PhotoSubjectListPresenter;
 import com.aniedzwiedz.dokarchee.logic.presenter.users.UserListPresenter;
 import com.vaadin.server.VaadinSession;
@@ -87,7 +87,7 @@ public class PhotoEditPresenter extends PojoEditPresenter<Photo>
 	@Override
 	protected AbstractPresenter getActiveFieldPresenter(Class<?> ffType)
 	{
-		if (Ar.class.isAssignableFrom(ffType))
+		if (Are.class.isAssignableFrom(ffType))
 			return arListPresenter;
 		return null;
 	}

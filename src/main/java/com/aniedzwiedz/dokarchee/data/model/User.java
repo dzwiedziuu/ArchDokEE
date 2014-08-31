@@ -6,50 +6,45 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import com.aniedzwiedz.dokarchee.common.annotations.ColumnHeader;
 import com.aniedzwiedz.dokarchee.common.annotations.EditField;
 import com.aniedzwiedz.dokarchee.common.annotations.ForeignFieldLabel;
 
 @Entity
-@Table(name = "USER")
+@Table(name = "users")
 @ForeignFieldLabel(pattern = "$firstName$ $lastName$")
 public class User
 {
 	@Id
 	@GeneratedValue
-	@Column(name = "iduser")
+	@Column(name = "user_id")
 	private Long id;
 
-	@Column(name = "FIRSTNAME")
+	@Column(name = "user_name")
 	@ColumnHeader(value = "Imie", order = 1)
 	@EditField(label = "Imie", order = 1)
 	private String firstName;
 
-	@Column(name = "LASTNAME")
+	@Column(name = "user_lastname")
 	@ColumnHeader(value = "Nazwisko", order = 2)
 	@EditField(label = "Nazwisko", order = 2)
 	@NotNull(message = "Nazwisko nie moze byc puste")
-	@Size(min = 5, max = 10, message = "Dlugosc nazwiska musi zawierac sie w przedziale <5, 10> znakow")
 	private String lastName;
 
-	@Column(name = "EMAIL")
-	@EditField(label = "Email", order = 3)
-	private String email;
+	@Column(name = "user_login")
+	@ColumnHeader(value = "Login", order = 2)
+	@EditField(label = "Login", order = 3)
+	private String login;
 
-	public User()
+	public String getLogin()
 	{
+		return login;
 	}
 
-	public String getEmail()
+	public void setLogin(String login)
 	{
-		return email;
-	}
-
-	public void setEmail(String email)
-	{
-		this.email = email;
+		this.login = login;
 	}
 
 	public String getFirstName()

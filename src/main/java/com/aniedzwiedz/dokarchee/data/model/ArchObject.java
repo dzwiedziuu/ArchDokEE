@@ -17,29 +17,29 @@ import com.aniedzwiedz.dokarchee.common.annotations.EditField;
 import com.aniedzwiedz.dokarchee.common.annotations.ForeignFieldLabel;
 
 @Entity
-@Table(name = "object")
+@Table(name = "objects")
 @ForeignFieldLabel(pattern = "objectNumber")
 public class ArchObject
 {
 	@Id
 	@GeneratedValue
-	@Column(name = "idobject")
+	@Column(name = "object_id")
 	private Long id;
 
-	@Column(name = "objectnumber")
+	@Column(name = "object_nr")
 	@ColumnHeader(value = "Numer obiektu", order = 1)
 	@EditField(label = "Numer obiektu", order = 1)
 	@NotNull(message = "Numer obiektu nie moze byc pusty")
 	private String objectNumber;
 
-	@Column(name = "explorationDate")
+	@Column(name = "object_exploration_date")
 	@ColumnHeader(value = "Data eksploracji", order = 2)
 	@EditField(label = "Data eksploracji", order = 2)
 	@NotNull(message = "Data eksploracji nie moze byc pusta")
 	@Past
 	private Date explorationDate;
 
-	@JoinColumn(name = "businessContext")
+	@JoinColumn(name = "business_context_id")
 	@ManyToOne(optional = false)
 	private BusinessContext businessContext;
 

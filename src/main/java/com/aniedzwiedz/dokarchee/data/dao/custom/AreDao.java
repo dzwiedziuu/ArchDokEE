@@ -8,15 +8,15 @@ import org.hibernate.criterion.Criterion;
 import org.springframework.stereotype.Repository;
 
 import com.aniedzwiedz.dokarchee.data.dao.AbstractDao;
-import com.aniedzwiedz.dokarchee.data.model.Ar;
+import com.aniedzwiedz.dokarchee.data.model.Are;
 
 @Repository
-public class ArDao extends AbstractDao<Ar>
+public class AreDao extends AbstractDao<Are>
 {
 	@Override
-	public List<Ar> getList(Class<Ar> classObj, Criterion criterion)
+	public List<Are> getList(Class<Are> classObj, Criterion criterion)
 	{
-		Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(Ar.class);
+		Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(Are.class);
 		if (criterion != null)
 			criteria.add(criterion);
 		return criteria.setFetchMode("", FetchMode.JOIN).list();

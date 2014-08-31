@@ -19,5 +19,4 @@ public class AbstractServiceImpl<T> extends AbstractService<T> implements Abstra
 	{
 		return abstractDaoImpl;
 	}
-
 }

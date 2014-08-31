@@ -1,28 +1,28 @@
-package com.aniedzwiedz.dokarchee.logic.presenter.ars;
+package com.aniedzwiedz.dokarchee.logic.presenter.ares;
 
 import org.hibernate.criterion.Criterion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.aniedzwiedz.dokarchee.data.model.Ar;
+import com.aniedzwiedz.dokarchee.data.model.Are;
 import com.aniedzwiedz.dokarchee.data.model.BusinessContext;
 import com.aniedzwiedz.dokarchee.data.service.ArService;
 import com.aniedzwiedz.dokarchee.logic.presenter.PojoListPresenter;
-import com.vaadin.server.VaadinSession;
+import com.aniedzwiedz.dokarchee.logic.session.SessionUtils;
 
 @Component
 @Scope("session")
-public class ArListPresenter extends PojoListPresenter<Ar>
+public class ArListPresenter extends PojoListPresenter<Are>
 {
-	public interface ArListView extends PojoListView<Ar>
+	public interface ArListView extends PojoListView<Are>
 	{
 	}
 
 	@Autowired
 	public ArListPresenter(ArListView pojoListView, ArService pojoService, ArEditPresenter pojoEditPresenter)
 	{
-		super(Ar.class);
+		super(Are.class);
 		setView(pojoListView);
 		setPojoService(pojoService);
 		setPojoEditPresenter(pojoEditPresenter);
@@ -36,12 +36,12 @@ public class ArListPresenter extends PojoListPresenter<Ar>
 	}
 
 	@Override
-	protected Ar getEmptyObject()
+	protected Are getEmptyObject()
 	{
-		BusinessContext bc = VaadinSession.getCurrent().getAttribute(BusinessContext.class);
+		BusinessContext bc = SessionUtils.getCurrentBusinessContext();
 		if (bc == null)
 			throw new RuntimeException("Business context not selected");
-		Ar ar = new Ar();
+		Are ar = new Are();
 		ar.setBusinessContext(bc);
 		return ar;
 	}

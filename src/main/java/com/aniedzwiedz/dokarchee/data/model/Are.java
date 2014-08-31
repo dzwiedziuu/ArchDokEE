@@ -18,13 +18,13 @@ import com.aniedzwiedz.dokarchee.common.annotations.EditField;
 import com.aniedzwiedz.dokarchee.common.annotations.ForeignFieldLabel;
 
 @Entity
-@Table(name = "Ar")
+@Table(name = "ares")
 @ForeignFieldLabel(pattern = "arNumber")
-public class Ar
+public class Are
 {
 	@Id
 	@GeneratedValue
-	@Column(name = "idar")
+	@Column(name = "ar_id")
 	private Long id;
 
 	@Column(name = "ar_number")
@@ -37,7 +37,7 @@ public class Ar
 	// , fetch = FetchType.EAGER)
 	private Set<Photo> photos = new HashSet<Photo>();
 
-	@JoinColumn(name = "businessContext")
+	@JoinColumn(name = "business_context_id")
 	@ManyToOne(optional = false)
 	private BusinessContext businessContext;
 

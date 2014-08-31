@@ -84,7 +84,7 @@ public class PageTopView extends AbstractViewImpl
 
 		HorizontalLayout bcHorizontalLayout = new HorizontalLayout();
 		BusinessContext currentBusinessContext = VaadinSession.getCurrent().getAttribute(BusinessContext.class);
-		String curBC = currentBusinessContext == null ? "(nie wybrano opracowania)" : currentBusinessContext.getName();
+		String curBC = currentBusinessContext == null ? "(nie wybrano opracowania)" : currentBusinessContext.getCity();
 		Label bcLabel = new Label("Opracowanie: " + curBC);
 		bcHorizontalLayout.addComponent(bcLabel);
 		changeContextButton = new Button("Zmien opracowanie");

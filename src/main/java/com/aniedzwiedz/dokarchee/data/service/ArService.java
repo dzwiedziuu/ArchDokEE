@@ -1,8 +1,8 @@
 package com.aniedzwiedz.dokarchee.data.service;
 
-import com.aniedzwiedz.dokarchee.data.model.Ar;
+import com.aniedzwiedz.dokarchee.data.model.Are;
 
-public interface ArService extends PojoService<Ar>
+public interface ArService extends PojoService<Are>
 {
 
 }

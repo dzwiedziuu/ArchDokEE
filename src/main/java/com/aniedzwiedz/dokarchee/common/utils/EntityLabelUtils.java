@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.aniedzwiedz.dokarchee.common.annotations.ForeignFieldLabel;
 import com.vaadin.data.Item;
+import com.vaadin.data.util.BeanItem;
 
 public class EntityLabelUtils
 {
@@ -30,6 +31,12 @@ public class EntityLabelUtils
 			return property;
 		}
 
+	}
+
+	public static <T> String getObjectLabel(T object)
+	{
+		List<ItemCaptionPart> itemCaptionParts = getItemCaptionPartList(object.getClass());
+		return getItemCaption(new BeanItem<T>(object), itemCaptionParts);
 	}
 
 	public static List<ItemCaptionPart> getItemCaptionPartList(Class<?> classObj)

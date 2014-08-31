@@ -72,10 +72,6 @@ public abstract class PojoEditPresenter<T> extends PojoPresenter<T> implements E
 			((AbstractPojoEditView) pojoEditView).setDataProvider(getDataProvider());
 	}
 
-	protected abstract AbstractPresenter getDictionaryPresenter(Class<?> ffType);
-
-	protected abstract AbstractPresenter getActiveFieldPresenter(Class<?> ffType);
-
 	@Override
 	public void dictionaryOpened(ForeignFieldEvent foreignFieldEvent)
 	{
@@ -165,6 +161,25 @@ public abstract class PojoEditPresenter<T> extends PojoPresenter<T> implements E
 			getParentPresenter().focusAfterClosedWindow(viewEvent);
 		else
 			childPresentersFromFields.remove(viewEvent.getClosedWindowView().getClass());
+	}
+
+	/*
+	 * method used to get abstractPresenters which presents dirctionary of type
+	 * in argument
+	 */
+	protected AbstractPresenter getDictionaryPresenter(Class<?> ffType)
+	{
+		throw new RuntimeException("Abstract Presenter for type " + ffType + " dictionary not provided. Implement this method in subclass.");
+	}
+
+	/*
+	 * method used to get abstractPresenter which presents editWindow after
+	 * new/edit button is clicked (it may be listView (many to many) or
+	 * editView)
+	 */
+	protected AbstractPresenter getActiveFieldPresenter(Class<?> ffType)
+	{
+		throw new RuntimeException("Abstract Presenter for type " + ffType + " not provided. Implement this method in subclass.");
 	}
 
 	protected DataProvider getDataProvider()
