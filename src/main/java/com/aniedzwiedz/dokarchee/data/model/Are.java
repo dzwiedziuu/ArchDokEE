@@ -1,14 +1,10 @@
 package com.aniedzwiedz.dokarchee.data.model;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -33,9 +29,9 @@ public class Are
 	@NotNull(message = "Numer ara nie moze byc pusty")
 	private String arNumber;
 
-	@ManyToMany(mappedBy = "ars")
-	// , fetch = FetchType.EAGER)
-	private Set<Photo> photos = new HashSet<Photo>();
+	// @ManyToMany(mappedBy = "ars")
+	// // , fetch = FetchType.EAGER)
+	// private Set<Photo> photos = new HashSet<Photo>();
 
 	@JoinColumn(name = "business_context_id")
 	@ManyToOne(optional = false)
@@ -71,13 +67,13 @@ public class Are
 		this.arNumber = arNumber;
 	}
 
-	public Set<Photo> getPhotos()
-	{
-		return photos;
-	}
-
-	public void setPhotos(Set<Photo> photos)
-	{
-		this.photos = photos;
-	}
+	// public Set<Photo> getPhotos()
+	// {
+	// return photos;
+	// }
+	//
+	// public void setPhotos(Set<Photo> photos)
+	// {
+	// this.photos = photos;
+	// }
 }

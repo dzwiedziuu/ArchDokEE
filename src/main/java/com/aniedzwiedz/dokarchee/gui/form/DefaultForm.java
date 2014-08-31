@@ -199,12 +199,17 @@ public class DefaultForm<T> extends Panel
 
 	private <T1> void fillForeignField(ForeignField<T1> foreignField, Class<T1> dataType)
 	{
+
+		Property p = foreignField.getPropertyDataSource();
+		Object value = p.getValue();
 		foreignField.setContainerDataSource(new BeanItemContainer<T1>(dataType));
 		List<ItemCaptionPart> itemCaptionPars = EntityLabelUtils.getItemCaptionPartList(dataType);
 		List<T1> data = new ArrayList<>();
 		if (getDataProvider() != null)
 			data = getDataProvider().getList(dataType);
 		foreignField.setData(data, itemCaptionPars);
+		p.setValue(value);
+		foreignField.setPropertyDataSource(p);
 	}
 
 	public interface DataProvider
@@ -317,12 +322,6 @@ public class DefaultForm<T> extends Panel
 	public void refreshForm()
 	{
 		for (ForeignField foreignField : foreignFields)
-		{
-			Property p = foreignField.getPropertyDataSource();
-			Object value = p.getValue();
 			fillForeignField(foreignField, foreignField.getType());
-			p.setValue(value);
-			foreignField.setPropertyDataSource(p);
-		}
 	}
 }

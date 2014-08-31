@@ -11,9 +11,11 @@ import javax.validation.constraints.NotNull;
 
 import com.aniedzwiedz.dokarchee.common.annotations.ColumnHeader;
 import com.aniedzwiedz.dokarchee.common.annotations.EditField;
+import com.aniedzwiedz.dokarchee.common.annotations.ForeignFieldLabel;
 
 @Entity
 @Table(name = "figure_specifications")
+@ForeignFieldLabel(pattern = "id")
 public class FigureSpecification
 {
 	@Id
@@ -24,12 +26,14 @@ public class FigureSpecification
 	@Column(name = "figure_specification_profile")
 	@ColumnHeader(value = "Profil", order = 3)
 	@EditField(label = "Profil", order = 3)
-	private Boolean profile;
+	@NotNull
+	private Boolean profile = false;
 
 	@Column(name = "figure_specification_projection")
 	@ColumnHeader(value = "Rzut", order = 2)
 	@EditField(label = "Rzut", order = 2)
-	private Boolean projection;
+	@NotNull
+	private Boolean projection = false;
 
 	@JoinColumn(name = "figure_id")
 	@NotNull(message = "Rysunek nie moze byc pusty")

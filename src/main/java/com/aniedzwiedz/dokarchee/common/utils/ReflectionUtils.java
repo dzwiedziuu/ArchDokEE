@@ -37,6 +37,10 @@ public class ReflectionUtils
 		return false;
 	}
 
+	/*
+	 * if both ids are null, returns false works only with one ID field in type
+	 * T
+	 */
 	public static <T> boolean equals(T t1, T t2)
 	{
 		if (t1 == null && t2 == null)
@@ -50,9 +54,9 @@ public class ReflectionUtils
 				field.setAccessible(true);
 				Object id1 = field.get(t1);
 				Object id2 = field.get(t2);
-				if (t1 == null && t2 == null)
-					continue;
-				if (t1 == null ^ t2 == null)
+				if (id1 == null && id2 == null)
+					return false;
+				if (id1 == null ^ id2 == null)
 					return false;
 				if (!id1.equals(id2))
 					return false;

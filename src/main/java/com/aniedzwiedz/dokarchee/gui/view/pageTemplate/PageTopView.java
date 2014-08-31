@@ -8,11 +8,12 @@ import org.springframework.stereotype.Component;
 
 import ru.xpoft.vaadin.VaadinView;
 
+import com.aniedzwiedz.dokarchee.common.utils.EntityLabelUtils;
 import com.aniedzwiedz.dokarchee.data.model.BusinessContext;
 import com.aniedzwiedz.dokarchee.gui.view.AbstractViewImpl;
-import com.aniedzwiedz.dokarchee.gui.view.archObjects.ArchObjectListViewImpl;
+import com.aniedzwiedz.dokarchee.gui.view.figures.FigureListViewImpl;
+import com.aniedzwiedz.dokarchee.gui.view.objects.ArchObjectListViewImpl;
 import com.aniedzwiedz.dokarchee.gui.view.photos.PhotoListViewImpl;
-import com.aniedzwiedz.dokarchee.gui.view.startPage.StartPageView;
 import com.vaadin.server.ClassResource;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.VaadinSession;
@@ -55,6 +56,8 @@ public class PageTopView extends AbstractViewImpl
 		links.add(new PageLink("START", StartPageView.VIEW_NAME));
 		links.add(new PageLink("Obiekty", ArchObjectListViewImpl.VIEW_NAME));
 		links.add(new PageLink("Zdjecia", PhotoListViewImpl.VIEW_NAME));
+		links.add(new PageLink("Rysunki", FigureListViewImpl.VIEW_NAME));
+		links.add(new PageLink("Slowniki", Dictionaries.VIEW_NAME));
 	}
 
 	public PageTopView()
@@ -84,7 +87,8 @@ public class PageTopView extends AbstractViewImpl
 
 		HorizontalLayout bcHorizontalLayout = new HorizontalLayout();
 		BusinessContext currentBusinessContext = VaadinSession.getCurrent().getAttribute(BusinessContext.class);
-		String curBC = currentBusinessContext == null ? "(nie wybrano opracowania)" : currentBusinessContext.getCity();
+		String curBC = currentBusinessContext == null ? "(nie wybrano opracowania)" : EntityLabelUtils
+				.getObjectLabel(currentBusinessContext);
 		Label bcLabel = new Label("Opracowanie: " + curBC);
 		bcHorizontalLayout.addComponent(bcLabel);
 		changeContextButton = new Button("Zmien opracowanie");

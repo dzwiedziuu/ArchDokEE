@@ -14,7 +14,7 @@ import com.aniedzwiedz.dokarchee.gui.view.AbstractView;
 import com.aniedzwiedz.dokarchee.gui.view.AbstractViewImpl;
 import com.aniedzwiedz.dokarchee.gui.view.pageTemplate.PageTopView;
 import com.aniedzwiedz.dokarchee.gui.view.pageTemplate.PageView;
-import com.aniedzwiedz.dokarchee.gui.view.startPage.StartPageView;
+import com.aniedzwiedz.dokarchee.gui.view.pageTemplate.StartPageView;
 import com.aniedzwiedz.dokarchee.gui.window.AbstractWindow;
 import com.aniedzwiedz.dokarchee.gui.window.SubWindow;
 import com.aniedzwiedz.dokarchee.logic.controller.SessionController;
@@ -44,12 +44,12 @@ public class ApplicationUI extends UI implements GuiController
 			AbstractView abstractView = (AbstractView) view;
 			lastView = currentView;
 			currentView = abstractView;
-			abstractView.setGuiController(ApplicationUI.this);
 			sessionController.registerView(abstractView);
+			abstractView.setGuiController(ApplicationUI.this);
 			abstractView.refresh();
 			PageTopView pageTopView = new PageTopView();
-			pageTopView.setGuiController(ApplicationUI.this);
 			sessionController.registerView(pageTopView);
+			pageTopView.setGuiController(ApplicationUI.this);
 			pageTopView.refresh();
 			PageView pageView = new PageView((AbstractViewImpl) abstractView, pageTopView);
 			super.navigateTo(pageView, viewName, parameters);
@@ -97,8 +97,8 @@ public class ApplicationUI extends UI implements GuiController
 		// creating new bean - like in navigator
 		view = applicationContext.getBean(view.getClass());
 		sessionController.registerView(view);
-		view.refresh();
 		view.setGuiController(this);
+		view.refresh();
 		SubWindow subWindow = new SubWindow(view);
 		subWindow.setHeight(300, Unit.PIXELS);
 		subWindow.setWidth(300, Unit.PIXELS);

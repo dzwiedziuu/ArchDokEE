@@ -28,7 +28,7 @@ public abstract class PojoListPresenter<T> extends PojoPresenter<T> implements A
 	}
 
 	private PojoListView<T> pojoListView;
-	private boolean listSelectable = false;
+
 	private PojoEditPresenter<T> pojoEditPresenter;
 
 	protected void setPojoListView(PojoListView<T> pojoListView)
@@ -53,11 +53,6 @@ public abstract class PojoListPresenter<T> extends PojoPresenter<T> implements A
 	public AbstractView getAbstractView()
 	{
 		return pojoListView;
-	}
-
-	public void setListSelectable(boolean listSelectable)
-	{
-		this.listSelectable = listSelectable;
 	}
 
 	public void addItem(TableEvent crudTableEvent)
@@ -100,7 +95,7 @@ public abstract class PojoListPresenter<T> extends PojoPresenter<T> implements A
 	@Override
 	public void refreshView(AbstractView abstractView)
 	{
-		pojoListView.setSelectable(listSelectable);
+		pojoListView.setSelectable(isSelectable());
 		pojoListView.setList(getPojoService().getAll(typeClass, getCriterion()));
 	}
 

@@ -15,4 +15,16 @@ public abstract class PojoPresenter<T> extends AbstractPresenter
 	{
 		return pojoService;
 	}
+
+	private boolean selectable = false;
+
+	public void setSelectable(boolean selectable)
+	{
+		this.selectable = selectable;
+	}
+
+	public boolean isSelectable()
+	{
+		return selectable;
+	}
 }

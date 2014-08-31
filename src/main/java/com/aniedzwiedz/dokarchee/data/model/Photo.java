@@ -67,7 +67,7 @@ public class Photo
 	@ManyToOne(optional = false)
 	private BusinessContext businessContext;
 
-	@JoinTable(name = "ares_photos", joinColumns = { @JoinColumn(name = "ares_ar_id") }, inverseJoinColumns = { @JoinColumn(name = "photos_photo_id") })
+	@JoinTable(name = "ares_photos", joinColumns = { @JoinColumn(name = "photos_photo_id") }, inverseJoinColumns = { @JoinColumn(name = "ares_ar_id") })
 	@ColumnHeader(value = "Ary dotyczace zdjecia", order = 6, genericType = Are.class)
 	@EditField(label = "Ary dotyczace zdjecia:", order = 6)
 	// without CascadeType.Persist, CascadeType.REMOVE

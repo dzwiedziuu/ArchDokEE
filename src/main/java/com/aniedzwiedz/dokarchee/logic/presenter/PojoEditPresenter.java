@@ -38,7 +38,12 @@ public abstract class PojoEditPresenter<T> extends PojoPresenter<T> implements E
 		if (value == null)
 			return;
 		ActiveComponent activeComponent = childPresentersFromFields.remove(abstractPresenter.getAbstractView().getClass());
+		fillValueInOneToManyRel(value);
 		activeComponent.addNewValueToTable(value);
+	}
+
+	protected void fillValueInOneToManyRel(Object value)
+	{
 	}
 
 	@Override
@@ -56,6 +61,11 @@ public abstract class PojoEditPresenter<T> extends PojoPresenter<T> implements E
 	public void setPojoObject(T pojoObject)
 	{
 		this.pojoObject = pojoObject;
+	}
+
+	protected T getPojoObject()
+	{
+		return pojoObject;
 	}
 
 	protected PojoEditView<T> getPojoEditView()
@@ -76,11 +86,12 @@ public abstract class PojoEditPresenter<T> extends PojoPresenter<T> implements E
 	public void dictionaryOpened(ForeignFieldEvent foreignFieldEvent)
 	{
 		Class<?> ffType = foreignFieldEvent.getForeignField().getType();
-		AbstractPresenter abstractPresenter = getDictionaryPresenter(ffType);
-		if (abstractPresenter == null)
+		PojoPresenter<?> pojoPresenter = getDictionaryPresenter(ffType);
+		if (pojoPresenter == null)
 			throw new RuntimeException("Couldn't find dictionary presenter for class " + ffType);
-		childPresentersFromFields.put(abstractPresenter.getAbstractView().getClass(), foreignFieldEvent.getForeignField());
-		goToNextView(abstractPresenter);
+		pojoPresenter.setSelectable(true);
+		childPresentersFromFields.put(pojoPresenter.getAbstractView().getClass(), foreignFieldEvent.getForeignField());
+		goToNextView(pojoPresenter);
 	}
 
 	@Override
@@ -132,6 +143,12 @@ public abstract class PojoEditPresenter<T> extends PojoPresenter<T> implements E
 	@Override
 	public void saveButtonClicked(FormEvent<T> formEvent)
 	{
+		if (isSelectable())
+		{
+			((SelectListener) getParentPresenter()).returnValue(this, formEvent.getPojoObject());
+			pojoEditView.closeLastWindow();
+			return;
+		}
 		PojoService<T> pojoService = getPojoService();
 		T pojoObject = formEvent.getPojoObject();
 		if (newObject)
@@ -167,7 +184,7 @@ public abstract class PojoEditPresenter<T> extends PojoPresenter<T> implements E
 	 * method used to get abstractPresenters which presents dirctionary of type
 	 * in argument
 	 */
-	protected AbstractPresenter getDictionaryPresenter(Class<?> ffType)
+	protected PojoPresenter<?> getDictionaryPresenter(Class<?> ffType)
 	{
 		throw new RuntimeException("Abstract Presenter for type " + ffType + " dictionary not provided. Implement this method in subclass.");
 	}
@@ -192,7 +209,7 @@ public abstract class PojoEditPresenter<T> extends PojoPresenter<T> implements E
 		@Override
 		public <T> List<T> getList(Class<T> classObj)
 		{
-			throw new RuntimeException("Not implemented method DataProvider.getList() - used to fill dictionaries");
+			throw new RuntimeException("Not implemented method DataProvider.getList() - used to fill dictionaries - class: " + getClass());
 		}
 	};
 }

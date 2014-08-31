@@ -1,11 +1,12 @@
 -serialization problem ?
 -null pointer exception while refreshing editView
 -filter on table - actionField (foreignField and set)
--many to one relationship
 -CRUDTable - to large Class
 -hibernate exceptions (constraints, deleted rows)
 -log some exceptions
 -removing dependent objects
+-many to one relationship - editing
+-displaying boolean
 
 consider:
 -Hibernate does "delete all then re-insert" - its not so strange - Bag for Association

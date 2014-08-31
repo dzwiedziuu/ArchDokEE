@@ -9,9 +9,11 @@ import javax.validation.constraints.NotNull;
 
 import com.aniedzwiedz.dokarchee.common.annotations.ColumnHeader;
 import com.aniedzwiedz.dokarchee.common.annotations.EditField;
+import com.aniedzwiedz.dokarchee.common.annotations.ForeignFieldLabel;
 
 @Entity
 @Table(name = "figure_subjects")
+@ForeignFieldLabel(pattern = "figureSubject")
 public class FigureSubject
 {
 	@Id
@@ -23,7 +25,7 @@ public class FigureSubject
 	@ColumnHeader(value = "Temat rysunku", order = 2)
 	@EditField(label = "Temat rysunku", order = 2)
 	@NotNull(message = "Temat rysunku nie moze byc pusty")
-	private String photoSubject;
+	private String figureSubject;
 
 	// @OneToMany(mappedBy = "figureSubject")
 	// private Collection<Photo> photos;
@@ -38,23 +40,13 @@ public class FigureSubject
 		this.id = id;
 	}
 
-	public String getPhotoSubject()
+	public String getFigureSubject()
 	{
-		return photoSubject;
+		return figureSubject;
 	}
 
-	public void setPhotoSubject(String photoSubject)
+	public void setFigureSubject(String figureSubject)
 	{
-		this.photoSubject = photoSubject;
+		this.figureSubject = figureSubject;
 	}
-
-	// public Collection<Photo> getPhotos()
-	// {
-	// return photos;
-	// }
-	//
-	// public void setPhotos(Collection<Photo> photos)
-	// {
-	// this.photos = photos;
-	// }
 }

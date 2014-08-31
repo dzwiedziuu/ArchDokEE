@@ -17,6 +17,7 @@ public class DokArchExceptionResolver
 
 	private void errorInterceptor(JoinPoint jp, Exception e) throws Throwable
 	{
+		e.printStackTrace();
 		throw new Error("Blad bazy danych!");
 	}
 }

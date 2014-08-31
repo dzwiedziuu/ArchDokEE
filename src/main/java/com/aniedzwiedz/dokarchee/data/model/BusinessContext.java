@@ -14,7 +14,7 @@ import com.aniedzwiedz.dokarchee.common.annotations.ForeignFieldLabel;
 
 @Entity
 @Table(name = "business_contexts")
-@ForeignFieldLabel(pattern = "$business_context_city$/$business_context_voivodeship$/$business_context_site_nr$")
+@ForeignFieldLabel(pattern = "$city$/$voivodeship$/$siteNr$")
 public class BusinessContext
 {
 	@Id

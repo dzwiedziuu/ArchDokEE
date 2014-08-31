@@ -7,12 +7,11 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
-
-import ru.xpoft.vaadin.SpringApplicationContext;
 
 import com.aniedzwiedz.dokarchee.gui.view.AbstractView;
 import com.aniedzwiedz.dokarchee.logic.presenter.AbstractPresenter;
@@ -21,20 +20,22 @@ import com.aniedzwiedz.dokarchee.logic.presenter.AbstractPresenter;
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class SessionController
 {
-	private Map<String, List<AbstractPresenter>> presenters = new HashMap<>();
+	private Map<String, List<Class<? extends AbstractPresenter>>> presenters = new HashMap<>();
+
+	@Autowired
+	private ApplicationContext applicationContext;
 
 	@PostConstruct
 	public void initSessionControllerImpl()
 	{
-		// add AbstractPresenters to ApplicationController
-		ApplicationContext ac = SpringApplicationContext.getApplicationContext();
-		for (String beanName : ac.getBeanDefinitionNames())
+		// register AbstractPresenters to ApplicationController
+		for (String beanName : applicationContext.getBeanDefinitionNames())
 		{
-			Class<?> classObj = ac.getType(beanName);
+			Class<?> classObj = applicationContext.getType(beanName);
 			for (Class<?> c = classObj; c != null; c = c.getSuperclass())
 				if (c == AbstractPresenter.class)
 				{
-					AbstractPresenter abstractPresenter = (AbstractPresenter) ac.getBean(classObj);
+					AbstractPresenter abstractPresenter = (AbstractPresenter) applicationContext.getBean(classObj);
 					registerPresenter(abstractPresenter);
 				}
 		}
@@ -43,22 +44,26 @@ public class SessionController
 	private void registerPresenter(AbstractPresenter abstractPresenter)
 	{
 		String viewName = abstractPresenter.getAbstractView().getViewName();
-		List<AbstractPresenter> list = presenters.get(viewName);
+		List<Class<? extends AbstractPresenter>> list = presenters.get(viewName);
 		if (list == null)
 		{
 			list = new ArrayList<>();
 			presenters.put(viewName, list);
 		}
-		list.add(abstractPresenter);
+		list.add(abstractPresenter.getClass());
 	}
 
 	public void registerView(AbstractView abstractView)
 	{
 		String viewName = abstractView.getViewName();
-		List<AbstractPresenter> list = presenters.get(viewName);
+		List<Class<? extends AbstractPresenter>> list = presenters.get(viewName);
 		if (list == null)
 			return;
-		for (AbstractPresenter abstractPresenter : list)
+		for (Class<? extends AbstractPresenter> abstractPresenterClass : list)
+		{
+			AbstractPresenter abstractPresenter = applicationContext.getBean(abstractPresenterClass);
 			abstractPresenter.setView(abstractView);
+		}
+
 	}
 }

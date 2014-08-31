@@ -494,7 +494,7 @@ public class CRUDTable<T> extends CustomField<Set<T>> implements ActiveComponent
 	@Override
 	public void addNewValueToTable(Object value)
 	{
-		if (!tablePropertyHolder.addUnique((T) value))
+		if (!tablePropertyHolder.addUnique((T) value) && manyToMany)
 			Notification.show("Blad", "Podany rekord zostal juz dodany do tabeli", Type.HUMANIZED_MESSAGE);
 		// notify about table content change
 		// TODO unefficent
@@ -504,5 +504,12 @@ public class CRUDTable<T> extends CustomField<Set<T>> implements ActiveComponent
 	public T getSelectedItem()
 	{
 		return (T) actionListener.getLastClickedItemId();
+	}
+
+	private boolean manyToMany = false;
+
+	public void setManyToMany(boolean manyToMany)
+	{
+		this.manyToMany = manyToMany;
 	}
 }
