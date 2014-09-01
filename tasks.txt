@@ -1,5 +1,14 @@
 -serialization problem ?
 -CRUDTable - to large Class
+-visible, big tittle in every view
+-login & logout
+-reports
+-themes
+-validation
+-rest of domain
+-check out commit()
+-image upload
+-check out what with detail field?
 
 consider:
 -Hibernate does "delete all then re-insert" - its not so strange - Bag for Association
