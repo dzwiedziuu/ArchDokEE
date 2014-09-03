@@ -7,6 +7,7 @@ import ru.xpoft.vaadin.VaadinView;
 
 import com.aniedzwiedz.dokarchee.gui.view.AbstractViewImpl;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.VerticalLayout;
 
 @Component(StartPageView.VIEW_NAME)
 @Scope("prototype")
@@ -15,7 +16,12 @@ public class StartPageView extends AbstractViewImpl
 {
 	public StartPageView()
 	{
-		setContent(new Label("Content of start page"));
+		VerticalLayout vl = new VerticalLayout();
+		vl.setStyleName("page-content");
+		vl.addComponent(new Label("Content of start page"));
+		vl.setSizeFull();
+		setSizeFull();
+		setContent(vl);
 	}
 
 	public static final String VIEW_NAME = "StartPage";

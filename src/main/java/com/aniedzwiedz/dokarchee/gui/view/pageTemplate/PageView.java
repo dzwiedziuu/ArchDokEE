@@ -27,6 +27,8 @@ public class PageView extends AbstractViewImpl
 		verticalLayout.setExpandRatio(pageTopView, 0);
 		verticalLayout.addComponent(contentView);
 		verticalLayout.setExpandRatio(contentView, 1);
+		// verticalLayout.setSizeFull();
+		// setSizeFull();
 		setContent(verticalLayout);
 	}
 

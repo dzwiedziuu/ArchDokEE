@@ -34,6 +34,8 @@ public class Dictionaries extends AbstractViewImpl
 	public Dictionaries()
 	{
 		VerticalLayout layout = new VerticalLayout();
+		layout.setStyleName("page-content");
+		setSizeFull();
 		layout.addComponent(new Label("Slowniki:"));
 		for (PageLink link : links)
 			layout.addComponent(generateLink(link));

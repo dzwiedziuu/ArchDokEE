@@ -1,0 +1,80 @@
+/* Import the reindeer theme.*/
+/* This only allows us to use the mixins defined in it and does not add any styles by itself. */
+@import "../reindeer/reindeer.scss";
+
+@mixin archdokee {
+  @include reindeer;
+
+
+  /* White background for the entire UI */
+  .v-ui {
+    background: #EEF272;
+  }
+  
+  /* All labels have white text on black background */
+  .v-label {
+    /*background: black;*/
+    color: black;
+    font-size: 12pt;
+    line-height: 12pt;
+  }
+  
+  .v-verticallayout {
+  	background: #00C732;
+  }
+  
+  .v-horizontallayout {
+  	background: #00C732;
+  }
+
+  .v-link {
+  	width: 50pt;
+  	text-align: center;
+  }
+
+  /* All buttons have blue caption and some margin */
+  .v-button {
+    /* A nested selector to increase specificity */
+    .v-button-caption {
+      color: blue;
+    }
+  }
+  
+  .main-label {
+  	font-size: 48pt;
+    line-height: 48pt;
+  }
+  
+   .title2-label {
+  	font-size: 16pt;
+    line-height: 16pt;
+  }
+  
+  .page-content {
+  	background: #B1E6BE;
+  	font-size: 14pt;
+  }
+  
+  .login-info {
+  	font-size: 10pt;
+  }
+  
+  .v-table-header-cell {
+    	text-align: center;
+    	color: #525987;
+	}
+	
+	/* Basic style for all cells. */
+	.v-table-cell-content {
+    	text-align: center;
+   	 	vertical-align: middle;
+    	padding-top: 2px;
+    	padding-bottom: 2px;
+    	/*width: 20px;*/
+    	/*height: 28px;*/
+	}
+	
+	.v-window .v-window-outerheader {
+     background: black;
+     }
+}

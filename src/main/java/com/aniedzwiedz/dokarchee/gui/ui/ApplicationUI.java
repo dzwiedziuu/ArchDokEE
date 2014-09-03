@@ -26,9 +26,9 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.Window.CloseEvent;
 
+@Theme("archdokee")
 @Component
 @Scope("prototype")
-@Theme("dokarchee")
 public class ApplicationUI extends UI implements GuiController
 {
 	// class necessary to avoid entering the initial view twice
@@ -103,7 +103,7 @@ public class ApplicationUI extends UI implements GuiController
 		view.refresh();
 		SubWindow subWindow = new SubWindow(view);
 		subWindow.setHeight(300, Unit.PIXELS);
-		subWindow.setWidth(300, Unit.PIXELS);
+		subWindow.setWidth(500, Unit.PIXELS);
 		subWindow.addCloseListener(closeWindowListener);
 		openedWindows.add(subWindow);
 		addWindow(subWindow);
@@ -141,9 +141,10 @@ public class ApplicationUI extends UI implements GuiController
 			SubWindow lastWindow = openedWindows.peekLast();
 			if (lastWindow != e.getWindow())
 				return;
-			SubWindow closedWindow = openedWindows.pollLast();
+			openedWindows.pollLast();
+			lastWindow = openedWindows.peekLast();
 			AbstractView newTopView = null;
-			if (closedWindow != null)
+			if (lastWindow != null)
 				newTopView = lastWindow.getView();
 			else
 				newTopView = currentView;

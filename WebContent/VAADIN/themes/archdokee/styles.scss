@@ -1,9 +1,9 @@
 @import "addons.scss";
-@import "dokarchee.scss";
+@import "archdokee.scss";
 
 /* This file prefixes all rules with the theme name to avoid causing conflicts with other themes. */
 /* The actual styles should be defined in dokarchee.scss */
-.dokarchee {
+.archdokee {
   @include addons;
-  @include dokarchee;
+  @include archdokee;
 }

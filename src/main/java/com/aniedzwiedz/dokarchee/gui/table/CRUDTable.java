@@ -37,6 +37,7 @@ import com.vaadin.event.ItemClickEvent;
 import com.vaadin.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.shared.MouseEventDetails.MouseButton;
 import com.vaadin.ui.AbstractOrderedLayout;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
@@ -113,6 +114,7 @@ public class CRUDTable<T> extends CustomField<Set<T>> implements ActiveComponent
 
 		filterTable = new FilterTable();
 		filterTable.setSizeFull();
+		filterTable.setWidth("100%");
 		filterTable.setFilterGenerator(new FilterGeneratorImpl(classObj));
 		filterTable.setFilterDecorator(new FilterDecoratorImpl());
 		filterTable.setFilterBarVisible(true);
@@ -120,11 +122,14 @@ public class CRUDTable<T> extends CustomField<Set<T>> implements ActiveComponent
 		filterTable.setMultiSelect(false);
 		filterTable.setNullSelectionAllowed(false);
 		filterTable.addItemClickListener(actionListener);
+		filterTable.setPageLength(0);
 
 		addColumnGenerators();
 
 		buttonPanel = new HorizontalLayout();
+		buttonPanel.setSizeFull();
 		lowerButtonPanel = new HorizontalLayout();
+		lowerButtonPanel.setSizeFull();
 
 		verticalLayout.addComponent(buttonPanel);
 		verticalLayout.setExpandRatio(buttonPanel, 0);
@@ -136,6 +141,7 @@ public class CRUDTable<T> extends CustomField<Set<T>> implements ActiveComponent
 		myContextMenu = new MyContextMenu();
 		myContextMenu.addMyContextMenuTableListener(actionListener);
 		myContextMenu.addItemClickListener(actionListener);
+		setSizeFull();
 	}
 
 	public Class<?> getContentType()
@@ -199,6 +205,7 @@ public class CRUDTable<T> extends CustomField<Set<T>> implements ActiveComponent
 	public Button addLowerButton(Button button)
 	{
 		lowerButtonPanel.addComponent(button);
+		lowerButtonPanel.setComponentAlignment(button, Alignment.MIDDLE_CENTER);
 		return button;
 	}
 
