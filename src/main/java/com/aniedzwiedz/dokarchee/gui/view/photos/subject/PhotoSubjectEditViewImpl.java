@@ -27,4 +27,10 @@ public class PhotoSubjectEditViewImpl extends AbstractPojoEditView<PhotoSubject>
 	{
 		return VIEW_NAME;
 	}
+
+	@Override
+	public String getTitle()
+	{
+		return "Edycja tematu zdjêcia";
+	}
 }

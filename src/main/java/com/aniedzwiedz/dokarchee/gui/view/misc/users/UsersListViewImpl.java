@@ -16,7 +16,7 @@ public class UsersListViewImpl extends AbstractPojoListView<User> implements Use
 {
 	private static final long serialVersionUID = -974633482319703150L;
 
-	static final String VIEW_NAME = "USER_LIST";
+	public static final String VIEW_NAME = "USER_LIST";
 
 	public UsersListViewImpl()
 	{
@@ -27,5 +27,11 @@ public class UsersListViewImpl extends AbstractPojoListView<User> implements Use
 	public String getViewName()
 	{
 		return VIEW_NAME;
+	}
+
+	@Override
+	public String getTitle()
+	{
+		return "Lista autorów";
 	}
 }

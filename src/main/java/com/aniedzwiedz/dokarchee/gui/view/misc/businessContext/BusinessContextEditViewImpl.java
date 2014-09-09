@@ -27,4 +27,10 @@ public class BusinessContextEditViewImpl extends AbstractPojoEditView<BusinessCo
 	{
 		return VIEW_NAME;
 	}
+
+	@Override
+	public String getTitle()
+	{
+		return "Edycja opracowania";
+	}
 }

@@ -27,4 +27,10 @@ public class BusinessContextListViewImpl extends AbstractPojoListView<BusinessCo
 	{
 		return VIEW_NAME;
 	}
+
+	@Override
+	public String getTitle()
+	{
+		return "Lista opracowañ";
+	}
 }

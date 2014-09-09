@@ -14,7 +14,7 @@ import com.aniedzwiedz.dokarchee.logic.presenter.photos.subjects.PhotoSubjectLis
 @VaadinView(PhotoSubjectListViewImpl.VIEW_NAME)
 public class PhotoSubjectListViewImpl extends AbstractPojoListView<PhotoSubject> implements PhotoSubjectListView
 {
-	static final String VIEW_NAME = "PHOTOSUBJECT_LIST";
+	public static final String VIEW_NAME = "PHOTOSUBJECT_LIST";
 
 	public PhotoSubjectListViewImpl()
 	{
@@ -26,5 +26,11 @@ public class PhotoSubjectListViewImpl extends AbstractPojoListView<PhotoSubject>
 	public String getViewName()
 	{
 		return VIEW_NAME;
+	}
+
+	@Override
+	public String getTitle()
+	{
+		return "Lista tematów zdjêcia";
 	}
 }

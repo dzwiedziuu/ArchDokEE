@@ -27,4 +27,10 @@ public class ArchObjectEditViewImpl extends AbstractPojoEditView<ArchObject> imp
 	{
 		return VIEW_NAME;
 	}
+
+	@Override
+	public String getTitle()
+	{
+		return "Edycja obiektu";
+	}
 }

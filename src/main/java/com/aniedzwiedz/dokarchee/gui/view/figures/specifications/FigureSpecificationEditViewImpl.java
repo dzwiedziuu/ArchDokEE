@@ -27,4 +27,10 @@ public class FigureSpecificationEditViewImpl extends AbstractPojoEditView<Figure
 	{
 		return VIEW_NAME;
 	}
+
+	@Override
+	public String getTitle()
+	{
+		return "Edycja specyfikacji rysunku";
+	}
 }

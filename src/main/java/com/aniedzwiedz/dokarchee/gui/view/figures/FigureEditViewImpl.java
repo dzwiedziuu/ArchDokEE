@@ -27,4 +27,10 @@ public class FigureEditViewImpl extends AbstractPojoEditView<Figure> implements 
 	{
 		return VIEW_NAME;
 	}
+
+	@Override
+	public String getTitle()
+	{
+		return "Edycja rysunku";
+	}
 }

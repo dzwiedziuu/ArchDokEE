@@ -12,6 +12,7 @@
 -change controller to prototype
 -change mechanism of topbar - not refreshed after close
 -get new object from db at edit
+-check if from dict are only objects from business context (are?)
 
 consider:
 -Hibernate does "delete all then re-insert" - its not so strange - Bag for Association

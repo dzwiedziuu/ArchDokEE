@@ -27,4 +27,10 @@ public class ArEditViewImpl extends AbstractPojoEditView<Are> implements ArEditV
 	{
 		return VIEW_NAME;
 	}
+
+	@Override
+	public String getTitle()
+	{
+		return "Edycja aru";
+	}
 }

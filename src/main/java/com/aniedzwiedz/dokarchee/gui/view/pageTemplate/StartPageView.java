@@ -18,7 +18,8 @@ public class StartPageView extends AbstractViewImpl
 	{
 		VerticalLayout vl = new VerticalLayout();
 		vl.setStyleName("page-content");
-		vl.addComponent(new Label("Content of start page"));
+		vl.addComponent(new Label("Witaj!"));
+		vl.addComponent(new Label("To jest aplikacja DokArch."));
 		vl.setSizeFull();
 		setSizeFull();
 		setContent(vl);
@@ -30,5 +31,11 @@ public class StartPageView extends AbstractViewImpl
 	public String getViewName()
 	{
 		return VIEW_NAME;
+	}
+
+	@Override
+	public String getTitle()
+	{
+		return "Start";
 	}
 }

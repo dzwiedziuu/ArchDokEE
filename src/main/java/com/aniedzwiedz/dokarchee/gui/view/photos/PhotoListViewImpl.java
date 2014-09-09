@@ -27,4 +27,10 @@ public class PhotoListViewImpl extends AbstractPojoListView<Photo> implements Ph
 	{
 		return VIEW_NAME;
 	}
+
+	@Override
+	public String getTitle()
+	{
+		return "Lista zdjêæ";
+	}
 }

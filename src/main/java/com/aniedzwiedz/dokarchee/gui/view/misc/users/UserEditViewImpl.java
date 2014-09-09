@@ -29,4 +29,10 @@ public class UserEditViewImpl extends AbstractPojoEditView<User> implements User
 	{
 		return VIEW_NAME;
 	}
+
+	@Override
+	public String getTitle()
+	{
+		return "Edycja autora";
+	}
 }

@@ -27,4 +27,10 @@ public class ArListViewImpl extends AbstractPojoListView<Are> implements ArListV
 	{
 		return VIEW_NAME;
 	}
+
+	@Override
+	public String getTitle()
+	{
+		return "Lista arów";
+	}
 }

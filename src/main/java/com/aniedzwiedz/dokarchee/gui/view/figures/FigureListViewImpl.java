@@ -27,4 +27,10 @@ public class FigureListViewImpl extends AbstractPojoListView<Figure> implements 
 	{
 		return VIEW_NAME;
 	}
+
+	@Override
+	public String getTitle()
+	{
+		return "Lista rysunków";
+	}
 }

@@ -102,10 +102,4 @@ public abstract class AbstractPojoListView<T> extends AbstractViewImpl implement
 				listViewListener.selectedItem(event);
 		}
 	}
-
-	@Override
-	public void addItem(Object value)
-	{
-		crudTable.addNewValueToTable(value);
-	}
 }

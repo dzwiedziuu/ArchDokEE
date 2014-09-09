@@ -28,7 +28,7 @@
   }
 
   .v-link {
-  	width: 50pt;
+	padding: 2px;
   	text-align: center;
   }
 
@@ -50,9 +50,26 @@
     line-height: 16pt;
   }
   
+   .titleLabel {
+  	background: white;
+  	font-size: 24pt;
+  	line-height: 24pt;
+  	text-align: center;
+  }
+  
+   .titleInWindow {
+  	background: #DCDCDC;
+  	font-size: 16pt;
+  	line-height: 16pt;
+  	text-align: center;
+  }
+  
+  
+  
   .page-content {
-  	background: #B1E6BE;
+  	background: white;
   	font-size: 14pt;
+  	line-height: 15pt;
   }
   
   .login-info {

@@ -3,6 +3,7 @@ package com.aniedzwiedz.dokarchee.gui.view.pageTemplate;
 import com.aniedzwiedz.dokarchee.gui.view.AbstractViewImpl;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Page;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 public class PageView extends AbstractViewImpl
@@ -25,6 +26,10 @@ public class PageView extends AbstractViewImpl
 		VerticalLayout verticalLayout = new VerticalLayout();
 		verticalLayout.addComponent(pageTopView);
 		verticalLayout.setExpandRatio(pageTopView, 0);
+		Label titleLabel = new Label(contentView.getTitle());
+		titleLabel.setStyleName("titleLabel");
+		verticalLayout.addComponent(titleLabel);
+		verticalLayout.setExpandRatio(titleLabel, 0);
 		verticalLayout.addComponent(contentView);
 		verticalLayout.setExpandRatio(contentView, 1);
 		// verticalLayout.setSizeFull();
@@ -36,5 +41,11 @@ public class PageView extends AbstractViewImpl
 	public String getViewName()
 	{
 		return contentView.getViewName();
+	}
+
+	@Override
+	public String getTitle()
+	{
+		return "";
 	}
 }

@@ -9,6 +9,4 @@ public interface AbstractListView extends AbstractView
 	}
 
 	void addListViewListener(ListViewListener listViewListener);
-
-	void addItem(Object value);
 }

@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.context.annotation.Scope;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import ru.xpoft.vaadin.VaadinView;
@@ -18,6 +15,8 @@ import com.aniedzwiedz.dokarchee.gui.view.AbstractViewImpl;
 import com.aniedzwiedz.dokarchee.gui.view.figures.FigureListViewImpl;
 import com.aniedzwiedz.dokarchee.gui.view.objects.ArchObjectListViewImpl;
 import com.aniedzwiedz.dokarchee.gui.view.photos.PhotoListViewImpl;
+import com.aniedzwiedz.dokarchee.gui.view.relics.MassRelicListViewImpl;
+import com.aniedzwiedz.dokarchee.gui.view.relics.SeparatedRelicListViewImpl;
 import com.vaadin.server.ClassResource;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Page;
@@ -65,7 +64,10 @@ public class PageTopView extends AbstractViewImpl
 		links.add(new PageLink("Obiekty", ArchObjectListViewImpl.VIEW_NAME));
 		links.add(new PageLink("Zdjecia", PhotoListViewImpl.VIEW_NAME));
 		links.add(new PageLink("Rysunki", FigureListViewImpl.VIEW_NAME));
-		links.add(new PageLink("Slowniki", Dictionaries.VIEW_NAME));
+		links.add(new PageLink("Zabytki masowe", MassRelicListViewImpl.VIEW_NAME));
+		links.add(new PageLink("Zabytki wydzielone", SeparatedRelicListViewImpl.VIEW_NAME));
+		links.add(new PageLink("S³owniki", Dictionaries.VIEW_NAME));
+		links.add(new PageLink("Raporty", "unknown"));
 	}
 
 	public PageTopView()
@@ -122,15 +124,17 @@ public class PageTopView extends AbstractViewImpl
 		vLayout.setComponentAlignment(userLoggerLayout, Alignment.TOP_RIGHT);
 		GridLayout linkGrid = new GridLayout(links.size(), 2);
 		Image arrow = new Image(null, new ClassResource("/images/green-arrow3.png"));
-		int currentLinkIdx = 0;
+		int currentLinkIdx = links.size() - 2; // slowniki
 		for (int i = 0; i < links.size(); i++)
 			if (links.get(i).getLinkContent().equals(uriFragment))
 				currentLinkIdx = i;
+		if (uriFragment == null)
+			currentLinkIdx = 0;
 		linkGrid.addComponent(arrow, currentLinkIdx, 0);
 
 		for (int i = 0; i < links.size(); i++)
 		{
-			Link link = new Link(links.get(i).getLabel(), new ExternalResource("#!" + links.get(i).getLinkContent()));
+			Link link = new Link(" " + links.get(i).getLabel() + " ", new ExternalResource("#!" + links.get(i).getLinkContent()));
 			link.setSizeFull();
 			linkGrid.addComponent(link, i, 1);
 			// linkGrid.setComponentAlignment(link, Alignment.MIDDLE_RIGHT);
@@ -145,16 +149,17 @@ public class PageTopView extends AbstractViewImpl
 
 	private String getLoggedUserName()
 	{
-		SecurityContext sc = SecurityContextHolder.getContext();
-		Authentication at = sc.getAuthentication();
-		Object principal = at.getPrincipal();
-		UserDetails userDetails = null;
-		if (principal instanceof UserDetails)
-		{
-			userDetails = (UserDetails) principal;
-		}
-		String userName = userDetails.getUsername();
-		return userName;
+		// SecurityContext sc = SecurityContextHolder.getContext();
+		// Authentication at = sc.getAuthentication();
+		// Object principal = at.getPrincipal();
+		// UserDetails userDetails = null;
+		// if (principal instanceof UserDetails)
+		// {
+		// userDetails = (UserDetails) principal;
+		// }
+		// String userName = userDetails.getUsername();
+		// return userName;
+		return "aniedzwiedz";
 	}
 
 	private class ChangeContextListener implements Button.ClickListener
@@ -181,5 +186,11 @@ public class PageTopView extends AbstractViewImpl
 			String ctx = VaadinService.getCurrentRequest().getContextPath();
 			Page.getCurrent().setLocation(ctx + "/logout");
 		}
+	}
+
+	@Override
+	public String getTitle()
+	{
+		return "";
 	}
 }

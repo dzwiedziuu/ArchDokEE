@@ -62,4 +62,6 @@ public abstract class AbstractViewImpl extends Panel implements AbstractView, Vi
 		for (ViewListener viewListener : viewListeners)
 			viewListener.focusAfterClosedWindow(new ViewEvent(closedView));
 	}
+
+	public abstract String getTitle();
 }

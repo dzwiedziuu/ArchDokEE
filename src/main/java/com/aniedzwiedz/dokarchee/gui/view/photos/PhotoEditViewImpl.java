@@ -27,4 +27,10 @@ public class PhotoEditViewImpl extends AbstractPojoEditView<Photo> implements Ph
 	{
 		return VIEW_NAME;
 	}
+
+	@Override
+	public String getTitle()
+	{
+		return "Edycja zdjêcia";
+	}
 }

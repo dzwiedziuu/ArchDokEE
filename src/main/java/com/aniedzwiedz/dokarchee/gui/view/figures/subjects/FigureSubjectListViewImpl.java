@@ -14,7 +14,7 @@ import com.aniedzwiedz.dokarchee.logic.presenter.figures.subjects.FigureSubjectL
 @VaadinView(FigureSubjectListViewImpl.VIEW_NAME)
 public class FigureSubjectListViewImpl extends AbstractPojoListView<FigureSubject> implements FigureSubjectListView
 {
-	static final String VIEW_NAME = "FIGURE_SUBJECT_LIST";
+	public static final String VIEW_NAME = "FIGURE_SUBJECT_LIST";
 
 	public FigureSubjectListViewImpl()
 	{
@@ -26,5 +26,11 @@ public class FigureSubjectListViewImpl extends AbstractPojoListView<FigureSubjec
 	public String getViewName()
 	{
 		return VIEW_NAME;
+	}
+
+	@Override
+	public String getTitle()
+	{
+		return "Lista tematów rysunków";
 	}
 }

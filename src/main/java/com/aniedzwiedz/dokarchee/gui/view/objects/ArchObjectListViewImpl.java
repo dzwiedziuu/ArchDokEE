@@ -27,4 +27,10 @@ public class ArchObjectListViewImpl extends AbstractPojoListView<ArchObject> imp
 	{
 		return VIEW_NAME;
 	}
+
+	@Override
+	public String getTitle()
+	{
+		return "Lista obiektów";
+	}
 }
