@@ -19,6 +19,6 @@ public class PhotoDao extends AbstractDao<Photo>
 		Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(Photo.class);
 		if (criterion != null)
 			criteria.add(criterion);
-		return criteria.setFetchMode("", FetchMode.JOIN).list();
+		return criteria.setFetchMode("ars", FetchMode.JOIN).list();
 	}
 }

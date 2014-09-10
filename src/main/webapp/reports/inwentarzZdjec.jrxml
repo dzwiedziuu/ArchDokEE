@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f25bf6c9-b170-4358-869f-3d5baa9633f9">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+     photos.`photo_nr` AS photoNr,
+     photos.`photo_exploration_date` AS explorationDate,
+     users.`user_login` AS autor,
+     photo_subjects.`photo_subject_name` AS subject,
+     ares.`ar_number` AS ares,
+     objects.`object_nr` AS objectNr
+FROM
+     `users` users INNER JOIN `photos` photos ON users.`user_id` = photos.`user_id`
+     INNER JOIN `photo_subjects` photo_subjects ON photos.`photo_subject_id` = photo_subjects.`photo_subject_id`
+     INNER JOIN `objects` objects ON photos.`object_id` = objects.`object_id`
+     INNER JOIN `ares_photos` ares_photos ON photos.`photo_id` = ares_photos.`photos_photo_id`
+     INNER JOIN `ares` ares ON ares_photos.`ares_ar_id` = ares.`ar_id`
+     AND users.`user_id` = objects.`user_id`]]>
+	</queryString>
+	<field name="photoNr" class="java.lang.Integer"/>
+	<field name="explorationDate" class="java.sql.Date"/>
+	<field name="autor" class="java.lang.String"/>
+	<field name="subject" class="java.lang.String"/>
+	<field name="ares" class="java.lang.String"/>
+	<field name="objectNr" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="552" height="79" uuid="ce59f3fe-cc31-4918-ad5a-0ffe15449886"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="24"/>
+				</textElement>
+				<text><![CDATA[Inwentarz zdjęć]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="92" height="20" uuid="cef2defe-cecb-42db-97d7-8e3092759021"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="0" width="92" height="20" uuid="dd9c18d8-888b-4196-a3fa-919c01e93a6b"/>
+				<textElement textAlignment="Center" verticalAlignment="Top"/>
+				<text><![CDATA[Numer zdjęcia]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="92" y="0" width="92" height="20" uuid="eca3dc82-9d75-4096-9b56-fd79de0ec187"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="92" y="0" width="92" height="20" uuid="746c3d57-2887-424a-beae-871c244f1c10"/>
+				<textElement textAlignment="Center" verticalAlignment="Top"/>
+				<text><![CDATA[Data eksploracji]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="184" y="0" width="92" height="20" uuid="fa9820c3-6162-4e5a-acaa-e46f3df91ec9"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="184" y="0" width="92" height="20" uuid="b6afbe3f-8195-4b03-976f-659646aa3f03"/>
+				<textElement textAlignment="Center" verticalAlignment="Top"/>
+				<text><![CDATA[Autor]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="276" y="0" width="92" height="20" uuid="b674396d-6b3f-4bd6-8aa7-4172811d52d9"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="276" y="0" width="92" height="20" uuid="329cf6b5-f412-474d-99a1-55e108c0c226"/>
+				<textElement textAlignment="Center" verticalAlignment="Top"/>
+				<text><![CDATA[Temat zdjęcia]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="368" y="0" width="92" height="20" uuid="c5b864bd-402a-48d4-988f-00dda8639ced"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="368" y="0" width="92" height="20" uuid="c6613f0a-3be9-4cf2-9268-d9b0b6ebd992"/>
+				<textElement textAlignment="Center" verticalAlignment="Top"/>
+				<text><![CDATA[Ary]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="460" y="0" width="95" height="20" uuid="28e065e4-0378-41ff-9e0e-aac515853158"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="460" y="0" width="92" height="20" uuid="be98e6f7-803f-437a-93ba-a2714f81afe2"/>
+				<textElement textAlignment="Center" verticalAlignment="Top"/>
+				<text><![CDATA[Nr obiektu]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="92" height="20" uuid="ab813f4a-ce0c-4e16-bc72-f590e32d366b"/>
+			</rectangle>
+			<textField>
+				<reportElement x="0" y="0" width="92" height="20" uuid="831c48ae-b6ab-44be-881d-31a6a11e6b3a"/>
+				<textElement textAlignment="Center" verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA[$F{photoNr}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="92" y="0" width="92" height="20" uuid="6c2f096d-7126-4723-a8da-13a0ca6d9545"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="184" y="0" width="92" height="20" uuid="2cee095c-cc11-4ca9-ab3f-c989011bfc1c"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="276" y="0" width="92" height="20" uuid="41a0bbed-6bbe-43c0-8378-693c749d09c2"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="368" y="0" width="92" height="20" uuid="85643dae-20b7-4cc6-9f1c-60018b4102c2"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="460" y="0" width="95" height="20" uuid="dfcbbbbf-e7a7-4b6c-9b3d-c57d303a3ad3"/>
+			</rectangle>
+			<textField>
+				<reportElement x="92" y="0" width="92" height="20" uuid="c75c0918-52cf-4e67-b147-41068a841927"/>
+				<textElement textAlignment="Center" verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA[DateFormat.getDateInstance(DateFormat.SHORT).format($F{explorationDate})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="184" y="0" width="92" height="20" uuid="a0880b1b-258a-41ca-871a-58c3677f2904"/>
+				<textElement textAlignment="Center" verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA[$F{autor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="276" y="0" width="92" height="20" uuid="2de35653-63ba-4687-9277-bf7e26170050"/>
+				<textElement textAlignment="Center" verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA[$F{subject}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="371" y="0" width="92" height="20" uuid="4f136191-b179-4342-8225-12f5ec75c592"/>
+				<textElement textAlignment="Center" verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA[$F{ares}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="463" y="0" width="92" height="20" uuid="14eb3bbc-b482-4c98-a248-c64d547a2f10"/>
+				<textElement textAlignment="Center" verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA[$F{objectNr}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

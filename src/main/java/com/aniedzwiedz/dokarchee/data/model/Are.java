@@ -2,6 +2,7 @@ package com.aniedzwiedz.dokarchee.data.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -34,7 +35,7 @@ public class Are
 	// private Set<Photo> photos = new HashSet<Photo>();
 
 	@JoinColumn(name = "business_context_id")
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	private BusinessContext businessContext;
 
 	public BusinessContext getBusinessContext()

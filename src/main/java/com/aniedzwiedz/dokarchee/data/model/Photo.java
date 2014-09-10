@@ -71,7 +71,7 @@ public class Photo
 	@ColumnHeader(value = "Ary dotyczace zdjecia", order = 6, genericType = Are.class)
 	@EditField(label = "Ary dotyczace zdjecia:", order = 6)
 	// without CascadeType.Persist, CascadeType.REMOVE
-	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
+	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
 	private Set<Are> ars = new HashSet<Are>();
 
 	public BusinessContext getBusinessContext()

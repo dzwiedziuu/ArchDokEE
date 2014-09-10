@@ -134,19 +134,19 @@ public class ArchObject
 	@JoinTable(name = "objects_ares", joinColumns = { @JoinColumn(name = "object_id") }, inverseJoinColumns = { @JoinColumn(name = "ar_id") })
 	@ColumnHeader(value = "Ary dotyczace obiektu", order = 16, genericType = Are.class)
 	@EditField(label = "Ary dotyczace obiektu:", order = 16)
-	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
+	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
 	private Set<Are> ares = new HashSet<Are>();
 
 	@JoinTable(name = "objects_profile_layers", joinColumns = { @JoinColumn(name = "object_id") }, inverseJoinColumns = { @JoinColumn(name = "profile_layer_id") })
 	@ColumnHeader(value = "Warstwy profilu", order = 17, genericType = ProfileLayer.class)
 	@EditField(label = "Warstwy profilu:", order = 17)
-	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
+	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
 	private Set<ProfileLayer> profileLayers = new HashSet<ProfileLayer>();
 
 	@JoinTable(name = "objects_projection_layers", joinColumns = { @JoinColumn(name = "object_id") }, inverseJoinColumns = { @JoinColumn(name = "projection_layer_id") })
 	@ColumnHeader(value = "Warstwy rzutu", order = 18, genericType = ProjectionLayer.class)
 	@EditField(label = "Warstwy rzutu:", order = 18)
-	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
+	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
 	private Set<ProjectionLayer> projectionLayers = new HashSet<ProjectionLayer>();
 
 	@JoinColumn(name = "business_context_id")

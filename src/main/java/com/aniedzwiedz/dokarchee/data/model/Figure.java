@@ -20,9 +20,11 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import com.aniedzwiedz.dokarchee.common.annotations.ColumnHeader;
 import com.aniedzwiedz.dokarchee.common.annotations.EditField;
+import com.aniedzwiedz.dokarchee.common.annotations.ForeignFieldLabel;
 
 @Entity
 @Table(name = "figures")
+@ForeignFieldLabel(pattern = "figure_nr")
 public class Figure
 {
 	@Id

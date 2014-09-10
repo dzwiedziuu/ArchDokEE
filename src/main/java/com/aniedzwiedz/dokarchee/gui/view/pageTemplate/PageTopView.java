@@ -67,7 +67,7 @@ public class PageTopView extends AbstractViewImpl
 		links.add(new PageLink("Zabytki masowe", MassRelicListViewImpl.VIEW_NAME));
 		links.add(new PageLink("Zabytki wydzielone", SeparatedRelicListViewImpl.VIEW_NAME));
 		links.add(new PageLink("S³owniki", Dictionaries.VIEW_NAME));
-		links.add(new PageLink("Raporty", "unknown"));
+		links.add(new PageLink("Raporty", Reports.VIEW_NAME));
 	}
 
 	public PageTopView()
