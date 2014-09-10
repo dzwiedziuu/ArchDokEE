@@ -1,17 +1,38 @@
 \chapter{Analiza dziedziny problemu}
-W dzisiejszych czasach, przed firmami archeologicznymi stoi nie małe wyzwanie, polegające na przeprowadzaniu badań archeologicznych na coraz większych powierzchniowo obszarach. Badanie archeologiczne przedinwestycyjne (w których specjalizuje się firma "JN-Profil" - docelowy użytkownik oprogramowania stworzonego w ramach niniejszej pracy) polegają na przeprowadzeniu badań terenowych oraz stworzeniu dokumentacji podsumowującej rezultaty tych badań.
+W dzisiejszych czasach, przed firmami archeologicznymi stoi nie małe wyzwanie, polegające na przeprowadzaniu badań archeologicznych na coraz większych powierzchniowo obszarach. Przedinwestycyjne badania wykopaliskowe (w których specjalizuje się firma "JN-Profil" - docelowy użytkownik oprogramowania stworzonego w ramach niniejszej pracy) polegają na przeprowadzeniu badań terenowych oraz stworzeniu dokumentacji podsumowującej rezultaty tych badań.
 
-Dokumentacja archeologiczna zawiera w sobie dużą liczbę dokumentów, z których conajmniej część opiera się na tych samych danych, których proces przetwarzania można, a nawet powinno sie zautomatyzować. Do tej pory, tworzenie dokumentacji sprowadzało się do mozolnego kopiowania danych z jednego miejsca do drugiego, jednak dzięki współcześnie dostępnym technologiom informatycznym istnieje możliwość zautomatyzowania i przyspieszenia tego procesu - co w szerszej perspektywie prowadzi do zmniejszenia kosztów przeprowadzania badań archeologicznych.
+Dokumentacja archeologiczna zawiera w sobie dużą liczbę dokumentów, z których co najmniej część opiera się na tych samych danych, których proces przetwarzania można, a nawet powinno się zautomatyzować. Do tej pory tworzenie dokumentacji sprowadzało się do mozolnego kopiowania danych z jednego miejsca do drugiego, jednak dzięki współcześnie dostępnym technologiom informatycznym istnieje możliwość zautomatyzowania i przyspieszenia tego procesu - co w szerszej perspektywie prowadzi do zmniejszenia kosztów przeprowadzania badań archeologicznych.
 
 \section{Wymgagania biznesowe}
 Przed systemem do prowadzenia ewidencji badań archeologicznych jest stawiany szereg wymagań, których spełnienie jest warunkiem poprawnego funkcjonowania oraz zadowolenia użytkowników. Część z nich jest wspólna dla wszystkich systemów informatycznych, natomiast reszta jest związana z charakterem pracy archeologa.
 
-Aby system nadawał się do profesjonalnego użytku konieczne jest, aby efekty pracy były zapisane w pamięci trwałej. Konieczne jest także, aby możliwe było równoległe korzystanie wielu użytkowników, z dodatkowym zastrzerzeniem, że równoległe sesje użytkowników mogą pracować na tych samych danych i system powinien mimo to gwarantować spójność danych.
+Aby system nadawał się do profesjonalnego użytku, konieczne jest, aby efekty pracy były zapisane w pamięci trwałej. Konieczne jest także, aby możliwe było równoległe korzystanie wielu użytkowników, z dodatkowym zastrzeżeniem, że równoległe sesje użytkowników mogą pracować na tych samych danych i system powinien mimo to gwarantować ich spójność.
 
 Specyficzną cechą pracy archeologa jest konieczność wyjazdów i prowadzenia badań archeologicznych w różnych miejscach. System wspierający prowadzenie ewidencji badań archeologicznych powinien umożliwiać tworzenie dokumentacji z różnych miejsc i urządzeń. 
 \newpage
+\section{Słownik dziedziny problemu}
+Na samym początku opracowywania systemu dla przedsiębiorstwa należy zdefiniować wszystkie elementy występujące w codziennej pracy, aby nie było wątpliwości co do zrozumienia tematu. 
+
+\begin{itemize}
+\item Obiekt - obiekt archeologiczny, główny cel badań. Obiekt to prawdopodobny ślad działalności człowieka, bardzo często jest postaci pozostałości po palenisku.
+\item Zabytek wydzielony - zabytek większej wartości, dokumentowany i opisywany osobno. Na przykład - trzonek siekierki.
+\item Zabytek masowy - kilka zabytków, zgrupowanych w pozycjach dokumentacji jako jeden. Zazwyczaj składa się z niewielkich przedmiotów, np. krzemień czy ceramika o wielkości kilku centymetrów kwadratowych
+\item Rysunek - sposób dokumentowania zabytków i obiektów. Zazwyczaj rysunek przedstawia rzut albo profil obiektu lub obrys zabytku.
+\item Zdjecie - sposób dokumentowania obiektów, rzadziej zabytków. Najczęściej powstają w trakcie eksploracji obiektów, tj zaraz po odsłonięciu obiektu (zdjęcie rzutu), następnie po wyeksplorowaniu połowy (profil) i na końcu zdjęcie wyeksplorowanego obiektu (negatyw).
+\item Ar - jednostka powierzchni wykopalisk archeologicznych. Punkt odniesienia dla wszelkich informacji w dokumentacji.
+\item Typ zabytku - Podział zabytków (masowych) ze względu na typ zabytku. Klasyfikacja najczęściej pojawiających się zabytków, np. fr. ceramiki, okruch (Krzemienia)
+\item Grupa zabytków - Bardzo ogólny podział zabytku, zazwyczaj podział jest na trzy grupy (Ceramika, Krzemień, Inne)
+\item Profil - przekrój wyeksploatowanego obiektu, jeden z dokumentowanych elementów
+\item Rzut - widok obiektu z góry, przed eksploatacją
+\item Calec - rodzaj otoczenia znajdującego się dookoła obiektu, jednak nie będący nim, np. less.
+\item Kultura - zespół stale współwystępujących ze sobą na pewnym terytorium i w pewnym czasie charakterystycznych form źródeł archeologicznych.
+\item Funkcja - określona w ramach badań obiektu jego obecność i przyczyna jego powstania
+\item Chronologia - pozwala na określenie wieku znaleziska
+\item Eksploracja obiektu - proces badania obiektu archeologicznego polegająca na wydobyciu jego zawartości w miedzyczasie udokumentowując kolejne etapy wykonywania badania
+\end{itemize}
+\newpage
 \section{Model dziedziny problemu}
-W systemie wspierającym działalność firmy archeologicznej, powinno się wyróżnić 6 najważniejszych elementów:
+W systemie wspierającym działalność firmy archeologicznej powinno się wyróżnić 6 najważniejszych elementów (opisanych w poprzednim podrozdziale):
 \begin{itemize}
 \item Zabytki Masowe\\
 \item Zabytki Wydzielone\\
@@ -21,8 +42,8 @@ W systemie wspierającym działalność firmy archeologicznej, powinno się wyr�
 \item Ary
 \end{itemize}
 
-Wszystkie powyższe obiekty są produktem przeprowadzanego badania archeologicznego, dlatego są bytami, które mają sens tylko w konkretnym kontekscie biznesowym (czyli opracowaniu). Wszystkie inne informacje wprowadzone do systemu są uniwersalne dla badań archeologicznych, dlatego są dostępne i edytowalne niezależnie od opracowania.
-\newpage
+Wszystkie powyższe obiekty są produktem przeprowadzanego badania archeologicznego, dlatego są bytami, które mają sens tylko w konkretnym kontekście biznesowym (czyli opracowaniu). Wszystkie inne informacje wprowadzone do systemu są uniwersalne dla badań archeologicznych, dlatego są dostępne i edytowalne niezależnie od opracowania.
+
 \begin{figure} [H]
     \begin{center}
 	\includegraphics[angle=90, scale=.26]{img/db.png}
@@ -31,69 +52,29 @@ Wszystkie powyższe obiekty są produktem przeprowadzanego badania archeologiczn
     \end{center}
 \end{figure}
 
+Jak widać, poza głownymi elementami bazy danych odpowiadającym elementom specyficznym dla badania występuje duża ilość encji słownikowych, co powoduje znaczne zwiększenie koniecznego nakładu pracy. 
+\newpage
 \section{Model przypadków użycia}
 Zadaniem systemu wspierającego tworzenie dokumentacji archeologicznej powinno być umożliwienie wprowadzenia danych w łatwy i przejrzysty sposób oraz szybkie generowanie raportów, będących składnikami dokumentacji archeologicznej.
 
 \begin{figure} [H]
     \begin{center}
-	\includegraphics[angle=90, scale=.35]{img/useCasesData.png}
-	\caption{Diagram przypadków użycia}
-	\label{useCasesDiag}
+	\includegraphics[scale=.5]{img/useCaseZarzadzanieOpracowaniem.png}
+	\caption{Diagram przypadków użycia dla obiektów specyficznych dla opracowania}
+	\label{useCasesDiag1}
     \end{center}
 \end{figure}
 
 Dodatkową cechą systemu będącego produktem niniejszej pracy jest to, że możliwa jest edycja słowników służących do wypełniania danych z poziomu okna edycji obiektu wypełnianego.
 \newpage
-\section{Struktura aplikacji}
-
-Standardowy ekran aplikacji wygląda jak na poniższym rysunku.
-
 \begin{figure} [H]
     \begin{center}
-	\includegraphics[scale=.6]{img/strona.png}
-	\caption{Przykładowa podstrona systemu}
-	\label{stronaPrzyklad}
+	\includegraphics[scale=.5]{img/useCasesZarzadzanieSlownikami.png}
+	\caption{Diagram przypadków użycia dla obiektów uniwersalnych względem opracowania}
+	\label{useCasesDiag2}
     \end{center}
 \end{figure}
 
-Na załączonym obrazku widać, że strona aplikacji składa się z:
-\begin{itemize}
-\item górnej belki zawierającej w sobie informacje o bieżącym opracowaniu (1 na rysunku), informacje o zalogowanym użytkowniku (2) oraz menu (3)
-\item belki tytułowej (4)
-\item głównej treści strony (5) 
-\end{itemize}
-
-Powyższy rysunek demonstruje także przykładowy widok listujący wprowadzone dane (w tym przypadku rysunki). Dzięki addonowi FilterTable, możliwe jest filtrowanie widocznych elementów po ich zawartości w konkretnych polach. Standardowa funkcjonalność Vaadina pozwala także sortować wiersze wg wartości w kolumnie - w tym celu wystarczy kliknąć nagłówek kolumny.
-
-\begin{figure} [H]
-    \begin{center}
-	\includegraphics[scale=.6]{img/edycja.png}
-	\caption{Przykładowa edycja obiektu dokumentacyjnego}
-	\label{edycjaPrzyklad}
-    \end{center}
-\end{figure}
-
-\newpage
-Rysunek znajdujący się nad tym tekstem demonstruje ekran edycji wiersza (w tym przypadku wiersz odzwierciedla ewidencjonowany rysunek). 
-
-\begin{figure} [H]
-    \begin{center}
-	\includegraphics[scale=.6]{img/edycjaSlownika.png}
-	\caption{Przykładowa edycja słownika}
-	\label{edycjaSlownika}
-    \end{center}
-\end{figure}
-
-Rysunek powyżej przedstawia standardowy sposób edycji słownika (wybranie w menu w górnej belce "Słowniki" a następnie wybranie słownika "Tematy rysunków"). Jest to jeden ze sposobów modyfikacji wartości słownika.
-
-\begin{figure} [H]
-    \begin{center}
-	\includegraphics[scale=.6]{img/edycjaSlownikaWLocie.png}
-	\caption{Przykładowa edycja słownika w trakcie edycji obiektu używającego go}
-	\label{edycjaSlownikaWLocie}
-    \end{center}
-\end{figure}
-
-Powyżej został przedstawiony ekran modyfikacji słownika w ``locie", czyli w trakcie edycji wiersza, który zawiera wartość ze słownika. Możliwe jest dynamiczne wprowadzanie wartości bez konieczności zamykania okna edycji.
+Jak można zauważyć na podstawie diagramów przypadków użycia, każdy użytkownik ma takie same uprawnienia - tzn. może zarówno zarządzać listą opracowań, jak i modyfikować istniejące opracowanie, a także może edytować zawartość słowników.
 
 % ex: set tabstop=4 shiftwidth=4 softtabstop=4 noexpandtab fileformat=unix filetype=tex spelllang=pl,en spell:

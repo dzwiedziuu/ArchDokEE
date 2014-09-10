@@ -71,9 +71,9 @@ Dzięki wykorzystaniu komponentu FilterTable istnieje możliwość filtrowania w
 Najważniejszą jednak funkcjonalnością jest sterowanie wyglądem treści przedstawianej przez komponent za pomocą adnotacji. Dopisując adnotacje @ColumnHeader do pola obiektu POJO definiuje się tak naprawde wygląd tabelki wyświetlającej dany obiekt. Atrybut value definiuje nam wartość widoczną w nagłówku kolumny natomiast parametr order decyduje o kolejności wyświetlanych kolumn (są one wyświetlane w kolejności rosnącej). Uwaga! To programista jest odpowiedzialny za poprawne wypełnienie wartości order, w przypadku zdublowania wartości wyświetlona zostanie tylko jedna kolumna.
 
 Warto także dodać, że w kolumnie w sposób sensowny są takze wyświetlane inne obiekty niekoniecznie będące typami prostymi w Javie. Aby wyświetlić poprawnie obiekt, wystarczy do deklaracji klasy dodać adnotacje ForeignFieldLabel, która opisuje w jaki sposób wyświetlić wartość w danej komórce tabeli.
-\newpage
-Obiekt, który zawiera w sobie komponent CRUDTable powinien implementować interfejs CRUDTableListener, ponieważ sam komponent nie podejmuje żadnych akcji w wyniku zdarzeń wygenerowanych przez użytkownika, a jedynie przekazuje je dalej do nasłuchiwaczy. Obiekt ten jest także odpowiedzialny za wypełnienie komponentu wartościami.
 
+Obiekt, który zawiera w sobie komponent CRUDTable powinien implementować interfejs CRUDTableListener, ponieważ sam komponent nie podejmuje żadnych akcji w wyniku zdarzeń wygenerowanych przez użytkownika, a jedynie przekazuje je dalej do nasłuchiwaczy. Obiekt ten jest także odpowiedzialny za wypełnienie komponentu wartościami.
+\newpage
 \section{ForeignField}
 Kolejnym komponentem, który wg autora może być przydatny w innych projektach jest ForeignField, który implementuje kontrolkę odpowiedzialną za wprowadzenie wartości ze słownika. Kontrolka używa komponentu ze standardowego zestawu komponentów Vaadina - ComboBox oraz przycisku.
 
@@ -103,11 +103,12 @@ Adnotacja @EditField zawiera w sobie informacje na temat kolejności wyświetlan
 Komponent DefaultForm działa deleguje zadanie tworzenia kontrolek do obiektu-fabryki implementującego interfejs ExtendedFieldGroupFieldFactory (rozszerzającego interfejs Vaadina FieldGroupFieldFactory). W zależności od typu pola obiektu tworzona jest inna kontrolka. Dla standardowych typów takich jak Integer lub String, kontrolki generowane są przez domyślną fabryke Vaadina - FieldGroupFieldFactory. W przypadku wystąpienia przy polu adnotacji javax.persistence odpowiedzialnych za relacje Wiele-Do-* lub Jeden-Do-Wielu generowana jest odpowiednia kontrolka. Jeżeli nad polem znajduje się adnotacja @ManyToOne, generowana jest kontrolka typu ForeignField, natomiast dla adnotacji @OneToMany oraz @ManyToMany, generowany jest komponent CRUDTable.
 
 Aby wypełnić słowniki, należy dostarczyć do komponentu DefaultForm obiekt, który implementuje interfejs DataProvider, ponieważ komponent sam w sobie nie potrafi wypełnić ich wartościami.
-\newpage
+
 DefaultForm nie podejmuje także samodzielnie żadnych akcji, a jedynie oddelegowuje je do zarejestrowanych listenerów. Komponent przechwytuje także zdarzenia wygenerowane w zawartych komponentach ForeignField i CRUDTable, czyli jest ich nasłuchiwaczem, jednak jedyne co robi z tymi zdarzeniami to przekazuje je dalej, dlatego istotne jest, aby obiekt zawierający w sobie komponent DefaultForm implementował interfejs FormFieldListener. Dodatkowo, aby przechwytywać zdarzenia związane z przyciskami "Zapisz" oraz "Wróć" należy zarejestrować nasłuchiwacz implementujący interfejs FormListener.
 
+\newpage
 Ważną cechą komponentu DefaultForm, o której należy wspomnieć na koniec, jest walidacja wprowadzonych wartości na podstawie adnotacji javax.validation. Wszystkie standardowe ograniczenia na wartości pól, zgodne z JSR-303 są sprawdzane przed wysłaniem akcji "zapisz" to obiektu nasłuchującego. W przypadku niepowodzenia walidacji, zdarzenie nie jest przekazywane dalej.
 \section{Szkielet aplikacji przetwarzania danych biznesowych}
-W trakcie tworzenia systemu wspierającego prowadzenie ewidencji badań archeologicznych powstał także szkielet aplikacji, który został opisany\\ w rozdziale 5.
+W trakcie tworzenia systemu wspierającego prowadzenie ewidencji badań archeologicznych powstał także szkielet aplikacji, który został opisany w rozdziale 5.
 
 % ex: set tabstop=4 shiftwidth=4 softtabstop=4 noexpandtab fileformat=unix filetype=tex spelllang=pl,en spell:

@@ -3,6 +3,7 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<reportFont name="Arial_Normal" isDefault="true" fontName="Arial" size="8" pdfFontName="Helvetica" pdfEncoding="Cp1250" isPdfEmbedded="false" />
 	<queryString language="SQL">
 		<![CDATA[SELECT
      photos.`photo_nr` AS photoNr,
@@ -35,7 +36,7 @@ FROM
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="24"/>
 				</textElement>
-				<text><![CDATA[Inwentarz zdjęć]]></text>
+				<text><![CDATA[Inwentarz fotografii]]></text>
 			</staticText>
 		</band>
 	</title>

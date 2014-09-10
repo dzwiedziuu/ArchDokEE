@@ -26,7 +26,15 @@ public class Reports extends AbstractViewImpl
 
 	static
 	{
-		links.add(new PageLink("Inwentarz zabytków", PhotoListReportView.VIEW_NAME));
+		links.add(new PageLink("Karty obiektow", "unknown"));
+		links.add(new PageLink("Charakterystyka obiektow kulturowych", "unknown"));
+		links.add(new PageLink("Inwentarz rysunkow", "unknown"));
+		links.add(new PageLink("Inwentarz fotografii", PhotoListReportView.VIEW_NAME));
+		links.add(new PageLink("Inwentarz zabytkow masowych", "unknown"));
+		links.add(new PageLink("Inwentarz zabytkow wydzielonych", "unknown"));
+		links.add(new PageLink("Opisy obiektow", "unknown"));
+		links.add(new PageLink("Raport o liczbie zabytkow / rodzaj", "unknown"));
+		links.add(new PageLink("Raport o liczbie obiektow / funkcja", "unknown"));
 	}
 
 	public Reports()
