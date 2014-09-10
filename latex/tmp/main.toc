@@ -1,0 +1,47 @@
+\select@language {polish}
+\contentsline {chapter}{\numberline {1\relax .\kern .5em }Wst\IeC {\k e}p}{5}{chapter.1}
+\contentsline {section}{\numberline {1.1\relax .\kern .5em }Cele i zakres pracy}{6}{section.1.1}
+\contentsline {section}{\numberline {1.2\relax .\kern .5em }Uk\IeC {\l }ad pracy}{6}{section.1.2}
+\contentsline {chapter}{\numberline {2\relax .\kern .5em }Analiza dziedziny problemu}{7}{chapter.2}
+\contentsline {section}{\numberline {2.1\relax .\kern .5em }Wymgagania biznesowe}{7}{section.2.1}
+\contentsline {section}{\numberline {2.2\relax .\kern .5em }Model dziedziny problemu}{8}{section.2.2}
+\contentsline {section}{\numberline {2.3\relax .\kern .5em }Model przypadk\IeC {\'o}w u\IeC {\.z}ycia}{9}{section.2.3}
+\contentsline {section}{\numberline {2.4\relax .\kern .5em }Struktura aplikacji}{11}{section.2.4}
+\contentsline {chapter}{\numberline {3\relax .\kern .5em }Wykorzystane technologie}{13}{chapter.3}
+\contentsline {section}{\numberline {3.1\relax .\kern .5em }MySQL}{13}{section.3.1}
+\contentsline {section}{\numberline {3.2\relax .\kern .5em }Hibernate}{14}{section.3.2}
+\contentsline {section}{\numberline {3.3\relax .\kern .5em }Spring Transaction Management}{14}{section.3.3}
+\contentsline {section}{\numberline {3.4\relax .\kern .5em }Spring}{15}{section.3.4}
+\contentsline {section}{\numberline {3.5\relax .\kern .5em }Logback + SLF4J}{15}{section.3.5}
+\contentsline {section}{\numberline {3.6\relax .\kern .5em }AspectJ}{16}{section.3.6}
+\contentsline {section}{\numberline {3.7\relax .\kern .5em }SpringSecurity}{16}{section.3.7}
+\contentsline {section}{\numberline {3.8\relax .\kern .5em }LDAP - Apache Directory Server}{16}{section.3.8}
+\contentsline {section}{\numberline {3.9\relax .\kern .5em }Jasper reports (albo inny framework raportowy)}{16}{section.3.9}
+\contentsline {section}{\numberline {3.10\relax .\kern .5em }Tomcat}{17}{section.3.10}
+\contentsline {section}{\numberline {3.11\relax .\kern .5em }Podsumowanie}{17}{section.3.11}
+\contentsline {chapter}{\numberline {4\relax .\kern .5em }Vaadin}{18}{chapter.4}
+\contentsline {section}{\numberline {4.1\relax .\kern .5em }Zdalne wywo\IeC {\l }ywanie procedury}{19}{section.4.1}
+\contentsline {section}{\numberline {4.2\relax .\kern .5em }Architektura}{20}{section.4.2}
+\contentsline {section}{\numberline {4.3\relax .\kern .5em }Aplikacja po stronie klienta}{22}{section.4.3}
+\contentsline {section}{\numberline {4.4\relax .\kern .5em }Nowe kontrolki}{22}{section.4.4}
+\contentsline {section}{\numberline {4.5\relax .\kern .5em }Style}{23}{section.4.5}
+\contentsline {section}{\numberline {4.6\relax .\kern .5em }Powi\IeC {\k a}zanie danych}{23}{section.4.6}
+\contentsline {chapter}{\numberline {5\relax .\kern .5em }Architektura rozwi\IeC {\k a}zania}{25}{chapter.5}
+\contentsline {section}{\numberline {5.1\relax .\kern .5em }Model Widok Prezenter}{25}{section.5.1}
+\contentsline {section}{\numberline {5.2\relax .\kern .5em }Podzial na pakiety}{26}{section.5.2}
+\contentsline {section}{\numberline {5.3\relax .\kern .5em }Nawigacja mi\IeC {\k e}dzy widokami}{27}{section.5.3}
+\contentsline {section}{\numberline {5.4\relax .\kern .5em }Maksymalna abstrakcyjno\IeC {\'s}\IeC {\'c}}{27}{section.5.4}
+\contentsline {chapter}{\numberline {6\relax .\kern .5em }Testy systemu}{34}{chapter.6}
+\contentsline {section}{\numberline {6.1\relax .\kern .5em }Testy jednostkowe}{34}{section.6.1}
+\contentsline {section}{\numberline {6.2\relax .\kern .5em }Testy integracyjne}{34}{section.6.2}
+\contentsline {section}{\numberline {6.3\relax .\kern .5em }Testy funkcjonalne}{34}{section.6.3}
+\contentsline {section}{\numberline {6.4\relax .\kern .5em }Testy wydajno\IeC {\'s}ciowe}{34}{section.6.4}
+\contentsline {chapter}{\numberline {7\relax .\kern .5em }Dodatkowe produkty pracy}{35}{chapter.7}
+\contentsline {section}{\numberline {7.1\relax .\kern .5em }Standardowa klasa POJO}{35}{section.7.1}
+\contentsline {section}{\numberline {7.2\relax .\kern .5em }CRUDTable}{36}{section.7.2}
+\contentsline {section}{\numberline {7.3\relax .\kern .5em }ForeignField}{38}{section.7.3}
+\contentsline {section}{\numberline {7.4\relax .\kern .5em }DefaultForm}{38}{section.7.4}
+\contentsline {section}{\numberline {7.5\relax .\kern .5em }Szkielet aplikacji przetwarzania danych biznesowych}{40}{section.7.5}
+\contentsline {chapter}{\numberline {8\relax .\kern .5em }Wnioski}{41}{chapter.8}
+\contentsline {chapter}{\numberline {9\relax .\kern .5em }Podsumowanie}{42}{chapter.9}
+\contentsline {chapter}{Bibliografia}{43}{chapter*.2}

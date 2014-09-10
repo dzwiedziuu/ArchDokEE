@@ -1,0 +1,89 @@
+\chapter{Wykorzystane technologie}
+Na rynku istnieje bardzo wiele szkieletów aplikacji i bibliotek usprawniających tworzenie aplikacji, w szczególności systemów wspomagających prace przedsiębiorstw, dlatego wybór technologii nie jest oczywisty. Jednym ze wspólnych kryteriów stawianych technologiom przy wyborze do tego projektu, był wymóg nieodpłatności za ich używanie, dlatego całe poniżej wymienione oprogramowanie jest bezpłatne.
+
+(stos technologiczny - rysunek - TODO)
+
+\section{MySQL}
+Jednym z najważniejszych wymagań spoczywających na systemie informatycznym jest utrwalanie pracy użytkowników i radzenie sobie z ich równoległą pracą. We współczesnej informatyce, rola ta jest zazwyczaj oddelegowywana do specjalnie dedykowanych do tego celu programów nazwanych ogólnie bazami danych. Na rynku jest wiele systemów baz danych dlateg wybór nie jest oczywisty.
+
+Podstawowy podział baz danych wg którego powinno rozpocząć się wybór oprogramowania jest na bazy relacyjne i tzw. NoSQL. Wydaje się jednak, że nierelacyjne bazy danych mają przewage w systemach, które są lub będą kiedyś duże, natomiast system ewidencji archeologicznej raczej nie ma szans być takim systemem. Z drugiej strony, relacyjne systemy baz danych były przez dłuższy czas uważane jako podstawowe, dlatego istnieje bardzo dużo informacji na ich temat w internecie, w przeciwieństwie to baz NoSQL, o których od niedawna dopiero zaczęło być głośniej.
+
+Na rynku istnieje wiele relacyjnych systemów baz danych, jednak większość najpopularniejszych jest płatnych w rozwiązaniach komercyjnych. Wyjątkiem okazuje się MySQL, który pozwala korzystac w wersji bezpłatnej z bardzo szerokiej puli funkcjonalności, które w zupełności pokrywają potrzeby tworzonego przez autora systemu.
+\newpage
+\section{Hibernate}
+Aby aplikacja mogła korzystać z bazy danych konieczne jest skomunikowanie ich ze sobą. Na rynku istnieje wiele narzędzi wspierających prace programisty, spośród których najpopularniejsze są JDBC i JPA. Ponieważ system będący wynikiem niniejszej pracy będzie operował na obiektach, warto byłoby użyć interfejsu programistycznego który umożliwia zapisywanie całych obiektów.
+
+Java Persistence API to oficjalny standard mapowania relacyjno-obiektowego, który pozwala na utrwalanie obiektów w relacyjnej bazie danych. Jedną z implementacji będącą jednocześnie, najpopularniejszą jest Hibernate.
+
+\begin{table}[H]
+\caption{Liczba wątków z pytaniami związanymi z implementacją JPA}
+\label{jpaImplementations}
+\begin{center}
+\begin{tabular}{|l|l|}
+\multicolumn{1}{c}{Implementacja JPA} & \multicolumn{1}{c}{Ilość wątków} \\ \hline
+Datanucleus & 682 \\ \hline
+EclipseLink & 2745 \\ \hline
+Hibernate & 37787 \\ \hline
+TopLink & 240 \\ \hline
+OpenJPA & 715 \\ \hline
+\end{tabular} 
+\end{center}
+\end{table} 
+
+Ze względu na niewielką styczność autora z dostępem do danych przez JPA, wybór padł na najbardziej popularny szkielet aplikacji - Hibernate.
+
+\section{Spring Transaction Management}
+Elementem nierozłącznym z relacyjną bazą danych jest transakcyjne przetwarzanie danych. Również w tym temacie istnieje wiele rozwiązań, dlatego nie ma potrzeby ręcznego implementowania fragmentów kodu odpowiedzialnego za zatwierdzanie bądź odrzucanie transakcji. W przypadku systemu tworzonego w ramach niniejszej pracy logika transakcji nie jest skomplikowana dlatego im prostsza implementacja tym bardziej preferowana.
+
+Wybrane przez autora rozwiązanie, Spring Transaction Management, umożliwia wplatanie transakcji w istniejący kod w sposób przezroczysty. Po dodaniu do pliku konfiguracyjnego springa 4 linijek, programista jest w stanie tworzyć operacje na bazie danych w transakcjach po dopisaniu zaledwie jednej adnotacji definicją funkcji, w obrębie której odbywać się moją operacje na bazie danych.
+
+\begin{lstlisting}
+@Transactional
+public void add(Figure f)
+{
+	getDaoObj().add(f);
+}
+\end{lstlisting}
+\newpage
+W jaki sposób jest otrzymywany powyższy efekt? Spring tworzy obiekt zdefiniowany przez programistę i opakowuje je w obiekt pośredniczący, który deleguje wszystkie operacje do obiektu właściwego, natomiast operacje oznaczone adnotacją @Transactional opakowuje w kod odpowiedzialny za transakcyjne przetwarzanie danych.
+
+\section{Spring}
+Jeszcze niedawno, dosyć dużym wyzwaniem było zarządzanie drzewem zależności obiektów wewnątrz aplikacji. W ostatnich latach, została jednak stworzona koncepcja wzorca projektowego polegającego na wstrzykiwaniu zależności bezpośrednio do obiektów ich używanych. Implementacja tego wzorca jest jeszcze łatwiejsza, dzięki powstaniu wielu bibliotek wspierających tego typu podejście.
+
+Spring jako szkielet aplikacji zyskał na popularności przedewszystkim właśnie dzięki kontenerowi IoC (ang. Inversion-of-Control), który pozwala na łatwe tworzenie i zarządzanie zależności między obiektami. Wzorzec odwrócenia sterowania, będący pojeciem szerszym niż wstrzykiwanie zależności, pozwala skupić się na właściwej implementacji logiki a pozostawić zarządzanie zależnościami kontenerowi Springa, co znacznie ułatwia prace.
+
+W dzisiejszych czasach, Spring jest jednym z najpopularniejszych szkieletów aplikacji, dlatego jednym z argumentów będących za jego użyciem jest bardzo duża ilość stron internetowych opisujących go oraz rozwiązujących potencjalne problemy w trakcie pracy z nim. 
+
+\section{Logback + SLF4J}
+Bardzo ważnym zagadnieniem, w kontekście tworzenia systemu informatycznego jest tworzenie logów aplikacji. Na rynku istnieje kilka rozwiązań dlatego wybór nie jest oczywisty. Aby uniezależnić się od wybranego rozwiązania, został oprócz implementacji biblioteki wspierającej logowanie, autor zdecydował się na przykrycie logowania warstwą abstrakcji umożliwiającą nieinwazyjne przełączenie się między realizacjami standardu logowania - SLF4J. 
+
+Wybór w kwestii implementacji szkieletu aplikacji zapewniającego logowanie odbył się pomiędzy dwoma najpopularniejszymi - log4j oraz logback. Okazało się jednak, że logback jest kilkukrotnie szybszy niz log4j i zuzywa przy tym mniej pamięci (jak twierdzą autorzy tego pierwszego). Dodatkowo, przy zapoznawaniu sie z SLF4J okazało się, że logback wspiera natywnie ten standard, dlatego nie ma potrzeby używania modułu pośredniczącego miedzy slf4j i logbackiem, dzięki czemu można zyskać dodatkowo na szybkości działania aplikacji.
+
+\newpage
+\section{AspectJ}
+Czy potrzebne? (todo)
+
+\section{SpringSecurity}
+Bardzo ważnym zagadnieniem, w implementacji systemów, szczególnie dostępnych w internecie, jest zapewnienie bezpieczeństwa. Aby dane gromadzone przez firme nie wpadły w niepowołane ręce, a szczególnie nie uległy zniszczeniu, konieczny jest szczelny sposób autoryzacji i autentykacji. Także i tej dziedzinie istnieje wiele rozwiązań wartych rozważenia.
+
+Autor zdecydował się na SpringSecurity, będącym odrębnym bytem w stosunku do rdzenia Springa, jednak w prosty sposób się z nim integrującym. Implementacja ogranicza się do dopisania kilku linijek do pliku konfiguracyjnego springa, stworzenia strony odpowiadającej za zalogowanie i dodanie filtru do deskryptora wdrożenia (plik web.xml). Zaletą wybranego szkieletu aplikacji jest mnogość źródeł danych służących w procesie uwierzytelniania.
+
+\section{LDAP - Apache Directory Server}
+Innym zagadnieniem związanym z bezpieczeństwem jest miejsce przechowywania danych o użytkownikach, w szczególności ich loginów, haseł oraz uprawnień z nimi związanych. Standardowo, aplikacje przechowują takie informacje w bazie danych, jednak dla przedsiębiorstwa, którego liczba i skład pracowników zmienia się rzadko, mogą być także przechowywane w zewnętrznym serwerze takim jak LDAP.
+
+Dodatkową korzyścią wynikającą z przechowywania danych użytkowników na serwerze LDAP jest możliwość posiadania centralnego punktu autoryzacji i autentykacji użytkowników w obrębie całej firmy. 
+
+\section{Jasper reports (albo inny framework raportowy)}
+(todo)
+
+\newpage
+\section{Tomcat}
+Standardowy proces wdrażania aplikacji internetowych wymaga oprogramowania, które dostarcza środowisko uruchomieniowe. Powstało wiele tzw. kontenerów aplikacji webowych, które umożliwiają w prosty sposób uruchomić aplikacje napisane w języku Java jednocześnie udostępniając je w sieci. Część z nich, zwana serwerami aplikacji udostępnia dużo większy zakres możliwości i funkcjonalności, jednak nie były brane pod uwage, ze względu na stopień skomplikowania. 
+
+Wybór autora padł na Apache Tomcat będącym jednym z najbardziej popularnych kontenerem aplikacji webowych. Dużą zaletą tego oprogramowania, oprócz łatwości i prostoty rozwiązania jest wsparcie środowiska programistycznego Eclipse, wybranego przez autora do stowrzenia implementacji systemu, do szybkiego wdrażania oprogramowania jeszcze w trakcie jego rozwijania. 
+\section{Podsumowanie}
+Wybrane przez autora technologie zostały dopasowane do potrzeb tworzonego systemu, dlatego przy tworzeniu każdego oprogramowania powinno się podchodzić indywidualnie do wyboru narzędzi wspierających budowe.
+
+Należy także pamiętać, że technologie użyte przez autora do stworzenia systemu będącego tematem pracy, nie są uniwersalne - a wręcz przeciwnie - były aktualne i dosyć powrzechne w chwili pisania tej pracy. Bardzo prawdopodobne jest jednak, że za kilka lat zostaną uznane w środowisku informatycznym za przestarzałe, a w ich miejsce powstaną nowe, lepsze i/lub wydajniejsze.
+
+% ex: set tabstop=4 shiftwidth=4 softtabstop=4 noexpandtab fileformat=unix filetype=tex spelllang=pl,en spell:
