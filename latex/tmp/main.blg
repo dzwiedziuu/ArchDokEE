@@ -1,10 +1,32 @@
 This is BibTeX, Version 0.99dThe top-level auxiliary file: tmp/main.aux
 The style file: plplain.bst
-Database file #1: bib/daikon.bib
-Database file #2: bib/statistics.bib
-Database file #3: bib/other.bib
-Warning--empty note in DaikonManual
-Warning--can't use both author and editor fields in WnioskStat
-Warning--empty publisher in bk:ipki
-Warning--can't use both author and editor fields in PodstStatOpPom
-(There were 4 warnings)
+Database file #1: bib/other.bib
+Too many commas in name 1 of "Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides" for entry designPatterns
+while executing---line 1171 of file plplain.bst
+Too many commas in name 1 of "Martin Fowler, Kent Beck, John Brant, William Opdyke, Don Roberts" for entry refaktoryzacja
+while executing---line 1171 of file plplain.bst
+Too many commas in name 1 of "Martin Fowler, Kent Beck, John Brant, William Opdyke, Don Roberts" for entry refaktoryzacja
+while executing---line 1171 of file plplain.bst
+Warning--to sort, need author or key in springManual
+Warning--to sort, need author or key in springTutorial
+Warning--to sort, need author or key in springSecurityTutorial
+Warning--to sort, need author or key in vaadin
+Warning--to sort, need author or key in jasperReports
+Warning--empty author in vaadin
+Warning--empty note in vaadin
+Warning--empty author in springSecurityTutorial
+Warning--empty note in springSecurityTutorial
+Warning--empty author in springManual
+Warning--empty note in springManual
+Warning--empty author in jasperReports
+Warning--empty note in jasperReports
+Warning--empty author in springTutorial
+Warning--empty note in springTutorial
+Too many commas in name 1 of "Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides" for entry designPatterns
+while executing---line 1225 of file plplain.bst
+Warning--can't use both author and editor fields in enterpriseDesignPatterns
+Too many commas in name 1 of "Martin Fowler, Kent Beck, John Brant, William Opdyke, Don Roberts" for entry refaktoryzacja
+while executing---line 1225 of file plplain.bst
+Too many commas in name 1 of "Martin Fowler, Kent Beck, John Brant, William Opdyke, Don Roberts" for entry refaktoryzacja
+while executing---line 1225 of file plplain.bst
+(There were 6 error messages)

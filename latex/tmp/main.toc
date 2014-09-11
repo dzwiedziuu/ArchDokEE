@@ -10,33 +10,33 @@
 \contentsline {chapter}{\numberline {3\relax .\kern .5em }Wykorzystane technologie}{13}{chapter.3}
 \contentsline {section}{\numberline {3.1\relax .\kern .5em }MySQL}{13}{section.3.1}
 \contentsline {section}{\numberline {3.2\relax .\kern .5em }Hibernate}{14}{section.3.2}
-\contentsline {section}{\numberline {3.3\relax .\kern .5em }Spring Transaction Management}{14}{section.3.3}
+\contentsline {section}{\numberline {3.3\relax .\kern .5em }Spring Transaction Management}{15}{section.3.3}
 \contentsline {section}{\numberline {3.4\relax .\kern .5em }Spring}{15}{section.3.4}
-\contentsline {section}{\numberline {3.5\relax .\kern .5em }Logback + SLF4J}{15}{section.3.5}
+\contentsline {section}{\numberline {3.5\relax .\kern .5em }Logback + SLF4J}{16}{section.3.5}
 \contentsline {section}{\numberline {3.6\relax .\kern .5em }AspectJ}{16}{section.3.6}
-\contentsline {section}{\numberline {3.7\relax .\kern .5em }SpringSecurity}{16}{section.3.7}
+\contentsline {section}{\numberline {3.7\relax .\kern .5em }SpringSecurity}{17}{section.3.7}
 \contentsline {section}{\numberline {3.8\relax .\kern .5em }LDAP - Apache Directory Server}{17}{section.3.8}
-\contentsline {section}{\numberline {3.9\relax .\kern .5em }Jasper reports}{17}{section.3.9}
-\contentsline {section}{\numberline {3.10\relax .\kern .5em }Tomcat}{17}{section.3.10}
-\contentsline {section}{\numberline {3.11\relax .\kern .5em }Vaadin}{18}{section.3.11}
-\contentsline {subsection}{\numberline {3.11.1\relax .\kern .5em }Zdalne wywo\IeC {\l }ywanie procedury}{19}{subsection.3.11.1}
-\contentsline {subsection}{\numberline {3.11.2\relax .\kern .5em }Architektura}{20}{subsection.3.11.2}
-\contentsline {subsection}{\numberline {3.11.3\relax .\kern .5em }Aplikacja po stronie klienta}{22}{subsection.3.11.3}
-\contentsline {subsection}{\numberline {3.11.4\relax .\kern .5em }Nowe kontrolki}{22}{subsection.3.11.4}
-\contentsline {subsection}{\numberline {3.11.5\relax .\kern .5em }Style}{22}{subsection.3.11.5}
-\contentsline {subsection}{\numberline {3.11.6\relax .\kern .5em }Powi\IeC {\k a}zanie danych}{23}{subsection.3.11.6}
-\contentsline {section}{\numberline {3.12\relax .\kern .5em }Podsumowanie}{24}{section.3.12}
-\contentsline {chapter}{\numberline {4\relax .\kern .5em }Architektura rozwi\IeC {\k a}zania}{25}{chapter.4}
-\contentsline {section}{\numberline {4.1\relax .\kern .5em }Model Widok Prezenter}{25}{section.4.1}
-\contentsline {section}{\numberline {4.2\relax .\kern .5em }Podzial na pakiety}{26}{section.4.2}
-\contentsline {section}{\numberline {4.3\relax .\kern .5em }Nawigacja mi\IeC {\k e}dzy widokami}{27}{section.4.3}
-\contentsline {section}{\numberline {4.4\relax .\kern .5em }Maksymalna abstrakcyjno\IeC {\'s}\IeC {\'c}}{27}{section.4.4}
-\contentsline {chapter}{\numberline {5\relax .\kern .5em }Prezentacja aplikacji}{34}{chapter.5}
-\contentsline {chapter}{\numberline {6\relax .\kern .5em }Dodatkowe produkty pracy}{40}{chapter.6}
-\contentsline {section}{\numberline {6.1\relax .\kern .5em }Standardowa klasa POJO}{40}{section.6.1}
-\contentsline {section}{\numberline {6.2\relax .\kern .5em }CRUDTable}{41}{section.6.2}
-\contentsline {section}{\numberline {6.3\relax .\kern .5em }ForeignField}{43}{section.6.3}
-\contentsline {section}{\numberline {6.4\relax .\kern .5em }DefaultForm}{43}{section.6.4}
-\contentsline {section}{\numberline {6.5\relax .\kern .5em }Szkielet aplikacji przetwarzania danych biznesowych}{45}{section.6.5}
-\contentsline {chapter}{\numberline {7\relax .\kern .5em }Podsumowanie}{46}{chapter.7}
-\contentsline {chapter}{Bibliografia}{47}{chapter*.2}
+\contentsline {section}{\numberline {3.9\relax .\kern .5em }Jasper reports}{18}{section.3.9}
+\contentsline {section}{\numberline {3.10\relax .\kern .5em }Tomcat}{18}{section.3.10}
+\contentsline {section}{\numberline {3.11\relax .\kern .5em }Vaadin}{19}{section.3.11}
+\contentsline {subsection}{\numberline {3.11.1\relax .\kern .5em }Zdalne wywo\IeC {\l }ywanie procedury}{20}{subsection.3.11.1}
+\contentsline {subsection}{\numberline {3.11.2\relax .\kern .5em }Architektura}{21}{subsection.3.11.2}
+\contentsline {subsection}{\numberline {3.11.3\relax .\kern .5em }Aplikacja po stronie klienta}{23}{subsection.3.11.3}
+\contentsline {subsection}{\numberline {3.11.4\relax .\kern .5em }Nowe kontrolki}{23}{subsection.3.11.4}
+\contentsline {subsection}{\numberline {3.11.5\relax .\kern .5em }Style}{23}{subsection.3.11.5}
+\contentsline {subsection}{\numberline {3.11.6\relax .\kern .5em }Powi\IeC {\k a}zanie danych}{24}{subsection.3.11.6}
+\contentsline {section}{\numberline {3.12\relax .\kern .5em }Podsumowanie}{25}{section.3.12}
+\contentsline {chapter}{\numberline {4\relax .\kern .5em }Architektura rozwi\IeC {\k a}zania}{26}{chapter.4}
+\contentsline {section}{\numberline {4.1\relax .\kern .5em }Model Widok Prezenter}{26}{section.4.1}
+\contentsline {section}{\numberline {4.2\relax .\kern .5em }Podzial na pakiety}{27}{section.4.2}
+\contentsline {section}{\numberline {4.3\relax .\kern .5em }Nawigacja mi\IeC {\k e}dzy widokami}{28}{section.4.3}
+\contentsline {section}{\numberline {4.4\relax .\kern .5em }Maksymalna abstrakcyjno\IeC {\'s}\IeC {\'c}}{28}{section.4.4}
+\contentsline {chapter}{\numberline {5\relax .\kern .5em }Prezentacja aplikacji}{35}{chapter.5}
+\contentsline {chapter}{\numberline {6\relax .\kern .5em }Dodatkowe produkty pracy}{41}{chapter.6}
+\contentsline {section}{\numberline {6.1\relax .\kern .5em }Przyk\IeC {\l }adowa klasa modelu danych}{41}{section.6.1}
+\contentsline {section}{\numberline {6.2\relax .\kern .5em }CRUDTable}{43}{section.6.2}
+\contentsline {section}{\numberline {6.3\relax .\kern .5em }ForeignField}{44}{section.6.3}
+\contentsline {section}{\numberline {6.4\relax .\kern .5em }DefaultForm}{45}{section.6.4}
+\contentsline {section}{\numberline {6.5\relax .\kern .5em }Szkielet aplikacji przetwarzania danych biznesowych}{47}{section.6.5}
+\contentsline {chapter}{\numberline {7\relax .\kern .5em }Podsumowanie}{48}{chapter.7}
+\contentsline {chapter}{Bibliografia}{49}{chapter*.2}

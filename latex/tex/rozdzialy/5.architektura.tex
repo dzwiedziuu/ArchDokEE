@@ -43,9 +43,9 @@ We wspomnianej przeze mnie wtyczce istnieje klasa implementująca powyższe zach
 Rozwiązanie wykorzystane w systemie będącym produktem niniejszej pracy wymaga zarejestrowania widoku w kontrolerze sesji, który na podstawie nazwy widoku nadaje powiązanie z nim odpowiedniemu prezenterowi. Prezenter z kolei, rejestruje się jako słuchacz zdarzeń widoku, którym steruje.
 
 \section{Maksymalna abstrakcyjność}
-System wspierający prowadzenie ewidencji dokumentacji archeologicznej musi umożliwiac wprowadzanie wielu rodzajów danych. Wiąże się to z dużą ilością klas z kategorii widoków i prezenterów. Szczególnie w przypadku słowników, istnieje wielka szansa na konieczność wielokrotnego powtarzania tych samych fragmentów kodu, stąd ambicją autora było stworzenie szkieletu aplikacji skracającego czas tworzenia komponentów odpowiedzialnych za wprowadzanie danych do systemu do minimum.
+System wspierający prowadzenie ewidencji dokumentacji archeologicznej musi umożliwiać wprowadzanie wielu rodzajów danych. Wiąże się to z dużą ilością klas z kategorii widoków i prezenterów. Szczególnie w przypadku słowników, istnieje wielka szansa na konieczność wielokrotnego powtarzania tych samych fragmentów kodu, stąd ambicją autora było stworzenie szkieletu aplikacji skracającego czas tworzenia komponentów odpowiedzialnych za wprowadzanie danych do systemu do minimum.
 
-Szkielet aplikacji, o którym była mowa w poprzednim akapicie wymaga dwóch osobnych struktur hierarchii obiektów, jednek dla widoków i jednej dla prezenterów. Konieczne jest także, aby te struktury wzajemniej były od siebie zależne, zgodnie ze wzorcem MVP opisanym w pierwszej części tego rozdziału.
+Szkielet aplikacji, o którym była mowa w poprzednim akapicie wymaga dwóch osobnych struktur hierarchii obiektów, jednej dla widoków i jednej dla prezenterów. Konieczne jest także, aby te struktury wzajemnie były od siebie zależne, zgodnie ze wzorcem MVP opisanym w pierwszej części tego rozdziału.
 
 Poniżej zostało zaprezentowane drzewo dziedziczenia widoków, powstałe w wyniku projektu aplikacji, który następnie w trakcie implementacji został delikatnie zmodyfikowany. 
 
@@ -57,14 +57,14 @@ Poniżej zostało zaprezentowane drzewo dziedziczenia widoków, powstałe w wyni
     \end{center}
 \end{figure}
 
-Na samej górze hierarchii znajduje się interfejs wymuszony przez technologie Vaadin (View), która jest konieczna do wyświetlenia różnych widoków w obrębie jednego obiektu UI. Drugim korzeniem hierarchii jest interfejs NamedView, który pozwala nadawać nazwy widokom, co z kolei utożsamiane jest z nazwą odpowiadającego komponentu Springa (ang. bean) a także przydzielanego fragmentu URI, doczepianego do adresu i pozwalającego przeglądarce zapamiętywać historie nawigacji po stronie.
+Na samej górze hierarchii znajduje się interfejs wymuszony przez technologię Vaadin (View), która jest konieczna do wyświetlenia różnych widoków w obrębie jednego obiektu UI. Drugim korzeniem hierarchii jest interfejs NamedView, który pozwala nadawać nazwy widokom, co z kolei utożsamiane jest z nazwą odpowiadającego komponentu Springa (ang. bean), a także przydzielanego fragmentu URI, doczepianego do adresu i pozwalającego przeglądarce zapamiętywać historie nawigacji po stronie.
 
 Całe drzewo dziedziczenia wyraźnie podzielone jest na dwie części - obiekty widoków listy i widoków okna edycji wiersza. Jest to spowodowane oczywiście różnymi zadaniami stawianymi obiektom implementującym powyższe funkcje.
 
 \newpage
-Rdzeń implementacji znajduje się w klasach AbstractViewImpl oraz AbstractPojoEditView i AbstractPojoListView. AbstractViewImpl jest klasą z której bezpośrednio dziedziczą wszystkie "standardowe" widoki prezentujące zwykłą treść, np. lista słowników czy strona startowa. AbstractPojoEditView jest z kolei klasą po której bezpośrednio dziedziczą wszystkie implementacje widoków okien edycji użyte w systemie. Implementuje ona wygląd okna edycji (za pomocą klasy DefaultForm, opisanej w rozdziale 7., która dynamicznie generuje wygląd formularza na podstawie adnotacji zawartych w klasie obiektu edytowanego) oraz całą obsługe przekazywania zdarzeń, które zostały wygenerowane przez użytkownika, czyli wywołuje metody na obiektach nasłuchiwaczy (czyli prezenterów).
+Rdzeń implementacji znajduje się w klasach AbstractViewImpl oraz AbstractPojoEditView i AbstractPojoListView. AbstractViewImpl jest klasą, z której bezpośrednio dziedziczą wszystkie "standardowe" widoki prezentujące zwykłą treść, np. lista słowników czy strona startowa. AbstractPojoEditView jest z kolei klasą, po której bezpośrednio dziedziczą wszystkie implementacje widoków okien edycji użyte w systemie. Implementuje ona wygląd okna edycji (za pomocą klasy DefaultForm, opisanej w rozdziale 7., która dynamicznie generuje wygląd formularza na podstawie adnotacji zawartych w klasie obiektu edytowanego) oraz całą obsługę przekazywania zdarzeń, które zostały wygenerowane przez użytkownika, czyli wywołuje metody na obiektach nasłuchiwaczy (czyli prezenterów).
 
-Warto także dodać, że hierarchia jest skonstruowana w ten sposób, aby uniezależnić maksymalnie reszte klas wchodzących w skład pakietu obsługującego cały interfejs graficzny użytkownika, od technologii prezentacji, którą w tym przypadku jest Vaadin.
+Warto także dodać, że hierarchia jest skonstruowana w ten sposób, aby uniezależnić maksymalnie resztę klas wchodzących w skład pakietu obsługującego cały interfejs graficzny użytkownika, od technologii prezentacji, którą w tym przypadku jest Vaadin.
 
 \newpage
 \begin{figure} [H]
@@ -75,14 +75,14 @@ Warto także dodać, że hierarchia jest skonstruowana w ten sposób, aby unieza
     \end{center}
 \end{figure}
 
-Powyżej została przedstawiona hierarchia prezenterów w szkielecie aplikacji stworzonym przez autora w trakcie tworzenia systemu ewidencji badań archeologicznych. Na samym początku warto zaznaczyć, że hierarchia ta jest tak rozbudowana, ze względu na dopasowanie do komponentów stworzonych w trakcie pracy nad systemem - ForeignField oraz CRUDTable, które są opisane w rodziale 7.
+Powyżej została przedstawiona hierarchia prezenterów w szkielecie aplikacji stworzonym przez autora w trakcie tworzenia systemu ewidencji zabytków archeologicznych. Na samym początku warto zaznaczyć, że hierarchia ta jest tak rozbudowana, ze względu na dopasowanie do komponentów stworzonych w trakcie pracy nad systemem - ForeignField oraz CRUDTable, które są opisane w rodziale 7.
 
-Dodatkowo, wszystkie widoki użyte w systemie muszą implementować interfejs ViewListener, który pozwala reagować na ogólne zachowania widoków, a mówiąc ściślej, pozwala wykonywać akcje przy okazji przejścia z jednego widoku do drugiego - np. odświerzenie zawartości. 
+Dodatkowo, wszystkie widoki użyte w systemie muszą implementować interfejs ViewListener, który pozwala reagować na ogólne zachowania widoków, a mówiąc ściślej, pozwala wykonywać akcje przy okazji przejścia z jednego widoku do drugiego - np. odświeżenie zawartości. 
 
 \newpage
-Każdy prezenter w systemie powinien także dziedziczyć po klasie AbstractPresenter, pozwala implementuje elementy związane z nawigacją (pamięta który prezenter jest jego "rodzicem" - czyli jest prezenterem widoku który wywołał ten widok oraz implementuje przejście do następnego widoku).
+Każdy prezenter w systemie powinien także dziedziczyć po klasie AbstractPresenter, implementuje elementy związane z nawigacją (pamięta, który prezenter jest jego "rodzicem" - czyli jest prezenterem widoku, który wywołał ten widok oraz implementuje przejście do następnego widoku).
 
-Tak jak w przypadku hierarchii widoków, tak w przypadku prezenterów konieczne jest rozdzielenie na dwie główne gałęzie - prezenterów okna edycji oraz prezenterów listy obiektów. Gałęzie te mają swoją implementacje kolejno w klasach: PojoEditPresenter i PojoListPresenter. Głównym zadaniem wymienionych klas jest implementacja reakcji na działania użytkownika, które zostały przekazane dalej przez widok poprzez interfejs nasłuchiwacza (zaimplementowany w tych właśnie klasach). Na samym dole hierarchii znajdują się klasy konkretne, odpowiadające prezenterom obiektów dziedziny problemu. Poniżej przykład implementacji prezentera okna edycji:
+Tak jak w przypadku hierarchii widoków, tak w przypadku prezenterów konieczne jest rozdzielenie na dwie główne gałęzie - prezenterów okna edycji oraz prezenterów listy obiektów. Gałęzie te mają swoją implementację kolejno w klasach: PojoEditPresenter i PojoListPresenter. Głównym zadaniem wymienionych klas jest implementacja reakcji na działania użytkownika, które zostały przekazane dalej przez widok poprzez interfejs nasłuchiwacza (zaimplementowany w tych właśnie klasach). Na samym dole hierarchii znajdują się klasy konkretne, odpowiadające prezenterom obiektów dziedziny problemu. Poniżej przykład implementacji prezentera okna edycji:
 \begin{lstlisting}
 @Component
 @Scope("session")
@@ -105,7 +105,7 @@ public class FigureSubjectEditPresenter
 }
 \end{lstlisting}
 
-Jak widać, powyższy kod implementuje się bardzo szybko. Dodatkową prostote autor osiągnął dzięki zastosowaniu kontenera IoC Springa, który wstrzykuje zależności bezpośrednio do konstruktora, za pomocą adnotacji @Autowired. Warto zwrócić uwagę, że każda klasa konkretna definiuje swój odrębny interfejs widoku, który jednak standardowo posiada takie same metody jak wszystkie inne w tej grupie widoków (okno edycji).
+Jak widać, powyższy kod implementuje się bardzo szybko. Dodatkową prostotę autor osiągnął dzięki zastosowaniu kontenera IoC Springa, który wstrzykuje zależności bezpośrednio do konstruktora, za pomocą adnotacji @Autowired. Warto zwrócić uwagę, że każda klasa konkretna definiuje swój odrębny interfejs widoku, który jednak standardowo posiada takie same metody jak wszystkie inne w tej grupie widoków (okno edycji).
 
 \newpage
 Klasa przedstawiona na listingu jest prezenterem okna edycji obiektu, który nie posiada ani kolekcji obiektów podrzędnych (związek Jeden-Do-Wielu oraz Wiele-Do-Wielu) ani obiektów pochodzących ze słownika. Jeżeli by tak było, konieczne byłoby zaimplementowanie dodatkowych metod:
@@ -160,8 +160,8 @@ Ten prezenter także zawiera definicje interfejsu widoku, z którym się komunik
 Dodatkowo pojawiły się dwie proste metody:
 \begin{itemize}
 \item getCriterion() - zwracająca kryterium służące do wyboru listy elementów prezentowanych
-\item getEmptyObject() - tworzący nowy obiekt, zgodnie ze wzorcem fabryka
+\item getEmptyObject() - tworząca nowy obiekt, zgodnie ze wzorcem fabryka
 \end{itemize}
 
-Jak widać na przykładach powyżej, cała implementacja reakcji prezenterów na zdarzenia przychodzące z interfejsu graficznego użytkownika jest zaimplementowana w klasach abstrakcyjnych, natomiast w klasach konretnych zostało jedynie ustawienie wartości konkretnych pól a także zaimplementowanie odpowiednich abstrakcyjnych metod, które są użyte w klasach abstrakcyjnych.
+Jak widać na przykładach powyżej, cała implementacja reakcji prezenterów na zdarzenia przychodzące z interfejsu graficznego użytkownika jest zaimplementowana w klasach abstrakcyjnych, natomiast w klasach konretnych zostało jedynie ustawienie wartości konkretnych pól, a także zaimplementowanie odpowiednich abstrakcyjnych metod, które są użyte w klasach abstrakcyjnych.
 % ex: set tabstop=4 shiftwidth=4 softtabstop=4 noexpandtab fileformat=unix filetype=tex spelllang=pl,en spell:

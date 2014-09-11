@@ -1,35 +1,71 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
-\bibitem{Ernst}
-Michael~D. Ernst.
-\newblock {\em Dynamically Discovering Likely Program Invariants}.
-\newblock {Ph.D.}, University of Washington Department of Computer Science and
-  Engineering, Seattle, Washington, 2000.
+\bibitem{vaadin}
+{Book of Vaadin,
+  \hyperref[label1]{https://vaadin.com/download/book-of-vaadin/vaadin-7/pdf/book-
+  of-vaadin.pdf}, dostęp~29.05.2014}.
 
-\bibitem{DaikonManual}
-Michael~D. Ernst.
-\newblock {Daikon Invariant Detector User Manual}.
-\newblock 2005.
+\bibitem{springSecurityTutorial}
+{Dokumentacja modułu Spring Security,
+  \hyperref[label3]{http://docs.spring.io/springsecu-rity/site/
+  docs/3.2.5.RELEASE/reference/htmlsingle/}, dostęp 25.07.2014}.
 
-\bibitem{WnioskStat}
-Gajek Lesław,  Kałuszka Marek.
-\newblock {\em Wnioskowanie statystyczne - modele i metody}.
-\newblock Wydawnictwa Naukowo-Techniczne, wydanie trzecie, Warszawa 1993, 1996.
+\bibitem{springManual}
+{Dokumentacja szkieletu Spring,
+  \hyperref[label1]{http://docs.spring.io/spring/docs/4.0.1.BUILD-
+  SNAPSHOT/spring-framework-reference/pdf/spring-framework-reference.pdf},
+  \\dostęp~28.06.2014}.
 
-\bibitem{bk:ipki}
-Piotr Nazimek.
-\newblock {\em Inżynieria programowania kart inteligentnych}.
-\newblock Warszawa, 2005.
+\bibitem{jasperReports}
+{Oficiajlny poradnik narzędzia JasperReports,
+  \hyperref[label1]{https://community.jaspersoft.com/wiki/
+  jasperreports-library-tutorial}, dostęp~18.07.2014}.
 
-\bibitem{StatDlaInz}
-Benjamin~Jack R.,  Cornell~C. Allin.
-\newblock {\em Rachunek prawdopodobieństwa, statystyka matematyczna i teoria
-  decyzji dla inżynierów}.
-\newblock Wydawnictwa Naukowo-Techniczne, wydanie pierwsze, Warszawa 1977.
+\bibitem{springTutorial}
+{Oficjalne poradnik dla szkieletu Spring,
+  \hyperref[label2]{https://spring.io/guides}, dostęp 01.07.2014}.
 
-\bibitem{PodstStatOpPom}
-Łukaszek Władysław.
-\newblock {\em Podstawy statystycznego opracowania pomiarów}.
-\newblock Wydawnictwo Politechniki Śląskiej, wydanie trzecie, Gliwice 1995.
+\bibitem{javeEfefective}
+Joshua Bloch.
+\newblock {\em Java. Efektywne programowanie. Wydanie II}.
+\newblock Helion, 2009.
+
+\bibitem{hibernate}
+Gavin~King Christian~Bauer.
+\newblock {\em Java Persistence with Hibernate}.
+\newblock Manning Publications Co, 2006.
+
+\bibitem{designPatterns}
+Ralph Johnson John~Vlissides Erich~Gamma, Richard~Helm.
+\newblock {\em Wzorce projektowe. Elementy oprogramowania obiektowego
+  wielokrotnego użytku}.
+\newblock Wydawnictwa Naukowo Techniczne, Kwiecień 2005.
+
+\bibitem{enterpriseDesignPatterns}
+Martin Fowler.
+\newblock {\em Architektura systemów zarządzania przedsiębiorstwem. Wzorce
+  projektowe}.
+\newblock Helion, 2005.
+
+\bibitem{umlCostam}
+Craig Larman.
+\newblock {\em UML i wzorce projektowe. Analiza i projektowanie obiektowe oraz
+  iteracyjny model wytwarzania aplikacji. Wydanie III}.
+\newblock Helion, 2011.
+
+\bibitem{refaktoryzacja}
+John Brant William Opdyke Don~Roberts Martin~Fowler, Kent~Beck.
+\newblock {\em Refaktoryzacja. Ulepszanie struktury istniejącego kodu}.
+\newblock Helion, 2011.
+
+\bibitem{sachaha}
+Krzysztof Sacha.
+\newblock {\em Inżynieria oprogramowania}.
+\newblock Wydawnictwo Naukowe PWN, 2010.
+
+\bibitem{springInAction}
+Craig Walls.
+\newblock {\em Spring w akcji. Wydanie III}.
+\newblock Helion, 2013.
 
 \end{thebibliography}
