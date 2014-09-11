@@ -11,6 +11,9 @@ import org.springframework.stereotype.Repository;
 
 import com.aniedzwiedz.dokarchee.common.utils.ReflectionUtils;
 
+/*
+ * klasa astrakcyjna na ktorej sa wzorowane wszystkie obiekty dao. Implementuje domyslne rozwiazanie
+ */
 @Repository
 public class AbstractDao<T> implements Dao<T>
 {
