@@ -4,6 +4,9 @@ import com.vaadin.data.Property;
 import com.vaadin.ui.CustomTable;
 import com.vaadin.ui.CustomTable.ColumnGenerator;
 
+/*
+ * generator wartosci komorek w tabeli dla wartosci boolean
+ */
 public class BooleanColumnGenerator implements ColumnGenerator
 {
 	@Override

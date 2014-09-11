@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.aniedzwiedz.dokarchee.common.utils.EntityLabelUtils;
-import com.aniedzwiedz.dokarchee.common.utils.ReflectionUtils;
 import com.aniedzwiedz.dokarchee.common.utils.EntityLabelUtils.ItemCaptionPart;
+import com.aniedzwiedz.dokarchee.common.utils.ReflectionUtils;
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
@@ -17,6 +17,9 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.HorizontalLayout;
 
+/*
+ * klasa implementujaca kontrolke slownikowa
+ */
 public class ForeignField<T> extends CustomField<T> implements ActiveComponent
 {
 	public interface ForeignFieldListener
@@ -53,6 +56,9 @@ public class ForeignField<T> extends CustomField<T> implements ActiveComponent
 	private Button button;
 	private ForeignFieldActionListener foreignFieldActionListener = new ForeignFieldActionListener();
 
+	/*
+	 * w argumencie obiekt klasy wyswietlanej w liscie rozwijanej
+	 */
 	public ForeignField(Class<T> classObj)
 	{
 		this.classObj = classObj;
@@ -119,6 +125,9 @@ public class ForeignField<T> extends CustomField<T> implements ActiveComponent
 		return classObj;
 	}
 
+	/*
+	 * dodaje liste wartosci
+	 */
 	public void setData(List<T> list, List<ItemCaptionPart> itemCaptionPars)
 	{
 		for (Object t : list)
@@ -146,6 +155,9 @@ public class ForeignField<T> extends CustomField<T> implements ActiveComponent
 		}
 	}
 
+	/*
+	 * ustawia wartosc z tabelki podrzednej (w sensie GUI) jako wybrana
+	 */
 	@Override
 	public void addNewValueToTable(Object value)
 	{

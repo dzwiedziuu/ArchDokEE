@@ -43,6 +43,9 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
+/*
+ * klasa implementujaca tworzenie formularza na podstawie adnotacji z obiektu POJO
+ */
 public class DefaultForm<T> extends Panel
 {
 	public interface FormListener<T>
@@ -121,8 +124,8 @@ public class DefaultForm<T> extends Panel
 	}
 
 	/*
-	 * reinitialize defaultForm if pojoObject in param is diffrent than stored
-	 * in field 'pojoObject'
+	 * reinitializuj formularz lub odswierz slowniki, jezeli instancja obiektu
+	 * przekazywanego jest tozsama z zapisanym wewnatrz klasy
 	 */
 	public void trySetPojoObjectOrRefresh(T pojoObject)
 	{
@@ -160,7 +163,6 @@ public class DefaultForm<T> extends Panel
 				field = fieldGroupFieldFactory.createTableField(genericType, manyToMany);
 				field.setCaption(af.getEditField().label());
 				beanFieldGroup.bind(field, af.getField().getName());
-				// cl = CRUDTable.class;
 			} else
 			{
 				if (af.getField().isAnnotationPresent(ManyToOne.class))
@@ -171,8 +173,6 @@ public class DefaultForm<T> extends Panel
 			if (field instanceof TextField)
 			{
 				((TextField) field).setNullRepresentation("");
-				// for (Validator validator : field.getValidators())
-				// System.out.println(validator);
 				((TextField) field).setConversionError("Wprowadzana wartosc musi byc liczba");
 			}
 			if (field instanceof CRUDTable)
@@ -204,6 +204,9 @@ public class DefaultForm<T> extends Panel
 		this.pojoObject = pojoObject;
 	}
 
+	/*
+	 * wypelnia slownik zachowujac poprzednia wartosc
+	 */
 	private <T1> void fillForeignField(ForeignField<T1> foreignField, Class<T1> dataType)
 	{
 
@@ -219,6 +222,9 @@ public class DefaultForm<T> extends Panel
 		foreignField.setPropertyDataSource(p);
 	}
 
+	/*
+	 * uzywany do pobierania danych do wypelnienia slownikow
+	 */
 	public interface DataProvider
 	{
 		<T> List<T> getList(Class<T> classObj);
@@ -236,6 +242,11 @@ public class DefaultForm<T> extends Panel
 		this.dataProvider = dataProvider;
 	}
 
+	/*
+	 * klasa nasluchujaca zdarzenia wywolywane przez komponenty graficzne i
+	 * przekazujaca dalej je w postaci zdarzen logicznych + wykonuje walidacje
+	 * pol
+	 */
 	private class FormActionListener implements Button.ClickListener, CommitHandler
 	{
 		@Override
@@ -285,6 +296,10 @@ public class DefaultForm<T> extends Panel
 
 	private DBExceptionResolver dbExceptionResolver = new DBExceptionResolver();
 
+	/*
+	 * klasa implementujaca interfejs pol slownikowych i tabel, przekazuje
+	 * jedynie eventy w gore hierarchii
+	 */
 	private class ActiveFieldListener implements ForeignFieldListener, CRUDTableListener
 	{
 		@Override
@@ -332,6 +347,9 @@ public class DefaultForm<T> extends Panel
 
 	private List<ForeignField<?>> foreignFields = new ArrayList<>();
 
+	/*
+	 * odswierza wszystkie slowniki w formularzu
+	 */
 	public void refreshForm()
 	{
 		for (ForeignField foreignField : foreignFields)

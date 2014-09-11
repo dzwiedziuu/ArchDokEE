@@ -48,6 +48,9 @@ import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
+/*
+ * komponent wyswietlany do edycji setow (jako pola w klasie) a takze wyswietlajaca listy obiektow w widokach listowych
+ */
 public class CRUDTable<T> extends CustomField<Set<T>> implements ActiveComponent
 {
 	public interface CRUDTableListener
@@ -144,45 +147,69 @@ public class CRUDTable<T> extends CustomField<Set<T>> implements ActiveComponent
 		setSizeFull();
 	}
 
+	/*
+	 * zwraca klase, ktorej lista jest wyswietlana w tabeli
+	 */
 	public Class<?> getContentType()
 	{
 		return classObj;
 	}
 
+	/*
+	 * ustawia przycisk w argumencie jako odbiorce akcji dodaj
+	 */
 	public void setAddActionButton(Button addActionButton)
 	{
 		this.addActionButton = addActionButton;
 		this.addActionButton.addClickListener(actionListener);
 	}
 
+	/*
+	 * ustawia przycisk w argumencie jako odbiorce akcji edytuj
+	 */
 	public void setEditActionButton(Button editActionButton)
 	{
 		this.editActionButton = editActionButton;
 		this.editActionButton.addClickListener(actionListener);
 	}
 
+	/*
+	 * ustawia przycisk w argumencie jako odbiorce akcji usun
+	 */
 	public void setRemoveActionButton(Button removeActionButton)
 	{
 		this.removeActionButton = removeActionButton;
 		this.removeActionButton.addClickListener(actionListener);
 	}
 
+	/*
+	 * ustawia przycisk w argumencie jako odbiorce akcji wybierz
+	 */
 	public void setSelectActionButton(Button selectActionButton)
 	{
 		this.selectActionButton = selectActionButton;
 		this.selectActionButton.addClickListener(actionListener);
 	}
 
+	/*
+	 * ustawia menu kontekstowe w argumencie jako generujace akcje dodaj
+	 */
 	public void setAddActionMenuItem(ContextMenuItem addActionMenuItem)
 	{
 		this.addActionMenuItem = addActionMenuItem;
 	}
 
+	/*
+	 * ustawia menu kontekstowe w argumencie jako generujace akcje edytuj
+	 */
 	public void setEditActionMenuItem(ContextMenuItem editActionMenuItem)
 	{
 		this.editActionMenuItem = editActionMenuItem;
 	}
 
+	/*
+	 * ustawia menu kontekstowe w argumencie jako generujace akcje usun
+	 */
 	public void setRemoveActionMenuItem(ContextMenuItem removeActionMenuItem)
 	{
 		this.removeActionMenuItem = removeActionMenuItem;
@@ -190,18 +217,28 @@ public class CRUDTable<T> extends CustomField<Set<T>> implements ActiveComponent
 
 	private boolean anyItemAdded = false;
 
+	/*
+	 * dodaje do menu kontekstowego nowa pozycje i zwraca ja w argumencie (nie
+	 * rejestruje dla tego komponentu zadnych listenerow)
+	 */
 	public ContextMenuItem addContextMenuItem(String caption)
 	{
 		anyItemAdded = true;
 		return myContextMenu.addItem(caption);
 	}
 
+	/*
+	 * dodaje przycisk do gornego panelu z przyciskami
+	 */
 	public Button addUpperButton(Button button)
 	{
 		buttonPanel.addComponent(button);
 		return button;
 	}
 
+	/*
+	 * dodaje przycisk do dolnego panelu z przyciskami
+	 */
 	public Button addLowerButton(Button button)
 	{
 		lowerButtonPanel.addComponent(button);
@@ -209,8 +246,7 @@ public class CRUDTable<T> extends CustomField<Set<T>> implements ActiveComponent
 		return button;
 	}
 
-	private class ActionButtonClickListener implements Button.ClickListener, ContextMenuItemClickListener, MyTableListener,
-			ItemClickListener
+	private class ActionButtonClickListener implements Button.ClickListener, ContextMenuItemClickListener, MyTableListener, ItemClickListener
 	{
 		private static final long serialVersionUID = 7823307317994804055L;
 		private Object lastClickedItemId;
@@ -322,8 +358,7 @@ public class CRUDTable<T> extends CustomField<Set<T>> implements ActiveComponent
 			Notification.show("UWAGA", "Zaden rekord nie zostal wybrany", Type.HUMANIZED_MESSAGE);
 			return;
 		}
-		ConfirmDialog confirmDialog = ConfirmDialog.getFactory()
-				.create("Uwaga", "Na pewno chcesz skasowac ten rekord?", "TAK", "NIE", null);
+		ConfirmDialog confirmDialog = ConfirmDialog.getFactory().create("Uwaga", "Na pewno chcesz skasowac ten rekord?", "TAK", "NIE", null);
 		confirmDialog.setWidth(400.0f, Unit.PIXELS);
 		confirmDialog.show(UI.getCurrent(), new ConfirmDialog.Listener()
 		{
@@ -373,6 +408,9 @@ public class CRUDTable<T> extends CustomField<Set<T>> implements ActiveComponent
 		}
 	}
 
+	/*
+	 * ustawia wartosci wyswietlane w tabelce
+	 */
 	private void setDataRows(Iterable<T> list)
 	{
 		List<PropertyWithClass> visibleProperties = setColumnHeadersAndGetPropertyList();
@@ -386,6 +424,11 @@ public class CRUDTable<T> extends CustomField<Set<T>> implements ActiveComponent
 			myContextMenu.setAsTableContextMenu(filterTable);
 	}
 
+	/*
+	 * konwertuje wartosci podane w liscie na obiekt Container przechowujacy
+	 * elementy wyswietlane przez tabelke (potrzebne do wyswietlania przez
+	 * CustomTable)
+	 */
 	private Container getContainerDataSource(Iterable<T> list, List<PropertyWithClass> visibleProperties)
 	{
 		BeanItemContainer<T> beanItemContainer = new BeanItemContainer<>(classObj);
@@ -396,12 +439,6 @@ public class CRUDTable<T> extends CustomField<Set<T>> implements ActiveComponent
 		{
 			for (T t : list)
 			{
-				// Item item = indexedContainer.addItem(t);
-				// beanItemContainer.add
-				// beanItemContainer.addItem(itemId)
-				// Object id = beanItemContainer.addItem();
-				// Item item = beanItemContainer.getItem(id);
-				// for (String property : visibleProperties)
 				BeanItem<T> beanItem = beanItemContainer.addBean(t);
 				List<Object> listToRemove = new ArrayList<>();
 				outer: for (Object id : beanItem.getItemPropertyIds())
@@ -410,14 +447,9 @@ public class CRUDTable<T> extends CustomField<Set<T>> implements ActiveComponent
 						if (id.equals(property.getPropertyName()))
 							continue outer;
 					listToRemove.add(id);
-					// Object value = ReflectionUtils.getObjectPropertyValue(t,
-					// property);
-					// item.addItemProperty(property, new
-					// ObjectProperty<>(value));
 				}
 				for (Object toRem : listToRemove)
 					beanItem.removeItemProperty(toRem);
-				// beanItemContainer.addBean(t);
 			}
 			return beanItemContainer;
 		} else
@@ -450,6 +482,9 @@ public class CRUDTable<T> extends CustomField<Set<T>> implements ActiveComponent
 		return result;
 	}
 
+	/*
+	 * customizuje wartosci wyswietlane w tabelce w zaleznosci od typu pola
+	 */
 	private void addColumnGenerators()
 	{
 		for (Field field : classObj.getDeclaredFields())

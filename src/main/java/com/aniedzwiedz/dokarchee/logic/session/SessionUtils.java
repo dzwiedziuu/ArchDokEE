@@ -6,6 +6,9 @@ import org.hibernate.criterion.Restrictions;
 import com.aniedzwiedz.dokarchee.data.model.BusinessContext;
 import com.vaadin.server.VaadinSession;
 
+/*
+ * klasa z narzedziami usprawniajacymi ograniczenia zwiazane z kontekstem biznesowym
+ */
 public class SessionUtils
 {
 	public static BusinessContext getCurrentBusinessContext()

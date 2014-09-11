@@ -4,6 +4,9 @@ import java.lang.reflect.Field;
 
 import com.aniedzwiedz.dokarchee.common.annotations.EditField;
 
+/*
+ * klasa pomocnicza przechowujaca informacje o polu
+ */
 public class AnnotatedField
 {
 	private Field field;

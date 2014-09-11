@@ -8,6 +8,9 @@ import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.CustomTable;
 import com.vaadin.ui.CustomTable.ColumnGenerator;
 
+/*
+ * generator uzywany przez CustomTable do wyswietlania wartosci w komorce dla pol slownikowych
+ */
 public class ForeignFieldColumnGenerator<T> implements ColumnGenerator
 {
 	private List<ItemCaptionPart> itemCaptionParts;

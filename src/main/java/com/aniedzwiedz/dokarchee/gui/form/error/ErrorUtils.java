@@ -12,6 +12,9 @@ import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
 
+/*
+ * klasa tworzaca komunikat o bledzie, na podstawie zle zwalidowanych pol formularza
+ */
 public class ErrorUtils
 {
 	public static List<String> getComponentError(final AbstractComponent[] componentArray)
