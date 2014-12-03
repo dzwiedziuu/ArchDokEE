@@ -12,6 +12,9 @@ import com.vaadin.ui.Link;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
+/*
+ * UI used for Logout
+ */
 @SuppressWarnings("serial")
 @Component
 @Scope("prototype")

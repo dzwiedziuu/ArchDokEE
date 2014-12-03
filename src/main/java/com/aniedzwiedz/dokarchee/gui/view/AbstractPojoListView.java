@@ -13,6 +13,9 @@ import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.VerticalLayout;
 
+/*
+ * klasa tworz¹ca widok listy obiektów
+ */
 public abstract class AbstractPojoListView<T> extends AbstractViewImpl implements AbstractListView
 {
 	private List<ListViewListener> listViewListeners = new ArrayList<>();
@@ -38,6 +41,9 @@ public abstract class AbstractPojoListView<T> extends AbstractViewImpl implement
 		setContent(verticalLayout);
 	}
 
+	/*
+	 * tworzy podstawowy komponent widoku - CRUDTable
+	 */
 	protected CRUDTable<T> createStandardCRUDTable(List<T> pojoList)
 	{
 		CRUDTable<T> crudTable = extendedFieldGroupFieldFactory.createTableField(classObj, false);
@@ -55,6 +61,11 @@ public abstract class AbstractPojoListView<T> extends AbstractViewImpl implement
 		verticalLayout.addComponent(crudTable);
 	}
 
+	/*
+	 * ustawia czy widok jest pokazany w celu wyboru obiektu - jesli tak to jest
+	 * widoczny przycisk "Wybierz" który wykonuje tak¹ sam¹ akcje jak
+	 * doubleCLick czyli przesyla wybrany obiekt do prezentera - rodzica
+	 */
 	public void setSelectable(boolean selectable)
 	{
 		this.selectable = selectable;

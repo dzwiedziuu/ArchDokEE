@@ -6,6 +6,9 @@ import com.vaadin.server.Page;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
+/*
+ * klasa opakowuj¹ca wyœwietlany widok i górn¹ belke strony
+ */
 public class PageView extends AbstractViewImpl
 {
 	private PageTopView pageTopView;

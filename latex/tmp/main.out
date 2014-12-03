@@ -1,0 +1,41 @@
+\BOOKMARK [0][-]{chapter.1}{Wstep}{}% 1
+\BOOKMARK [1][-]{section.1.1}{Cele i zakres pracy}{chapter.1}% 2
+\BOOKMARK [1][-]{section.1.2}{Uk\233ad pracy}{chapter.1}% 3
+\BOOKMARK [0][-]{chapter.2}{Analiza dziedziny problemu}{}% 4
+\BOOKMARK [1][-]{section.2.1}{Wymgagania biznesowe}{chapter.2}% 5
+\BOOKMARK [1][-]{section.2.2}{S\233ownik dziedziny problemu}{chapter.2}% 6
+\BOOKMARK [1][-]{section.2.3}{Model dziedziny problemu}{chapter.2}% 7
+\BOOKMARK [1][-]{section.2.4}{Model przypadk\363w uzycia}{chapter.2}% 8
+\BOOKMARK [0][-]{chapter.3}{Wykorzystane technologie}{}% 9
+\BOOKMARK [1][-]{section.3.1}{MySQL}{chapter.3}% 10
+\BOOKMARK [1][-]{section.3.2}{Hibernate}{chapter.3}% 11
+\BOOKMARK [1][-]{section.3.3}{Spring Transaction Management}{chapter.3}% 12
+\BOOKMARK [1][-]{section.3.4}{Spring}{chapter.3}% 13
+\BOOKMARK [1][-]{section.3.5}{Logback + SLF4J}{chapter.3}% 14
+\BOOKMARK [1][-]{section.3.6}{AspectJ}{chapter.3}% 15
+\BOOKMARK [1][-]{section.3.7}{SpringSecurity}{chapter.3}% 16
+\BOOKMARK [1][-]{section.3.8}{LDAP - Apache Directory Server}{chapter.3}% 17
+\BOOKMARK [1][-]{section.3.9}{Jasper reports}{chapter.3}% 18
+\BOOKMARK [1][-]{section.3.10}{Tomcat}{chapter.3}% 19
+\BOOKMARK [1][-]{section.3.11}{Vaadin}{chapter.3}% 20
+\BOOKMARK [2][-]{subsection.3.11.1}{Zdalne wywo\233ywanie procedury}{section.3.11}% 21
+\BOOKMARK [2][-]{subsection.3.11.2}{Architektura}{section.3.11}% 22
+\BOOKMARK [2][-]{subsection.3.11.3}{Aplikacja po stronie klienta}{section.3.11}% 23
+\BOOKMARK [2][-]{subsection.3.11.4}{Nowe kontrolki}{section.3.11}% 24
+\BOOKMARK [2][-]{subsection.3.11.5}{Style}{section.3.11}% 25
+\BOOKMARK [2][-]{subsection.3.11.6}{Powiazanie danych}{section.3.11}% 26
+\BOOKMARK [1][-]{section.3.12}{Podsumowanie}{chapter.3}% 27
+\BOOKMARK [0][-]{chapter.4}{Architektura rozwiazania}{}% 28
+\BOOKMARK [1][-]{section.4.1}{Model Widok Prezenter}{chapter.4}% 29
+\BOOKMARK [1][-]{section.4.2}{Podzial na pakiety}{chapter.4}% 30
+\BOOKMARK [1][-]{section.4.3}{Nawigacja miedzy widokami}{chapter.4}% 31
+\BOOKMARK [1][-]{section.4.4}{Maksymalna abstrakcyjnosc}{chapter.4}% 32
+\BOOKMARK [0][-]{chapter.5}{Prezentacja aplikacji}{}% 33
+\BOOKMARK [0][-]{chapter.6}{Dodatkowe produkty pracy}{}% 34
+\BOOKMARK [1][-]{section.6.1}{Przyk\233adowa klasa modelu danych}{chapter.6}% 35
+\BOOKMARK [1][-]{section.6.2}{CRUDTable}{chapter.6}% 36
+\BOOKMARK [1][-]{section.6.3}{ForeignField}{chapter.6}% 37
+\BOOKMARK [1][-]{section.6.4}{DefaultForm}{chapter.6}% 38
+\BOOKMARK [1][-]{section.6.5}{Szkielet aplikacji przetwarzania danych biznesowych}{chapter.6}% 39
+\BOOKMARK [0][-]{chapter.7}{Podsumowanie}{}% 40
+\BOOKMARK [0][-]{chapter*.2}{Bibliografia}{}% 41

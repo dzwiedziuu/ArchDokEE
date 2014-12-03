@@ -8,6 +8,9 @@ import java.util.Set;
 import com.aniedzwiedz.dokarchee.common.utils.ReflectionUtils;
 import com.vaadin.data.Property;
 
+/*
+ * klasa uzyta do przetrzymywania danych z tabeli
+ */
 public class TablePropertyHolder<T>
 {
 	private Iterable<T> initialSet = new HashSet<>();
@@ -42,6 +45,10 @@ public class TablePropertyHolder<T>
 		return currentProperty;
 	}
 
+	/*
+	 * dodaje item jesli byl unikalny, zwraca rezultat, czy udalo sie dodac nowy
+	 * item
+	 */
 	public boolean addUnique(T item)
 	{
 		Set<T> c = (Set<T>) currentProperty.getValue();
@@ -52,6 +59,10 @@ public class TablePropertyHolder<T>
 		return true;
 	}
 
+	/*
+	 * ³¹czy zbiory w argumentach, bior¹c wszystkie elementy z pierwszego zbioru
+	 * oraz te, ktorych nie bylo w pierwszym z drugiego i zwraca wynik
+	 */
 	private Set<T> mergePropertyDataSource(Iterable<T> initialSet, Iterable<T> currentSet)
 	{
 		Set<T> resultSet = new HashSet<>();

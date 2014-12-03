@@ -16,6 +16,9 @@ import org.springframework.stereotype.Component;
 import com.aniedzwiedz.dokarchee.gui.view.AbstractView;
 import com.aniedzwiedz.dokarchee.logic.presenter.AbstractPresenter;
 
+/*
+ * klasa bêd¹ca kontrolerem sesji, paruje widoki z prezenterami
+ */
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class SessionController
@@ -53,6 +56,9 @@ public class SessionController
 		list.add(abstractPresenter.getClass());
 	}
 
+	/*
+	 * paruje widok z prezenterem
+	 */
 	public void registerView(AbstractView abstractView)
 	{
 		String viewName = abstractView.getViewName();

@@ -16,6 +16,9 @@ import com.aniedzwiedz.dokarchee.gui.table.CRUDTable.TableEvent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.VerticalLayout;
 
+/*
+ * klasa abstrakcyjna dla widoków edycji obiektu klasy T
+ */
 public abstract class AbstractPojoEditView<T> extends AbstractViewImpl implements AbstractEditView<T>, DataProvider
 {
 	private List<EditViewListener<T>> editViewListeners = new ArrayList<>();
@@ -41,6 +44,9 @@ public abstract class AbstractPojoEditView<T> extends AbstractViewImpl implement
 		setContent(verticalLayout);
 	}
 
+	/*
+	 * stwarza od nowa widok edycji
+	 */
 	private void recreateView()
 	{
 		verticalLayout.removeAllComponents();
@@ -65,6 +71,9 @@ public abstract class AbstractPojoEditView<T> extends AbstractViewImpl implement
 		return fieldGroupFieldFactory;
 	}
 
+	/*
+	 * ustawia obiekt edytowany w oknie edycji
+	 */
 	public void setPojoObject(T pojoObj)
 	{
 		defaultForm.trySetPojoObjectOrRefresh(pojoObj);
@@ -129,11 +138,22 @@ public abstract class AbstractPojoEditView<T> extends AbstractViewImpl implement
 		}
 	}
 
+	/*
+	 * ustawia obiekt DataProvider, u¿ywany dalej do przekazania przez
+	 * formularza do pól slownikowych w celu uzupe³nienia list
+	 */
 	public void setDataProvider(DataProvider dataProvider)
 	{
 		this.dataProvider = dataProvider;
 	}
 
+	/*
+	 * Zwraca liste obiektów na podstawie obiektu dataProvider (non-Javadoc)
+	 * 
+	 * @see
+	 * com.aniedzwiedz.dokarchee.gui.form.DefaultForm.DataProvider#getList(java
+	 * .lang.Class)
+	 */
 	@Override
 	public <T> List<T> getList(Class<T> classObj)
 	{
