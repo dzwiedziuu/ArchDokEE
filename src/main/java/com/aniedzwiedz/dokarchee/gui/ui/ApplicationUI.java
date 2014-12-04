@@ -26,19 +26,11 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.Window.CloseEvent;
 
-/*
- * g³owna klasa zawierajaca UI aplikacji
- */
 @Theme("archdokee")
 @Component
 @Scope("prototype")
 public class ApplicationUI extends UI implements GuiController
 {
-	/*
-	 * zmodyfikowana klasa z wtyczki SpringVaadinIntegration, pozwala na
-	 * nie-wczytywanie inicjalnego widoku dwa razy oraz na zarz¹dzanie widokami
-	 * i parowaniu ich z prezenterami
-	 */
 	// class necessary to avoid entering the initial view twice
 	private class MyNavigator extends DiscoveryNavigator
 	{
@@ -49,15 +41,6 @@ public class ApplicationUI extends UI implements GuiController
 			super.addView("", startView);
 		}
 
-		/*
-		 * Nawiguje UI do nowego widoku, dodatkowo rejestrujac widok w
-		 * kontrolerze sesji, paruj¹c z nim prezentera oraz opakowuje go w
-		 * ogólny szablon strony (non-Javadoc)
-		 * 
-		 * @see
-		 * com.vaadin.navigator.Navigator#navigateTo(com.vaadin.navigator.View,
-		 * java.lang.String, java.lang.String)
-		 */
 		protected void navigateTo(View view, String viewName, String parameters)
 		{
 			AbstractView abstractView = (AbstractView) view;

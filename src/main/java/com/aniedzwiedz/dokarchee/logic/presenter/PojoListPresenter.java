@@ -11,9 +11,6 @@ import com.aniedzwiedz.dokarchee.gui.view.AbstractView.ViewEvent;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
 
-/*
- * klasa bazowa dla wszystkich prezenterów listy w aplikacji
- */
 public abstract class PojoListPresenter<T> extends PojoPresenter<T> implements AbstractListView.ListViewListener
 {
 	public interface PojoListView<T> extends AbstractListView

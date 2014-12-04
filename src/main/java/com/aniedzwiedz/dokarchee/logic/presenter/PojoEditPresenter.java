@@ -16,9 +16,6 @@ import com.aniedzwiedz.dokarchee.gui.view.AbstractPojoEditView;
 import com.aniedzwiedz.dokarchee.gui.view.AbstractView;
 import com.aniedzwiedz.dokarchee.gui.view.AbstractView.ViewEvent;
 
-/*
- * klasa bazowa dla wszystkich prezenterów okna edycji
- */
 public abstract class PojoEditPresenter<T> extends PojoPresenter<T> implements EditViewListener<T>, SelectListener
 {
 	public interface PojoEditView<T> extends AbstractEditView<T>
@@ -31,23 +28,11 @@ public abstract class PojoEditPresenter<T> extends PojoPresenter<T> implements E
 	private Map<Class<? extends AbstractView>, ActiveComponent> childPresentersFromFields = new HashMap<>();
 	private boolean newObject;
 
-	/*
-	 * czy edytowany obiekt jest nowym obiektem czy edytowanym
-	 */
 	public void setNewObject(boolean newObject)
 	{
 		this.newObject = newObject;
 	}
 
-	/*
-	 * przekazuje wartosc otrzymana z potomnego prezentera i przekazuje ja do
-	 * pola ktory spowodowalo wyswietlenie nowego okna (non-Javadoc)
-	 * 
-	 * @see
-	 * com.aniedzwiedz.dokarchee.logic.presenter.SelectListener#returnValue(
-	 * com.aniedzwiedz.dokarchee.logic.presenter.AbstractPresenter,
-	 * java.lang.Object)
-	 */
 	public void returnValue(AbstractPresenter abstractPresenter, Object value)
 	{
 		if (value == null)
@@ -57,11 +42,6 @@ public abstract class PojoEditPresenter<T> extends PojoPresenter<T> implements E
 		activeComponent.addNewValueToTable(value);
 	}
 
-	/*
-	 * metoda pozwala wzbogacic obiekt zwracany przez potomne okno edycji,
-	 * konieczna do implementacji, jezeli w oknie edycji istnieje pole w relacji
-	 * jeden-do-wielu, np. dla specyfikacji
-	 */
 	protected void fillValueInOneToManyRel(Object value)
 	{
 	}
@@ -191,15 +171,6 @@ public abstract class PojoEditPresenter<T> extends PojoPresenter<T> implements E
 	}
 
 	// TODO to spaghetti
-	/*
-	 * jezeli zamykane jest okno powiazane z tym prezenterem - wywolaj ta metode
-	 * na prezenterze-rodzicu, jezeli nie to wykonaj wlasciwa akcje, czyli usun
-	 * z pamieci to okno (non-Javadoc)
-	 * 
-	 * @see com.aniedzwiedz.dokarchee.gui.view.AbstractView.ViewListener#
-	 * focusAfterClosedWindow
-	 * (com.aniedzwiedz.dokarchee.gui.view.AbstractView.ViewEvent)
-	 */
 	@Override
 	public void focusAfterClosedWindow(ViewEvent viewEvent)
 	{

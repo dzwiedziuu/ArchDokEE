@@ -13,9 +13,6 @@ import com.vaadin.ui.CustomTable.HeaderClickEvent;
 import com.vaadin.ui.CustomTable.HeaderClickListener;
 import com.vaadin.util.ReflectTools;
 
-/*
- * klasa rozszerzajaca addon ContextMenu, pozwalajaca zastosowac go do tabeli typu CustomTable (wtyczka nadpisywana jest dostosowana jedynie do klasy Table)
- */
 public class MyContextMenu extends ContextMenu
 {
 	private static final long serialVersionUID = 625173504234868007L;

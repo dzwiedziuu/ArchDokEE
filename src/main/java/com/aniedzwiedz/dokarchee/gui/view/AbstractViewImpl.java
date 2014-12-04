@@ -11,9 +11,6 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Panel;
 
-/*
- * klasa implementuj¹ca interfejs AbstractView, u¿ywana jako podstawa dla wszystkich widoków aplikacji
- */
 public abstract class AbstractViewImpl extends Panel implements AbstractView, View
 {
 	private GuiController guiController;
