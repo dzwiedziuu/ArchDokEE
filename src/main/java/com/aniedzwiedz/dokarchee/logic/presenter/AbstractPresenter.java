@@ -2,6 +2,9 @@ package com.aniedzwiedz.dokarchee.logic.presenter;
 
 import com.aniedzwiedz.dokarchee.gui.view.AbstractView;
 
+/*
+ * klasa bazowa dla wszystkich prezenterów
+ */
 public abstract class AbstractPresenter implements AbstractView.ViewListener
 {
 	private AbstractPresenter parentPresenter;
@@ -26,6 +29,10 @@ public abstract class AbstractPresenter implements AbstractView.ViewListener
 
 	public abstract void setView(AbstractView abstractView);
 
+	/*
+	 * wymusza przejscie do nastepnego widoku lub otwiera nowe okno, w
+	 * zaleznosci od wlasciwosci prezentera nastepnego widoku (w argumencie)
+	 */
 	protected void goToNextView(AbstractPresenter abstractPresenter)
 	{
 		AbstractView abstractView = abstractPresenter.getAbstractView();

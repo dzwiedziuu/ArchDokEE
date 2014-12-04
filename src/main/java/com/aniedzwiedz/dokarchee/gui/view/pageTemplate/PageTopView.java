@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import ru.xpoft.vaadin.VaadinView;
@@ -149,17 +152,16 @@ public class PageTopView extends AbstractViewImpl
 
 	private String getLoggedUserName()
 	{
-		// SecurityContext sc = SecurityContextHolder.getContext();
-		// Authentication at = sc.getAuthentication();
-		// Object principal = at.getPrincipal();
-		// UserDetails userDetails = null;
-		// if (principal instanceof UserDetails)
-		// {
-		// userDetails = (UserDetails) principal;
-		// }
-		// String userName = userDetails.getUsername();
-		// return userName;
-		return "aniedzwiedz";
+		SecurityContext sc = SecurityContextHolder.getContext();
+		Authentication at = sc.getAuthentication();
+		Object principal = at.getPrincipal();
+		UserDetails userDetails = null;
+		if (principal instanceof UserDetails)
+		{
+			userDetails = (UserDetails) principal;
+		}
+		String userName = userDetails.getUsername();
+		return userName;
 	}
 
 	private class ChangeContextListener implements Button.ClickListener
